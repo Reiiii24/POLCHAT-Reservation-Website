@@ -104,8 +104,8 @@
 
 .hero-buttons { display: flex; gap: 16px; margin-top: 32px; flex-wrap: wrap; }
 .btn-primary {
-  background: #e7c873;
-  color: #20241b;
+  background: #dba921;
+  color: #272f1e;
   border: none;
   padding: 12px 24px;
   border-radius: 999px;
