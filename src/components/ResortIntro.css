@@ -1,0 +1,89 @@
+.resort-intro {
+  padding: 40px 20px;
+}
+
+.hero {
+  display: flex;
+  gap: 30px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 40px;
+}
+
+.hero-text {
+  flex: 1;
+  min-width: 280px;
+}
+
+.eyebrow {
+  letter-spacing: 2px;
+  font-size: 0.8rem;
+  color: #888;
+  margin-bottom: 8px;
+}
+
+.hero-text h1 {
+  font-size: 2rem;
+  margin-bottom: 16px;
+  color: #1b3a2b;
+}
+
+.hero-text p {
+  line-height: 1.6;
+  color: #444;
+  margin-bottom: 12px;
+}
+
+.hero-image-placeholder {
+  flex: 1;
+  min-width: 280px;
+  height: 260px;
+  background: #ddd;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #888;
+  border-radius: 8px;
+}
+
+.section-title {
+  text-align: center;
+  font-size: 1.6rem;
+  margin-bottom: 24px;
+  color: #1b3a2b;
+}
+
+.why-cards {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.why-card {
+  flex: 1;
+  min-width: 220px;
+  max-width: 300px;
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.icon-placeholder {
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+}
+
+.why-card h3 {
+  color: #1b3a2b;
+  margin-bottom: 8px;
+}
+
+.why-card p {
+  color: #666;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
