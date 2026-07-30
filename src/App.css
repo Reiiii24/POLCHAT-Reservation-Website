@@ -2,6 +2,11 @@
 /* src/App.css */
 * { box-sizing: border-box; }
 
+.app-main {
+  padding-top: 72px;
+  margin-top: -72px;
+}
+
 .resort {
   position: relative;
   min-height: 100vh;
@@ -156,6 +161,11 @@
 }
 
 @media (max-width: 900px) {
+  .app-main {
+    padding-top: 64px;
+    margin-top: -64px;
+  }
+
   .desktop-only { display: none; }
   .mobile-only { display: block; }
   .hero h1 { font-size: 38px; }
