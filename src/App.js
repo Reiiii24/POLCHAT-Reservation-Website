@@ -5,6 +5,7 @@ import ResortIntro from './components/ResortIntro';
 import ServiceList from './components/ServiceList';
 import ReservationPage from './Pages/Reservation/ReservationPage';
 import ContactInfo from './components/ContactInfo';
+import FAQPage from "./Pages/FAQ/FAQPage";
 import './App.css';
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
             } />
             <Route path="/reservation" element={<ReservationPage />} />
             <Route path="/contact" element={<ContactInfo />} />
+            <Route path="/faq" element={<FAQPage />} />
           </Routes>
         </main>
       </div>

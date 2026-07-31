@@ -192,3 +192,61 @@
   margin-left: auto;
   margin-right: auto;
 }
+
+.form-section textarea{
+    width:100%;
+    padding:10px 12px;
+    border-radius:6px;
+    border:1px solid #dedede;
+    outline:none;
+    resize:vertical;
+    font-family:inherit;
+    background:#fff;
+}
+
+/* Better placeholders */
+
+.form-section input::placeholder,
+.form-section textarea::placeholder{
+
+    color:#9a9a9a;
+
+}
+
+/* Nice focus effect */
+
+.form-section input:focus,
+.form-section textarea:focus{
+
+    border:1px solid #6ea6a6;
+    box-shadow:0 0 5px rgba(110,166,166,.25);
+
+}
+
+.button-group{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    margin-top:20px;
+
+}
+
+.back-btn{
+
+    width:140px;
+
+    padding:10px;
+
+    border:none;
+
+    border-radius:6px;
+
+    background:#888;
+
+    color:white;
+
+    cursor:pointer;
+
+}
