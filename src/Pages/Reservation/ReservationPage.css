@@ -16,19 +16,26 @@
   position: relative;
 }
 
-/* This is the “slider image area” */
 .slider-frame {
-  width: min(1050px, 95vw);
-  height: min(640px, 80vh);
+  width: min(1100px, 95vw);
+
+  /* Allow the content to determine the height */
+  min-height: 680px;
+  height: auto;
+
   position: relative;
 
-  /* optional: darken slightly like screenshot */
   border-radius: 6px;
-  overflow: hidden;
+
+  /* Prevent the Reservation title from being cut off */
+  overflow: visible;
 
   display: flex;
   justify-content: center;
   align-items: center;
+
+  /* Gives the title more room above the card */
+  padding: 40px 0;
 }
 
 /* Make the slider background match the page background */
@@ -97,29 +104,32 @@
 /* White card */
 .reservation-card {
   position: relative;
-  z-index: 4;
-  width: min(860px, 90vw);
+
+  width: 100%;
+
   background: rgba(255, 255, 255, 0.98);
+
   border-radius: 6px;
+
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+
   padding: 22px;
-  margin-top: 40px;
 }
 
 /* optional top title row */
-.reservation-top {
+/* .reservation-top {
   display: flex;
   justify-content: flex-start;
   align-items: center;
   margin-bottom: 10px;
-}
+} */
 
-.left-title {
+/* .left-title {
   font-size: 14px;
   letter-spacing: 2px;
   color: #333;
   text-transform: uppercase;
-}
+} */
 
 /* Layout inside card */
 .reservation-grid {
@@ -167,16 +177,202 @@
 
 .calendar-box {
   width: 100%;
-  height: 320px;
+
+  min-height: 330px;
+
+  padding: 18px;
+
   border-radius: 10px;
-  border: 1px solid #e6e6e6;
+
+  border: 1px solid #e1e1e1;
+
   background: #fafafa;
+}
+
+/* =========================
+   CALENDAR
+   ========================= */
+
+.calendar-navigation {
   display: flex;
+
+  justify-content: space-between;
+  align-items: center;
+
+  margin-bottom: 18px;
+}
+
+.calendar-navigation h2 {
+  margin: 0;
+
+  font-size: 16px;
+
+  font-weight: 700;
+
+  color: #333;
+}
+
+.calendar-nav-btn {
+  width: 34px;
+  height: 34px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border: none;
+
+  border-radius: 50%;
+
+  background: transparent;
+
+  color: #333;
+
+  font-size: 16px;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+.calendar-nav-btn:hover {
+  background: #e8e5d8;
+
+  color: #31533a;
+}
+
+
+/* DAYS OF THE WEEK */
+
+.calendar-weekdays {
+  display: grid;
+
+  grid-template-columns: repeat(7, 1fr);
+
+  margin-bottom: 7px;
+}
+
+.calendar-weekdays span {
+  text-align: center;
+
+  font-size: 10px;
+
+  font-weight: 600;
+
+  color: #777;
+}
+
+
+/* CALENDAR NUMBERS */
+
+.calendar-days {
+  display: grid;
+
+  grid-template-columns: repeat(7, 1fr);
+
+  gap: 5px;
+}
+
+.calendar-empty {
+  width: 100%;
+  aspect-ratio: 1;
+}
+
+.calendar-day {
+  width: 100%;
+
+  aspect-ratio: 1;
+
+  display: flex;
+
   justify-content: center;
   align-items: center;
-  color: #777;
-  padding: 10px;
+
+  border: none;
+
+  border-radius: 7px;
+
+  background: transparent;
+
+  color: #333;
+
+  font-size: 12px;
+
+  cursor: pointer;
+
+  transition:
+    background 0.15s ease,
+    color 0.15s ease,
+    transform 0.15s ease;
 }
+
+.calendar-day:hover:not(.disabled) {
+  background: #e1e5d7;
+
+  color: #274c32;
+
+  transform: scale(1.05);
+}
+
+
+/* SELECTED DATE */
+
+.calendar-day.selected {
+  background: #315b3c;
+
+  color: white;
+
+  font-weight: 700;
+
+  box-shadow: 0 3px 8px rgba(49, 91, 60, 0.3);
+}
+
+
+/* PAST DATES */
+
+.calendar-day.disabled {
+  color: #c7c7c7;
+
+  cursor: not-allowed;
+}
+
+
+/* SELECTED DATE TEXT */
+
+.selected-date {
+  min-height: 44px;
+
+  margin-top: 16px;
+
+  padding-top: 12px;
+
+  border-top: 1px solid #dedede;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  color: #777;
+
+  font-size: 11px;
+
+  text-align: center;
+}
+
+.selected-date strong {
+  margin-top: 3px;
+
+  color: #315b3c;
+
+  font-size: 13px;
+} 
 
 /* Submit button centered-ish */
 .submit-btn {
@@ -223,14 +419,34 @@
 
 }
 
-.button-group{
+.button-group {
+  display: flex;
 
-    display:flex;
+  justify-content: center;
 
-    justify-content:space-between;
+  gap: 15px;
 
-    margin-top:20px;
+  margin-top: 8px;
+}
 
+.button-group .submit-btn {
+  margin: 0;
+}
+
+.back-btn {
+  width: 150px;
+
+  padding: 10px 12px;
+
+  border: 1px solid #6ea6a6;
+
+  border-radius: 6px;
+
+  background: white;
+
+  color: #527f7f;
+
+  cursor: pointer;
 }
 
 .back-btn{
@@ -249,4 +465,33 @@
 
     cursor:pointer;
 
+}
+
+
+.reservation-wrapper {
+  position: relative;
+  z-index: 4;
+
+  width: min(860px, 90vw);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.reservation-title {
+  margin: 0 0 18px;
+
+  font-family: Georgia, "Times New Roman", serif;
+
+  font-size: 42px;
+  font-weight: 600;
+
+  color: #e7c873;
+
+  letter-spacing: 2px;
+
+  text-shadow:
+    0 2px 5px rgba(0, 0, 0, 0.75),
+    0 0 12px rgba(0, 0, 0, 0.35);
 }
