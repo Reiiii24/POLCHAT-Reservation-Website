@@ -44,7 +44,7 @@ export default function Direction() {
 
           <iframe
             title="PolChat Garden Resort"
-            src="https://www.google.com/maps?q=Blk%205%20Lot%201%20James%20Street%20Baltao%20Subdivision%20Taktak%20Road%20Brgy%20Sta%20Cruz%20Antipolo%20City%20Philippines&output=embed"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3860.957776407717!2d121.16405689999998!3d14.601481199999998!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397b9001840a21d%3A0x34dc9d7152f44ab!2sPolChat%20Garden!5e0!3m2!1sen!2sph!4v1785926965312!5m2!1sen!2sph"
             loading="lazy"
             allowFullScreen
           ></iframe>
