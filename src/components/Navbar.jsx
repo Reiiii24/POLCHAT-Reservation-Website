@@ -6,7 +6,7 @@ const navLinks = [
   { path: "/services", label: "Services" },
   { path: "/direction", label: "Directions" },
   { path: "/reservation", label: "Reservation" },
-  { path: "/faq", label: "FAQs" },
+  { path: "/support", label: "Support" },
   { path: "/contact", label: "Contact" },
 ];
 

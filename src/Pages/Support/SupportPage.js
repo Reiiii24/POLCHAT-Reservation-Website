@@ -1,0 +1,76 @@
+import { useState } from "react";
+import "./SupportPage.css";
+
+import Chatbot from "./Chatbot";
+import AdminChat from "./AdminChat";
+
+function SupportPage() {
+  const [activeTab, setActiveTab] = useState("chatbot");
+
+  return (
+    <div className="support-page">
+
+      {/* PAGE HEADER */}
+      <div className="support-header">
+        <p className="support-small-title">
+          POLCHAT GARDEN RESORT
+        </p>
+
+        <h1>Support Center</h1>
+
+        <p className="support-subtitle">
+          Get quick answers to common questions or speak directly
+          with our resort staff for further assistance.
+        </p>
+      </div>
+
+      {/* MAIN CHAT CONTAINER */}
+      <div className="support-container">
+
+        {/* TABS */}
+        <div className="support-tabs">
+
+          <button
+            type="button"
+            className={`support-tab ${
+              activeTab === "chatbot" ? "active" : ""
+            }`}
+            onClick={() => setActiveTab("chatbot")}
+          >
+            <span className="tab-icon">●</span>
+            Automated Help
+          </button>
+
+          <button
+            type="button"
+            className={`support-tab ${
+              activeTab === "admin" ? "active" : ""
+            }`}
+            onClick={() => setActiveTab("admin")}
+          >
+            <span className="tab-icon">●</span>
+            Chat with Admin
+          </button>
+
+        </div>
+
+        {/* TAB CONTENT */}
+        <div className="support-chat-area">
+
+          {activeTab === "chatbot" ? (
+            <Chatbot
+              switchToAdmin={() => setActiveTab("admin")}
+            />
+          ) : (
+            <AdminChat />
+          )}
+
+        </div>
+
+      </div>
+
+    </div>
+  );
+}
+
+export default SupportPage;

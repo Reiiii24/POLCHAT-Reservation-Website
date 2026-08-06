@@ -3,28 +3,36 @@ import "./ReservationPage.css";
 import Background from "../../Assets/Background.png";
 
 function ReservationPage() {
-  const [step, setStep] = useState(1);
-
-  // Calendar states
   const today = new Date();
+
+  const [step, setStep] = useState(1);
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [formError, setFormError] = useState("");
+
+  /* =========================
+     FORM DATA
+     ========================= */
+
+  const [formData, setFormData] = useState({
+    name: "",
+    bookingType: "",
+    address: "",
+    contactNumber: "",
+    guests: "",
+    stayType: "",
+    email: "",
+    confirmEmail: "",
+    arrivalTime: "",
+    specialRequests: "",
+  });
+
+  /* =========================
+     CALENDAR
+     ========================= */
 
   const [currentMonth, setCurrentMonth] = useState(today.getMonth());
   const [currentYear, setCurrentYear] = useState(today.getFullYear());
   const [selectedDate, setSelectedDate] = useState(null);
-
-  // Get number of days in current month
-  const daysInMonth = new Date(
-    currentYear,
-    currentMonth + 1,
-    0
-  ).getDate();
-
-  // Get which day of the week the month starts on
-  const firstDayOfMonth = new Date(
-    currentYear,
-    currentMonth,
-    1
-  ).getDay();
 
   const monthNames = [
     "January",
@@ -41,7 +49,139 @@ function ReservationPage() {
     "December",
   ];
 
-  // Go to previous month
+  const daysInMonth = new Date(
+    currentYear,
+    currentMonth + 1,
+    0
+  ).getDate();
+
+  const firstDayOfMonth = new Date(
+    currentYear,
+    currentMonth,
+    1
+  ).getDay();
+
+  /* =========================
+     CAPACITY RULES
+     ========================= */
+
+  const capacityLimits = {
+    "Day Tour": 60,
+    Overnight: 35,
+    "22 Hours": 25,
+  };
+
+  const guestCount = Number(formData.guests) || 0;
+
+  const selectedCapacity =
+    capacityLimits[formData.stayType] || 0;
+
+  const exceedsCapacity =
+    selectedCapacity > 0 &&
+    guestCount > selectedCapacity;
+
+  /* Base rate includes 20 guests */
+  const extraGuests = Math.max(0, guestCount - 20);
+  const extraGuestFee = extraGuests * 200;
+
+  /* =========================
+     FORM FUNCTIONS
+     ========================= */
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+
+    setFormData((previousData) => ({
+      ...previousData,
+      [name]: value,
+    }));
+
+    setFormError("");
+  };
+
+  const handleNext = () => {
+    if (
+      !formData.name ||
+      !formData.bookingType ||
+      !formData.address ||
+      !formData.contactNumber ||
+      !formData.guests ||
+      !formData.stayType ||
+      !selectedDate
+    ) {
+      setFormError(
+        "Please complete all required reservation details and select a reservation date."
+      );
+
+      return;
+    }
+
+    if (guestCount < 1) {
+      setFormError(
+        "The number of guests must be at least 1."
+      );
+
+      return;
+    }
+
+    if (exceedsCapacity) {
+      setFormError(
+        `${formData.stayType} allows a maximum of ${selectedCapacity} guests.`
+      );
+
+      return;
+    }
+
+    setFormError("");
+    setStep(2);
+  };
+
+  const handleSubmit = () => {
+    if (
+      !formData.email ||
+      !formData.confirmEmail ||
+      !formData.arrivalTime
+    ) {
+      setFormError(
+        "Please complete all required fields before submitting."
+      );
+
+      return;
+    }
+
+    if (formData.email !== formData.confirmEmail) {
+      setFormError(
+        "The email addresses do not match."
+      );
+
+      return;
+    }
+
+    if (exceedsCapacity) {
+      setFormError(
+        `${formData.stayType} allows a maximum of ${selectedCapacity} guests.`
+      );
+
+      return;
+    }
+
+    setFormError("");
+
+    /*
+      Later, when Firebase/database submission is added,
+      the database save should happen HERE.
+
+      Only show the success popup after the reservation
+      has successfully been saved.
+    */
+
+    setShowSuccess(true);
+  };
+
+  /* =========================
+     CALENDAR FUNCTIONS
+     ========================= */
+
   const previousMonth = () => {
     if (currentMonth === 0) {
       setCurrentMonth(11);
@@ -51,7 +191,6 @@ function ReservationPage() {
     }
   };
 
-  // Go to next month
   const nextMonth = () => {
     if (currentMonth === 11) {
       setCurrentMonth(0);
@@ -61,7 +200,6 @@ function ReservationPage() {
     }
   };
 
-  // Select a date
   const selectDate = (day) => {
     const chosenDate = new Date(
       currentYear,
@@ -74,15 +212,14 @@ function ReservationPage() {
     const currentDate = new Date();
     currentDate.setHours(0, 0, 0, 0);
 
-    // Prevent selecting dates in the past
     if (chosenDate < currentDate) {
       return;
     }
 
     setSelectedDate(chosenDate);
+    setFormError("");
   };
 
-  // Check if date is selected
   const isSelected = (day) => {
     if (!selectedDate) {
       return false;
@@ -95,7 +232,6 @@ function ReservationPage() {
     );
   };
 
-  // Check if date already passed
   const isPastDate = (day) => {
     const date = new Date(
       currentYear,
@@ -114,16 +250,26 @@ function ReservationPage() {
   return (
     <div
       className="reservation-page"
-      style={{ backgroundImage: `url(${Background})` }}
+      style={{
+        backgroundImage: `url(${Background})`,
+      }}
     >
       <div className="slider-frame">
 
         {/* Slider arrows */}
-        <button className="arrow left">
+        <button
+          className="arrow left"
+          type="button"
+          aria-label="Previous image"
+        >
           &#10094;
         </button>
 
-        <button className="arrow right">
+        <button
+          className="arrow right"
+          type="button"
+          aria-label="Next image"
+        >
           &#10095;
         </button>
 
@@ -135,70 +281,207 @@ function ReservationPage() {
           <span></span>
         </div>
 
-        {/* Reservation form + title */}
         <div className="reservation-wrapper">
 
-          {/* TITLE IS NOW OUTSIDE THE FORM */}
           <h1 className="reservation-title">
             Reservation
           </h1>
 
-          {/* White Card */}
           <div className="reservation-card">
 
             <div className="reservation-grid">
 
-              {/* LEFT SIDE FORM */}
+              {/* =====================
+                  LEFT FORM
+                  ===================== */}
+
               <div className="form-section">
 
                 {step === 1 ? (
                   <>
                     <label>
-                      <span>Name</span>
+                      <span>
+                        Name <b>*</b>
+                      </span>
+
                       <input
                         type="text"
+                        name="name"
+                        value={formData.name}
+                        onChange={handleChange}
                         placeholder="Enter your full name"
                       />
                     </label>
 
+                    {/* NEW */}
                     <label>
-                      <span>Address</span>
+                      <span>
+                        Family or Company <b>*</b>
+                      </span>
+
+                      <select
+                        name="bookingType"
+                        value={formData.bookingType}
+                        onChange={handleChange}
+                      >
+                        <option value="">
+                          Select booking type
+                        </option>
+
+                        <option value="Family">
+                          Family
+                        </option>
+
+                        <option value="Company">
+                          Company
+                        </option>
+                      </select>
+                    </label>
+
+                    <label>
+                      <span>
+                        Address <b>*</b>
+                      </span>
+
                       <input
                         type="text"
+                        name="address"
+                        value={formData.address}
+                        onChange={handleChange}
                         placeholder="Enter your address"
                       />
                     </label>
 
                     <label>
-                      <span>Contact Number</span>
+                      <span>
+                        Contact Number <b>*</b>
+                      </span>
+
                       <input
-                        type="text"
+                        type="tel"
+                        name="contactNumber"
+                        value={formData.contactNumber}
+                        onChange={handleChange}
                         placeholder="09XXXXXXXXX"
                       />
                     </label>
 
                     <label>
-                      <span>Number of Guests</span>
+                      <span>
+                        Number of Guests <b>*</b>
+                      </span>
+
                       <input
                         type="number"
+                        name="guests"
+                        value={formData.guests}
+                        onChange={handleChange}
                         min="1"
                         placeholder="Number of guests"
                       />
                     </label>
 
+                    {/* NEW DURATION OPTIONS */}
                     <label>
-                      <span>Duration</span>
-                      <input
-                        type="number"
-                        min="1"
-                        placeholder="Duration"
-                      />
+                      <span>
+                        Reservation Type <b>*</b>
+                      </span>
+
+                      <select
+                        name="stayType"
+                        value={formData.stayType}
+                        onChange={handleChange}
+                      >
+                        <option value="">
+                          Select reservation type
+                        </option>
+
+                        <option value="Day Tour">
+                          Day Tour
+                        </option>
+
+                        <option value="Overnight">
+                          Overnight
+                        </option>
+
+                        <option value="22 Hours">
+                          22 Hours
+                        </option>
+                      </select>
                     </label>
+
+                    {/* CAPACITY INFORMATION */}
+                    {formData.stayType && (
+                      <div className="capacity-info">
+                        <strong>
+                          {formData.stayType}
+                        </strong>
+
+                        <span>
+                          Maximum capacity:{" "}
+                          {selectedCapacity} guests
+                        </span>
+
+                        {formData.stayType ===
+                          "22 Hours" && (
+                          <span>
+                            Sleeping capacity is limited
+                            to 25 guests.
+                          </span>
+                        )}
+                      </div>
+                    )}
+
+                    {/* RATE INFO */}
+                    <div className="rate-info">
+                      <p>
+                        The base rate covers up to{" "}
+                        <strong>20 guests</strong>.
+                      </p>
+
+                      <p>
+                        Additional guests are charged{" "}
+                        <strong>
+                          ₱200 per person
+                        </strong>
+                        .
+                      </p>
+
+                      {extraGuests > 0 &&
+                        !exceedsCapacity && (
+                          <div className="additional-fee">
+                            {extraGuests} additional{" "}
+                            {extraGuests === 1
+                              ? "guest"
+                              : "guests"}
+                            :{" "}
+                            <strong>
+                              ₱
+                              {extraGuestFee.toLocaleString()}
+                            </strong>
+                          </div>
+                        )}
+
+                      {exceedsCapacity && (
+                        <div className="capacity-warning">
+                          This exceeds the maximum
+                          capacity of{" "}
+                          {selectedCapacity} guests for{" "}
+                          {formData.stayType}.
+                        </div>
+                      )}
+                    </div>
+
+                    {formError && (
+                      <p className="form-error">
+                        {formError}
+                      </p>
+                    )}
 
                     <button
                       className="submit-btn"
                       type="button"
-                      onClick={() => setStep(2)}
+                      onClick={handleNext}
                     >
                       Next
                     </button>
@@ -206,40 +489,76 @@ function ReservationPage() {
                 ) : (
                   <>
                     <label>
-                      <span>E-Mail</span>
+                      <span>
+                        E-Mail <b>*</b>
+                      </span>
+
                       <input
                         type="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleChange}
                         placeholder="example@email.com"
                       />
                     </label>
 
                     <label>
-                      <span>Confirm E-Mail</span>
+                      <span>
+                        Confirm E-Mail <b>*</b>
+                      </span>
+
                       <input
                         type="email"
+                        name="confirmEmail"
+                        value={formData.confirmEmail}
+                        onChange={handleChange}
                         placeholder="Re-enter your email"
                       />
                     </label>
 
                     <label>
-                      <span>Preferred Arrival Time</span>
-                      <input type="time" />
+                      <span>
+                        Preferred Arrival Time <b>*</b>
+                      </span>
+
+                      <input
+                        type="time"
+                        name="arrivalTime"
+                        value={formData.arrivalTime}
+                        onChange={handleChange}
+                      />
                     </label>
 
                     <label>
-                      <span>Special Requests</span>
+                      <span>
+                        Special Requests
+                      </span>
 
                       <textarea
                         rows="5"
-                        placeholder="Additional requests or notes..."
-                      ></textarea>
+                        name="specialRequests"
+                        value={
+                          formData.specialRequests
+                        }
+                        onChange={handleChange}
+                        placeholder="Add any requests or notes here..."
+                      />
                     </label>
+
+                    {formError && (
+                      <p className="form-error">
+                        {formError}
+                      </p>
+                    )}
 
                     <div className="button-group">
                       <button
                         className="back-btn"
                         type="button"
-                        onClick={() => setStep(1)}
+                        onClick={() => {
+                          setStep(1);
+                          setFormError("");
+                        }}
                       >
                         Back
                       </button>
@@ -247,6 +566,7 @@ function ReservationPage() {
                       <button
                         className="submit-btn"
                         type="button"
+                        onClick={handleSubmit}
                       >
                         Submit
                       </button>
@@ -256,7 +576,10 @@ function ReservationPage() {
 
               </div>
 
-              {/* RIGHT SIDE CALENDAR */}
+              {/* =====================
+                  RIGHT SIDE
+                  ===================== */}
+
               <div className="calendar-section">
 
                 <div className="calendar-header">
@@ -265,9 +588,7 @@ function ReservationPage() {
 
                 <div className="calendar-box">
 
-                  {/* Month controls */}
                   <div className="calendar-navigation">
-
                     <button
                       type="button"
                       onClick={previousMonth}
@@ -288,10 +609,8 @@ function ReservationPage() {
                     >
                       &#10095;
                     </button>
-
                   </div>
 
-                  {/* Days of week */}
                   <div className="calendar-weekdays">
                     <span>Sun</span>
                     <span>Mon</span>
@@ -302,25 +621,23 @@ function ReservationPage() {
                     <span>Sat</span>
                   </div>
 
-                  {/* Dates */}
                   <div className="calendar-days">
 
-                    {/* Blank cells before first day */}
                     {Array.from({
                       length: firstDayOfMonth,
                     }).map((_, index) => (
                       <div
                         key={`blank-${index}`}
                         className="calendar-empty"
-                      ></div>
+                      />
                     ))}
 
-                    {/* Actual dates */}
                     {Array.from(
                       { length: daysInMonth },
                       (_, index) => {
                         const day = index + 1;
-                        const past = isPastDate(day);
+                        const past =
+                          isPastDate(day);
 
                         return (
                           <button
@@ -330,18 +647,15 @@ function ReservationPage() {
                             onClick={() =>
                               selectDate(day)
                             }
-                            className={`calendar-day
-                              ${
-                                isSelected(day)
-                                  ? "selected"
-                                  : ""
-                              }
-                              ${
-                                past
-                                  ? "disabled"
-                                  : ""
-                              }
-                            `}
+                            className={`calendar-day ${
+                              isSelected(day)
+                                ? "selected"
+                                : ""
+                            } ${
+                              past
+                                ? "disabled"
+                                : ""
+                            }`}
                           >
                             {day}
                           </button>
@@ -351,12 +665,12 @@ function ReservationPage() {
 
                   </div>
 
-                  {/* Selected date */}
                   <div className="selected-date">
-
                     {selectedDate ? (
                       <>
-                        <span>Selected Date</span>
+                        <span>
+                          Selected Date
+                        </span>
 
                         <strong>
                           {selectedDate.toLocaleDateString(
@@ -371,19 +685,119 @@ function ReservationPage() {
                       </>
                     ) : (
                       <span>
-                        Please select your reservation date.
+                        Please select your
+                        reservation date.
                       </span>
                     )}
-
                   </div>
+                </div>
 
+                {/* RESERVATION RULES */}
+                <div className="reservation-policies">
+                  <h3>
+                    Important Reservation Policies
+                  </h3>
+
+                  <ul>
+                    <li>
+                      The base rate covers up to{" "}
+                      <strong>20 guests</strong>.
+                      Additional guests are charged{" "}
+                      <strong>₱200 per person</strong>,
+                      subject to the applicable guest
+                      capacity.
+                    </li>
+
+                    <li>
+                      A{" "}
+                      <strong>
+                        ₱2,000 security deposit
+                      </strong>{" "}
+                      is required to cover possible
+                      missing or damaged resort property.
+                      Any refundable amount will be
+                      returned within{" "}
+                      <strong>
+                        24 hours after checkout
+                      </strong>
+                      , following inspection.
+                    </li>
+
+                    <li>
+                      To confirm a reservation, guests
+                      must pay{" "}
+                      <strong>
+                        50% of the required down payment
+                      </strong>{" "}
+                      together with the{" "}
+                      <strong>
+                        ₱2,000 security deposit
+                      </strong>
+                      .
+                    </li>
+
+                    <li>
+                      Guests are encouraged to bring
+                      their own personal essentials and
+                      preferred items for their stay.
+                    </li>
+
+                    <li>
+                      To maintain a comfortable and safe
+                      environment for everyone, loud,
+                      disruptive, or disorderly
+                      gatherings are not allowed.
+                    </li>
+                  </ul>
                 </div>
 
               </div>
-
             </div>
           </div>
         </div>
+
+        {/* =========================
+            SUCCESS POPUP
+            ========================= */}
+
+        {showSuccess && (
+          <div className="success-overlay">
+            <div
+              className="success-popup"
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="success-title"
+            >
+              <div className="success-icon">
+                ✓
+              </div>
+
+              <h2 id="success-title">
+                Reservation Submitted
+              </h2>
+
+              <p>
+                Your reservation request has been
+                submitted successfully.
+              </p>
+
+              <p className="success-note">
+                Please wait for confirmation from
+                PolChat Garden Resort before considering
+                your reservation final.
+              </p>
+
+              <button
+                type="button"
+                onClick={() =>
+                  setShowSuccess(false)
+                }
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        )}
 
       </div>
     </div>
