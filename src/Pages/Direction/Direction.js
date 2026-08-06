@@ -28,19 +28,7 @@ export default function Direction() {
         {/* Google Map */}
         <div className="map-card">
 
-          <div className="travel-card">
 
-            <div className="travel-icon">
-              🚗
-            </div>
-
-            <h3>From Antipolo City</h3>
-
-            <h1>24 min</h1>
-
-            <p>12.6 km via Marikina–Infanta Highway</p>
-
-          </div>
 
           <iframe
             title="PolChat Garden Resort"

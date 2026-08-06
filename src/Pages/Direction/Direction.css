@@ -83,45 +83,47 @@
 
 .travel-card {
   position: absolute;
-  top: 35px;
-  left: 35px;
-  width: 270px;
+  top: 125px;
+  left: 10px;
+  width: 340px;
   background: rgba(255,255,255,.95);
   color: #17351d;
-  border-radius: 22px;
-  padding: 25px;
-  box-shadow: 0 15px 35px rgba(0,0,0,.25);
+  border-radius: 8px;
+  padding: 16px 20px;
+  box-shadow: 0 4px 15px rgba(0,0,0,.2);
   z-index: 20;
 }
 
 .travel-icon {
-  width: 60px;
-  height: 60px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   background: #4e6933;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 28px;
+  font-size: 22px;
   color: white;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 .travel-card h3 {
   margin: 0;
-  font-size: 1.3rem;
+  font-size: 1.05rem;
   font-weight: 600;
 }
 
 .travel-card h1 {
-  margin: 15px 0;
-  font-size: 3rem;
+  margin: 6px 0;
+  font-size: 2.2rem;
   color: #284b2d;
 }
 
 .travel-card p {
   margin: 0;
   color: #666;
+  font-size: 0.88rem;
+  line-height: 1.3;
 }
 
 /* ================= CONTACT ================= */
