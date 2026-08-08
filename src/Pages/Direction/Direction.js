@@ -102,17 +102,6 @@ export default function Direction() {
   ></iframe>
 
 </div>
-
-{/* Get Directions Button */}
-
-<div className="direction-button-container">
-  <button
-    className="direction-btn"
-    onClick={getDirections}
-  >
-    🚗 Get Directions
-  </button>
-</div>
         {/* Contact Cards */}
 
         <div className="contact-grid">
