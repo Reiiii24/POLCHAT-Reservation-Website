@@ -817,3 +817,10 @@
     padding: 25px 20px;
   }
 }
+
+
+.submit-btn:disabled,
+.back-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
