@@ -5,10 +5,6 @@ export default function Home() {
     <div className="home">
       <section className="home-hero">
         <div className="home-hero-overlay" />
-        <div className="home-hero-image-note">
-          <span>Insert hero background image here</span>
-          <small>Best fit: sunset resort, pool, garden lights</small>
-        </div>
 
         <div className="home-shell">
           <div className="home-hero-copy">
@@ -16,7 +12,7 @@ export default function Home() {
             <h1>
               Welcome to
               <br />
-              PolChat Garden Resort
+              PolChat Garden Resort!
             </h1>
             <div className="home-divider" aria-hidden="true">
               <span />
@@ -39,46 +35,6 @@ export default function Home() {
             </div>
           </div>
 
-          <aside className="assistant-card" aria-label="Quick information">
-            <div className="assistant-head">
-              <div>
-                <h2>Hi there!</h2>
-                <p>
-                  I&apos;m PolChat, your friendly assistant. Here are a few
-                  things guests usually look for first.
-                </p>
-              </div>
-              <button type="button" className="assistant-dots">
-                ...
-              </button>
-            </div>
-
-            <div className="assistant-links">
-              <button type="button" className="assistant-link">
-                <span>Check room availability</span>
-                <strong>&rsaquo;</strong>
-              </button>
-              <button type="button" className="assistant-link">
-                <span>Rates &amp; Packages</span>
-                <strong>&rsaquo;</strong>
-              </button>
-              <button type="button" className="assistant-link">
-                <span>Amenities</span>
-                <strong>&rsaquo;</strong>
-              </button>
-              <button type="button" className="assistant-link">
-                <span>How to get here</span>
-                <strong>&rsaquo;</strong>
-              </button>
-            </div>
-
-            <div className="assistant-input">
-              <span>Type your message...</span>
-              <button type="button" className="assistant-send">
-                &uarr;
-              </button>
-            </div>
-          </aside>
         </div>
 
         <div className="booking-strip-wrap">

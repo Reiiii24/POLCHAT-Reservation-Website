@@ -1,79 +1,18 @@
-.resort-intro {
-  padding: 120px 32px 60px;
-  background: #efe6d7;
+.service-list {
+  padding: 0 32px 60px;
+  background:
+    radial-gradient(circle at top left, rgba(124, 105, 74, 0.08), transparent 24%),
+    #efe6d7;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
-.intro-shell {
-  max-width: 1280px;
-  margin: 0 auto 60px;
-  display: grid;
-  grid-template-columns: minmax(0, 1.1fr) minmax(280px, 0.9fr);
-  gap: 28px;
-  align-items: stretch;
-}
-
-.intro-copy {
-  padding: 28px;
-  border-radius: 24px;
-  background: #fff9ef;
-  box-shadow: 0 10px 28px rgba(71, 52, 28, 0.07);
-}
-
-.intro-kicker {
-  margin: 0 0 10px;
-  color: #8a7353;
-  font-size: 0.95rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-}
-
-.intro-copy h1 {
-  margin: 0 0 18px;
-  font-family: Georgia, serif;
-  font-size: clamp(1.8rem, 3.5vw, 2.6rem);
-  color: #2c2217;
-  line-height: 1.15;
-}
-
-.intro-copy p {
-  margin: 0 0 14px;
-  color: #6b5a47;
-  line-height: 1.65;
-}
-
-.intro-image-slot {
-  min-height: 240px;
-  border-radius: 24px;
-  border: 2px dashed rgba(138, 115, 83, 0.4);
-  background: linear-gradient(135deg, rgba(210, 192, 168, 0.55) 0%, rgba(239, 229, 212, 0.95) 100%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 24px;
-  color: #5c4a39;
-}
-
-.intro-image-slot span {
-  font-weight: 700;
-  font-size: 1rem;
-}
-
-.intro-image-slot small {
-  display: block;
-  margin-top: 6px;
-  line-height: 1.5;
-}
-
-.section-heading {
+.service-list .section-heading {
   max-width: 720px;
   margin: 0 auto 30px;
   text-align: center;
 }
 
-.section-heading p {
+.service-list .section-heading p {
   margin: 0 0 10px;
   color: #8a7353;
   font-size: 1rem;
@@ -81,7 +20,7 @@
   text-transform: uppercase;
 }
 
-.section-heading h2 {
+.service-list .section-heading h2 {
   margin: 0;
   font-family: Georgia, serif;
   font-size: clamp(2.2rem, 4.5vw, 3.4rem);
@@ -89,61 +28,88 @@
   color: #2c2217;
 }
 
-.why-grid {
+.service-grid {
   max-width: 1280px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
 }
 
-.why-card {
-  display: flex;
-  gap: 16px;
-  align-items: flex-start;
-  padding: 24px 22px 20px;
-  border-radius: 20px;
-  background: rgba(255, 252, 247, 0.85);
-  box-shadow: 0 10px 28px rgba(71, 52, 28, 0.08);
+.service-card {
+  position: relative;
+  min-height: 240px;
+  padding: 28px 22px 24px;
+  border-radius: 24px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.02) 100%),
+    linear-gradient(135deg, #24301d 0%, #1a2115 100%);
+  border: 1px solid rgba(232, 218, 177, 0.14);
+  box-shadow: 0 18px 34px rgba(31, 25, 19, 0.12);
+  color: #f6f0e3;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 }
 
-.why-icon {
+.service-card::after {
+  content: "";
+  position: absolute;
+  inset: auto -35% -40% auto;
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(232, 218, 177, 0.18) 0%, transparent 68%);
+  pointer-events: none;
+}
+
+.service-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 22px 38px rgba(31, 25, 19, 0.18);
+  border-color: rgba(232, 218, 177, 0.26);
+}
+
+.service-icon {
   width: 58px;
   height: 58px;
   display: grid;
   place-items: center;
-  border-radius: 50%;
-  flex-shrink: 0;
-  background: #232318;
-  color: #f1dd9a;
-  font-size: 1.5rem;
+  margin-bottom: 18px;
+  border-radius: 18px;
+  background: rgba(232, 218, 177, 0.12);
+  color: #f3ddb1;
+  font-size: 1.6rem;
+  box-shadow: inset 0 0 0 1px rgba(232, 218, 177, 0.12);
 }
 
-.why-card h3 {
-  margin: 0 0 10px;
-  color: #2f2418;
+.service-card h3 {
+  margin: 0 0 12px;
   font-family: Georgia, serif;
-  font-size: 1.4rem;
+  font-size: 1.35rem;
+  line-height: 1.2;
+  color: #fff6dd;
 }
 
-.why-card p {
+.service-card p {
   margin: 0;
-  color: #6b5a47;
+  color: #d7ccb5;
   line-height: 1.7;
-  font-size: 1.05rem;
+  font-size: 0.98rem;
 }
 
 @media (max-width: 1100px) {
-  .intro-shell {
-    grid-template-columns: 1fr;
-  }
-  .why-grid {
+  .service-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
 @media (max-width: 768px) {
-  .why-grid {
+  .service-list {
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 44px;
+  }
+
+  .service-grid {
     grid-template-columns: 1fr;
   }
 }

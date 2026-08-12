@@ -25,28 +25,12 @@
     linear-gradient(180deg, rgba(0, 0, 0, 0) 64%, rgba(0, 0, 0, 0.28) 100%);
 }
 
-.home-hero-image-note {
-  position: absolute;
-  top: 110px;
-  right: 32px;
-  width: 240px;
-  padding: 14px 16px;
-  border: 1px dashed rgba(247, 224, 158, 0.75);
-  border-radius: 16px;
-  background: rgba(31, 36, 22, 0.68);
-  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.22);
-  color: #fff6dd;
-  z-index: 2;
-}
-
-.home-hero-image-note span,
 .image-slot span {
   display: block;
   font-size: 0.95rem;
   font-weight: 700;
 }
 
-.home-hero-image-note small,
 .image-slot small {
   display: block;
   margin-top: 6px;
@@ -793,12 +777,6 @@
 
   .home-shell {
     padding-top: 40px;
-  }
-
-  .home-hero-image-note {
-    position: static;
-    width: auto;
-    margin: 0 20px 14px;
   }
 
   .booking-strip-wrap {
