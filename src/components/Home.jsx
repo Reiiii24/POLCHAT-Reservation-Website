@@ -1,3 +1,4 @@
+import Logo from './Logo';
 import './Home.css';
 
 export default function Home() {
@@ -8,7 +9,7 @@ export default function Home() {
 
         <div className="home-shell">
           <div className="home-hero-copy">
-            <p className="home-kicker">Nature. Comfort. Memories.</p>
+            <p className="home-kicker">Nature. Peace. Unwind.</p>
             <h1>
               Welcome to
               <br />
@@ -20,9 +21,7 @@ export default function Home() {
               <span />
             </div>
             <p className="home-subcopy">
-              Relax, recharge, and experience nature at its finest. Discover a
-              warm garden retreat made for family stays, celebrations, and
-              peaceful weekends.
+              Leave the busy city behind and immerse yourself in the peaceful beauty of nature. At PolChat Garden, you'll find the perfect place to relax, recharge, and reconnect with the people who matter most.
             </p>
 
             <div className="home-actions">
@@ -31,12 +30,13 @@ export default function Home() {
               </button>
               <button type="button" className="home-btn home-btn-secondary">
                 Watch Video
-              </button>
+              </button> {/*Dont add this video or not?*/}
             </div>
           </div>
 
         </div>
 
+        {/*this is the booking mini navigation*/}
         <div className="booking-strip-wrap">
           <div className="booking-strip">
             <div className="booking-item">
@@ -93,13 +93,27 @@ export default function Home() {
               <p>Create meaningful moments with the people you love.</p>
             </div>
           </article>
+          <article className="why-card">
+            <div className="why-icon">🏊‍♂️</div>
+            <div>
+              <h3>Refreshing Pool Access</h3>
+              <p>Cool down and enjoy refreshing dips under the open sky.</p>
+            </div>
+          </article>
+          <article className="why-card">
+            <div className="why-icon">📍</div>
+            <div>
+              <h3>Accessible Location</h3>
+              <p>Conveniently located in Antipolo with easy directions.</p>
+            </div>
+          </article>
         </div>
       </section>
 
       <section className="home-story">
         <div className="section-heading section-heading-left">
           <p>About the Resort</p>
-          <h2>A welcoming garden stay with room for rest and celebration</h2>
+          <h2>A Welcoming Garden Stay with Room for Rest and Celebration</h2>
         </div>
 
         <div className="story-grid">
@@ -220,9 +234,7 @@ export default function Home() {
           <div className="footer-top">
             <div className="footer-column footer-brand-column">
               <div className="footer-brand">
-                <div className="footer-brand-mark" aria-hidden="true">
-                  <span />
-                </div>
+                <Logo size={40} className="footer-logo" />
                 <div>
                   <p className="footer-brand-name">PolChat</p>
                   <p className="footer-brand-sub">Garden Resort</p>
@@ -248,7 +260,6 @@ export default function Home() {
                 <li><a href="/services">Amenities</a></li>
                 <li><a href="/services">Gallery</a></li>
                 <li><a href="/services">Reviews</a></li>
-                <li><a href="/contact">Contact Us</a></li>
               </ul>
             </div>
 
