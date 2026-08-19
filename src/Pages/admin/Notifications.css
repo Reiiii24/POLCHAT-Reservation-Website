@@ -1,0 +1,128 @@
+.notif-page {
+  padding: 100px 32px 60px;
+  background: #efe6d7;
+  min-height: 100vh;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.notif-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.notif-header h1 {
+  font-family: Georgia, serif;
+  color: #2c2217;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.unread-count {
+  background: #b04242;
+  color: #fff;
+  font-size: 0.8rem;
+  padding: 2px 9px;
+  border-radius: 999px;
+  font-family: 'Inter', sans-serif;
+}
+
+.mark-all-btn {
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: 1px solid rgba(138, 115, 83, 0.3);
+  background: #fff9ef;
+  color: #4d4638;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+.mark-all-btn:hover {
+  background: #f6efe2;
+}
+
+.notif-filters {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.filter-chip {
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(138, 115, 83, 0.3);
+  background: #fff9ef;
+  color: #6b5a47;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.filter-chip.active {
+  background: #2c2217;
+  color: #f1dd9a;
+  border-color: #2c2217;
+}
+
+.notif-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.notif-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 16px;
+  border-radius: 14px;
+  background: #fff9ef;
+  box-shadow: 0 6px 18px rgba(71, 52, 28, 0.06);
+  cursor: pointer;
+  position: relative;
+  transition: background 0.15s ease;
+}
+
+.notif-card.unread {
+  background: #fdf3df;
+}
+
+.notif-card:hover {
+  background: #f6efe2;
+}
+
+.notif-icon {
+  font-size: 1.3rem;
+}
+
+.notif-content p {
+  margin: 0 0 4px;
+  color: #2f2418;
+  line-height: 1.5;
+  font-size: 0.95rem;
+}
+
+.notif-content small {
+  color: #8a7353;
+  font-size: 0.8rem;
+}
+
+.dot {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #b04242;
+}
+
+.no-notif {
+  text-align: center;
+  color: #8a7353;
+  padding: 40px 0;
+}

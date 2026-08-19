@@ -19,14 +19,11 @@ export default function ContactInfo() {
               A serene escape where comfort meets nature. Create beautiful
               memories with your loved ones.
             </p>
-
-<div className="about-footer-socials" aria-label="Social links">
-              <a href="https://www.facebook.com/Polchatgarden" target="_blank" rel="noopener noreferrer" className="about-footer-social">
-                f
-              </a>
+            <div className="about-footer-socials" aria-label="Social links">
+              <a href="/" className="about-footer-social">f</a>
+              <a href="/" className="about-footer-social">ig</a>
+              <a href="/" className="about-footer-social">p</a>
             </div>
-            
-
           </div>
 
           <div className="about-footer-column">
@@ -38,17 +35,18 @@ export default function ContactInfo() {
               <li><a href="/services">Amenities</a></li>
               <li><a href="/services">Gallery</a></li>
               <li><a href="/services">Reviews</a></li>
-              <li><a href="/contact">Contact Us</a></li>s
+              <li><a href="/contact">Contact Us</a></li>
             </ul>
           </div>
 
           <div className="about-footer-column">
             <h3 className="about-footer-heading">Contact Us</h3>
             <ul className="about-footer-contact-list">
-              <li>+63 915 841 0828</li>
-              <li>marrydianae8@gmail.com</li>
+              <li>+63 915 641 8828</li>
+              <li>reamydaine8@gmail.com</li>
               <li>
-                Blk 5 Lot 1 James Street Baltao Subdivision, Taktak Road Brgy Sta Cruz, Antipolo City, Antipolo, Philippines, 1870
+                Blk 5 Lot 1 Jamesa Street Balitao Subdivision, Taktak Road
+                Brgy Sta Cruz, Antipolo City, Rizal, Philippines
               </li>
             </ul>
           </div>
