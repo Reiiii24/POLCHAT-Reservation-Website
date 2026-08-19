@@ -1,3 +1,4 @@
+import Logo from './Logo';
 import './ContactInfo.css';
 
 export default function ContactInfo() {
@@ -7,9 +8,7 @@ export default function ContactInfo() {
         <div className="about-footer-top">
           <div className="about-footer-column about-footer-brand-column">
             <div className="about-footer-brand">
-              <div className="about-footer-brand-mark" aria-hidden="true">
-                <span />
-              </div>
+              <Logo size={40} className="footer-logo" />
               <div>
                 <p className="about-footer-brand-name">PolChat</p>
                 <p className="about-footer-brand-sub">Garden Resort</p>
@@ -35,7 +34,10 @@ export default function ContactInfo() {
               <li><a href="/services">Amenities</a></li>
               <li><a href="/services">Gallery</a></li>
               <li><a href="/services">Reviews</a></li>
+<<<<<<< HEAD
               <li><a href="/contact">Contact Us</a></li>
+=======
+>>>>>>> f6a57fba29ce54ca257a57aa7da264555426a1b5
             </ul>
           </div>
 
