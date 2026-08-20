@@ -34,10 +34,6 @@ export default function ContactInfo() {
               <li><a href="/services">Amenities</a></li>
               <li><a href="/services">Gallery</a></li>
               <li><a href="/services">Reviews</a></li>
-<<<<<<< HEAD
-              <li><a href="/contact">Contact Us</a></li>
-=======
->>>>>>> f6a57fba29ce54ca257a57aa7da264555426a1b5
             </ul>
           </div>
 
