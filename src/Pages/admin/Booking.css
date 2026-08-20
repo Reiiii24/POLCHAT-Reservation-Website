@@ -1,0 +1,172 @@
+.booking-page {
+  padding: 100px 32px 60px;
+  background: #efe6d7;
+  min-height: 100vh;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.booking-header {
+  max-width: 1200px;
+  margin: 0 auto 20px;
+}
+
+.booking-header h1 {
+  font-family: Georgia, serif;
+  color: #2c2217;
+  margin-bottom: 6px;
+}
+
+.booking-header p {
+  color: #8a7353;
+}
+
+.booking-controls {
+  max-width: 1200px;
+  margin: 0 auto 20px;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.booking-search {
+  flex: 1;
+  min-width: 240px;
+  padding: 10px 16px;
+  border-radius: 10px;
+  border: 1px solid rgba(138, 115, 83, 0.3);
+  background: #fff9ef;
+  font-size: 0.95rem;
+}
+
+.booking-filter {
+  padding: 10px 16px;
+  border-radius: 10px;
+  border: 1px solid rgba(138, 115, 83, 0.3);
+  background: #fff9ef;
+  font-size: 0.95rem;
+}
+
+.booking-table-card {
+  max-width: 1200px;
+  margin: 0 auto;
+  background: #fff9ef;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 10px 24px rgba(71, 52, 28, 0.08);
+  overflow-x: auto;
+}
+
+.booking-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+}
+
+.booking-table th {
+  text-align: left;
+  color: #8a7353;
+  font-weight: 600;
+  padding: 10px 8px;
+  border-bottom: 1px solid rgba(138, 115, 83, 0.2);
+  white-space: nowrap;
+}
+
+.booking-table td {
+  padding: 13px 8px;
+  color: #4d4638;
+  border-bottom: 1px solid rgba(138, 115, 83, 0.1);
+  white-space: nowrap;
+}
+
+.booking-table td strong {
+  display: block;
+  color: #2c2217;
+}
+
+.booking-table td small {
+  display: block;
+  color: #9b8970;
+  margin-top: 3px;
+}
+
+.booking-amount {
+  font-weight: 700;
+  color: #2c2217 !important;
+}
+
+.booking-status {
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.booking-status.confirmed {
+  background: rgba(87, 155, 87, 0.15);
+  color: #3f7a3f;
+}
+
+.booking-status.pending {
+  background: rgba(212, 168, 92, 0.2);
+  color: #a17c2d;
+}
+
+.booking-status.cancelled {
+  background: rgba(200, 80, 80, 0.15);
+  color: #b04242;
+}
+
+.booking-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.confirm-btn,
+.cancel-btn,
+.cancel-outline-btn {
+  border: none;
+  border-radius: 8px;
+  padding: 6px 10px;
+  cursor: pointer;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.confirm-btn {
+  background: #4f7130;
+  color: white;
+}
+
+.cancel-btn {
+  background: #b04242;
+  color: white;
+}
+
+.cancel-outline-btn {
+  background: transparent;
+  color: #b04242;
+  border: 1px solid #b04242;
+}
+
+.confirm-btn:hover {
+  background: #3f5c27;
+}
+
+.cancel-btn:hover {
+  background: #923838;
+}
+
+.cancel-outline-btn:hover {
+  background: rgba(176, 66, 66, 0.08);
+}
+
+.booking-done {
+  color: #8a7353;
+  font-size: 0.78rem;
+}
+
+.booking-no-results {
+  text-align: center;
+  padding: 30px;
+  color: #8a7353;
+}
