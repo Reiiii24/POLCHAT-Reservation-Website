@@ -1,5 +1,10 @@
 import Logo from './Logo';
 import './Home.css';
+import PolchatEntrance from '../Assets/polchatEntrance.png';
+import highlightOne from '../Assets/highlightOne.png';
+import highlightTwo from '../Assets/highlightTwo.png';
+import highlightThree from '../Assets/higlightThree.png';
+import highlightFour from '../Assets/highlightFour.png';
 
 export default function Home() {
   return (
@@ -135,63 +140,30 @@ export default function Home() {
             </ul>
           </div>
 
-          <div className="image-slot image-slot-large">
-            <span>Insert main resort image here</span>
-            <small>Recommended: exterior, pool, or garden overview</small>
+          <div className="image-slot image-slot-large"> {/*for photos*/}
+            <img src={PolchatEntrance} alt="PolChat Garden Resort surrounded by nature" />
           </div>
         </div>
       </section>
 
       <section className="home-gallery">
-        <div className="section-heading">
+        <div className="section-heading">  {/*for photos*/}
           <p>Photo Highlights</p>
           <h2>Places where you can add your best images</h2>
         </div>
 
-        <div className="gallery-grid">
+        <div className="gallery-grid"> {/*for photos in the home page*/}
           <div className="image-slot">
-            <span>Insert room image</span>
-            <small>Guest room or suite</small>
-          </div>
-          <div className="image-slot">
-            <span>Insert pool image</span>
-            <small>Day or night pool view</small>
+            <img src={highlightOne} alt="Guest room or suite at PolChat Garden Resort" />
           </div>
           <div className="image-slot">
-            <span>Insert dining image</span>
-            <small>Food, table setup, or breakfast</small>
+            <img src={highlightThree} alt="Dining area at PolChat Garden Resort" />
+          </div>
+           <div className="image-slot">
+            <img src={highlightTwo} alt="Pool and garden view at PolChat Garden Resort" />
           </div>
           <div className="image-slot">
-            <span>Insert event image</span>
-            <small>Wedding, birthday, or gathering</small>
-          </div>
-        </div>
-      </section>
-
-      <section className="home-info">
-        <div className="info-panel">
-          <div>
-            <p className="info-label">Initial Information</p>
-            <h2>What guests should know before booking</h2>
-          </div>
-
-          <div className="info-grid">
-            <div className="info-card">
-              <h3>Location</h3>
-              <p>Add your full address, landmark, and map directions here.</p>
-            </div>
-            <div className="info-card">
-              <h3>Check-in Policy</h3>
-              <p>Add check-in/check-out times and guest requirements here.</p>
-            </div>
-            <div className="info-card">
-              <h3>Contact Details</h3>
-              <p>Add your mobile number, email, and Facebook page here.</p>
-            </div>
-            <div className="info-card">
-              <h3>Featured Offer</h3>
-              <p>Add current promos, rates, inclusions, or seasonal deals.</p>
-            </div>
+            <img src={highlightFour} alt="Event space at PolChat Garden Resort" />
           </div>
         </div>
       </section>

@@ -4,22 +4,24 @@ function ResortIntro() {
   return (
     <section className="resort-intro">
       <div className="intro-shell">
-        <div className="intro-copy">
+        <div className="intro-story">
           <p className="intro-kicker">About the Resort</p>
-          <h1>The Story Behind PolChat Online</h1>
-          <p>
-            Launched in 2026, the PolChat Web-Based Resort Management System
-            was developed to bridge the gap between traditional hospitality
-            and modern digital convenience. Before this platform, booking a
-            getaway at PolChat Garden Resort required manual scheduling,
-            endless phone calls, and back-and-forth messaging.
-          </p>
-          <p>
-            We built this automated system to give guests an instant,
-            hassle-free way to check room availability, find accurate travel
-            directions, and get immediate answers to common questions — all
-            in one secure place.
-          </p>
+          <div className="intro-copy">
+            <h1>So What is PolChat Garden Resort?</h1>
+            <p>
+              Launched in 2026, the PolChat Web-Based Resort Management System
+              was developed to bridge the gap between traditional hospitality
+              and modern digital convenience. Before this platform, booking a
+              getaway at PolChat Garden Resort required manual scheduling,
+              endless phone calls, and back-and-forth messaging.
+            </p>
+            <p>
+              We built this automated system to give guests an instant,
+              hassle-free way to check room availability, find accurate travel
+              directions, and get immediate answers to common questions — all
+              in one secure place.
+            </p>
+          </div>
         </div>
         <div className="intro-image-slot">
           <span>Insert resort image here</span>

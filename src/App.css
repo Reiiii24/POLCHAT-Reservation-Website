@@ -63,15 +63,19 @@
 .nav-links a.active, .nav-links a:hover { color: #e7c873; }
 
 .book-btn {
-  border: 1px solid rgba(231,200,115,0.7);
-  background: transparent;
-  color: #e7c873;
+  border: 0;
+  background: linear-gradient(135deg, #c49b45 0%, #e0bd73 100%);
+  color: #24301d;
   padding: 8px 20px;
   border-radius: 999px;
   font-size: 13px;
+  font-weight: 900;
   cursor: pointer;
 }
-.book-btn:hover { background: #e7c873; color: #2a2e28; }
+.book-btn:hover {
+  background: linear-gradient(135deg, #d0aa55 0%, #e8c985 100%);
+  color: #24301d;
+}
 
 .menu-toggle { background: none; border: none; color: #f4efe4; font-size: 22px; cursor: pointer; }
 

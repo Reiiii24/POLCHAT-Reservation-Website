@@ -44,6 +44,15 @@
   font-weight: 700;
 }
 
+.image-slot img {
+  width: 100%;
+  height: 100%;
+  min-height: 240px;
+  display: block;
+  object-fit: cover;
+  border-radius: 18px;
+}
+
 .image-slot small {
   display: block;
   margin-top: 6px;
@@ -141,9 +150,19 @@
 }
 
 .home-btn-primary {
-  color: #2f321e;
-  background: linear-gradient(135deg, #c8b46c 0%, #e8dab1 100%);
-  box-shadow: 0 12px 32px rgba(15, 15, 15, 0.2);
+  border: 0;
+  color: #24301d;
+  background: linear-gradient(135deg, #c49b45 0%, #e0bd73 100%);
+  padding: 8px 20px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.home-btn-primary:hover,
+.booking-button:hover {
+  background: linear-gradient(135deg, #d0aa55 0%, #e8c985 100%);
+  color: #24301d;
+  box-shadow: 0 0 18px rgba(231, 200, 115, 0.65);
 }
 
 .home-btn-secondary {
@@ -286,13 +305,15 @@
 
 .booking-button {
   width: 100%;
-  padding: 16px 20px;
+  padding: 12px 20px;
   border: 0;
   border-radius: 999px;
   cursor: pointer;
   color: #24301d;
+  font-size: 15px;
   font-weight: 700;
-  background: linear-gradient(135deg, #c8b46c 0%, #f3e6bc 100%);
+  line-height: 1.2;
+  background: linear-gradient(135deg, #c49b45 0%, #e0bd73 100%);
 }
 
 .home-why,
