@@ -899,3 +899,283 @@
     gap: 6px;
   }
 }
+
+/* =========================================================
+   FINAL RESPONSIVE / FLUID LAYOUT OVERRIDES
+   ========================================================= */
+
+/*
+  These rules intentionally come last so they can safely
+  refine the original design without removing its theme.
+*/
+
+.home {
+  width: 100%;
+  min-width: 0;
+  overflow-x: hidden;
+}
+
+.home-hero {
+  width: 100%;
+  padding-top: clamp(34px, 5vw, 64px);
+}
+
+/*
+  The current Home.jsx contains only the hero-copy inside
+  .home-shell, so a reserved second desktop column is no
+  longer necessary.
+*/
+.home-shell {
+  width: min(100%, 1280px);
+  grid-template-columns: minmax(0, 1fr);
+  padding-left: clamp(18px, 4vw, 40px);
+  padding-right: clamp(18px, 4vw, 40px);
+}
+
+.home-hero-copy {
+  width: min(100%, 700px);
+}
+
+.home-subcopy {
+  width: min(100%, 520px);
+}
+
+.home-why,
+.home-story,
+.home-gallery,
+.home-info,
+.home-footnote {
+  padding-left: clamp(18px, 4vw, 40px);
+  padding-right: clamp(18px, 4vw, 40px);
+}
+
+.home-services-brief {
+  padding-left: clamp(18px, 4vw, 40px);
+  padding-right: clamp(18px, 4vw, 40px);
+}
+
+.booking-strip-wrap {
+  padding-left: clamp(18px, 4vw, 40px);
+  padding-right: clamp(18px, 4vw, 40px);
+}
+
+.booking-strip {
+  width: min(100%, 1100px);
+  grid-template-columns:
+    repeat(3, minmax(120px, 1fr))
+    minmax(180px, 230px);
+}
+
+.booking-item,
+.booking-button,
+.story-copy,
+.image-slot,
+.info-panel,
+.services-brief-panel,
+.footer-column {
+  min-width: 0;
+}
+
+.booking-item strong,
+.footer-contact-list li,
+.footer-links a {
+  overflow-wrap: anywhere;
+}
+
+.gallery-grid .image-slot {
+  min-height: 0;
+  aspect-ratio: 4 / 3;
+  padding: 0;
+  overflow: hidden;
+}
+
+.gallery-grid .image-slot img {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  border-radius: inherit;
+}
+
+.image-slot-large {
+  min-height: 320px;
+}
+
+.image-slot-large img {
+  min-height: 320px;
+}
+
+.footer-top {
+  width: min(100%, 1280px);
+  margin: 0 auto;
+}
+
+@media (max-width: 1100px) {
+  .booking-strip {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .gallery-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  /*
+    On phones/tablets the booking strip joins normal document
+    flow rather than hanging below the hero with absolute
+    positioning. This prevents overlap on narrow screens.
+  */
+  .home-hero {
+    padding: 28px 0 38px;
+  }
+
+  .home-shell {
+    padding-top: 30px;
+  }
+
+  .booking-strip-wrap {
+    position: relative;
+    left: auto;
+    right: auto;
+    bottom: auto;
+    margin-top: 34px;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .booking-strip {
+    grid-template-columns: 1fr;
+    padding: 14px;
+  }
+
+  .home-why {
+    padding-top: 52px;
+  }
+
+  .home-why,
+  .home-story,
+  .home-gallery,
+  .home-info {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .home-services-brief {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .home-actions {
+    width: 100%;
+  }
+
+  .home-btn {
+    min-height: 44px;
+  }
+
+  .story-grid {
+    gap: 20px;
+  }
+
+  .story-copy,
+  .info-panel,
+  .services-brief-panel {
+    padding: 20px;
+  }
+
+  .image-slot-large,
+  .image-slot-large img {
+    min-height: 260px;
+  }
+
+  .footer-brand-text {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 520px) {
+  .home-kicker {
+    font-size: 1.15rem;
+  }
+
+  .home-hero-copy h1 {
+    font-size: clamp(2.1rem, 11vw, 3rem);
+  }
+
+  .home-subcopy {
+    font-size: 0.96rem;
+  }
+
+  .home-actions {
+    flex-direction: column;
+  }
+
+  .home-btn {
+    width: 100%;
+    text-align: center;
+  }
+
+  .why-card {
+    padding: 16px;
+  }
+
+  .why-icon {
+    width: 46px;
+    height: 46px;
+    font-size: 1.15rem;
+  }
+
+  .gallery-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .gallery-grid .image-slot {
+    aspect-ratio: 4 / 3;
+  }
+
+  .section-heading h2 {
+    font-size: clamp(1.75rem, 9vw, 2.5rem);
+  }
+
+  .section-heading p {
+    font-size: 0.8rem;
+    letter-spacing: 0.14em;
+  }
+
+  .footer-top {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+  .footer-bottom {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+}
+
+@media (max-width: 360px) {
+  .home-shell,
+  .home-why,
+  .home-story,
+  .home-gallery,
+  .home-info,
+  .home-services-brief {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .booking-strip-wrap {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .story-copy,
+  .info-panel,
+  .services-brief-panel {
+    padding: 16px;
+  }
+
+  .why-card {
+    gap: 10px;
+  }
+}

@@ -1,24 +1,222 @@
+/* ==========================================
+   ADMIN LAYOUT
+   ========================================== */
+
 .admin-layout {
   width: 100%;
 
+  min-width: 0;
+
   min-height: 100vh;
+
+  overflow-x: hidden;
 
   background: #efe6d7;
 }
 
+
 .admin-main-content {
+  width:
+    calc(
+      100% - 250px
+    );
+
+  min-width: 0;
+
   min-height: 100vh;
 
   margin-left: 250px;
 
   background: #efe6d7;
+
+  transition:
+    margin-left 0.25s ease,
+    width 0.25s ease;
 }
 
 
-/* Sidebar collapses on smaller screens */
+/* ==========================================
+   MOBILE ADMIN HEADER
+   ========================================== */
 
-@media (max-width: 800px) {
+.admin-mobile-header {
+  display: none;
+}
+
+
+.admin-sidebar-backdrop {
+  display: none;
+}
+
+
+/* ==========================================
+   SMALL LAPTOP / TABLET
+   ========================================== */
+
+@media (max-width: 1024px) {
+
   .admin-main-content {
-    margin-left: 78px;
+    width:
+      calc(
+        100% - 84px
+      );
+
+    margin-left: 84px;
+  }
+}
+
+
+/* ==========================================
+   PHONE ADMIN LAYOUT
+   ========================================== */
+
+@media (max-width: 700px) {
+
+  .admin-layout {
+    padding-top: 64px;
+  }
+
+
+  .admin-main-content {
+    width: 100%;
+
+    margin-left: 0;
+
+    min-height:
+      calc(
+        100vh - 64px
+      );
+  }
+
+
+  .admin-mobile-header {
+    position: fixed;
+
+    top: 0;
+    left: 0;
+    right: 0;
+
+    z-index: 3200;
+
+    height: 64px;
+
+    padding:
+      0
+      15px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 13px;
+
+    background: #191d18;
+
+    border-bottom:
+      1px solid
+      rgba(
+        255,
+        255,
+        255,
+        0.07
+      );
+
+    box-shadow:
+      0 3px 14px
+      rgba(0, 0, 0, 0.18);
+  }
+
+
+  .admin-mobile-menu-button {
+    width: 40px;
+    height: 40px;
+
+    flex-shrink: 0;
+
+    padding: 0;
+
+    border:
+      1px solid
+      rgba(
+        255,
+        255,
+        255,
+        0.12
+      );
+
+    border-radius: 8px;
+
+    background:
+      rgba(
+        255,
+        255,
+        255,
+        0.04
+      );
+
+    color: #d4a85c;
+
+    font-size: 21px;
+
+    cursor: pointer;
+  }
+
+
+  .admin-mobile-brand {
+    display: flex;
+
+    flex-direction: column;
+
+    line-height: 1.1;
+  }
+
+
+  .admin-mobile-brand strong {
+    color: #f7f0e6;
+
+    font-family:
+      Georgia,
+      "Times New Roman",
+      serif;
+
+    font-size: 17px;
+  }
+
+
+  .admin-mobile-brand span {
+    margin-top: 3px;
+
+    color: #d4a85c;
+
+    font-size: 8px;
+
+    font-weight: 600;
+
+    letter-spacing: 1.6px;
+
+    text-transform: uppercase;
+  }
+
+
+  .admin-sidebar-backdrop {
+    position: fixed;
+
+    inset: 64px 0 0 0;
+
+    z-index: 3090;
+
+    display: block;
+
+    padding: 0;
+
+    border: none;
+
+    background:
+      rgba(
+        0,
+        0,
+        0,
+        0.45
+      );
   }
 }

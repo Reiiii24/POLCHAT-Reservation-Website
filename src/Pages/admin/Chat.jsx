@@ -1,98 +1,98 @@
-import { useState } from 'react';
-import './Chat.css';
+import { useState } from "react";
+import "./Chat.css";
 
 const initialChats = [
   {
     id: 1,
-    name: 'Juan Dela Cruz',
-    email: 'juan.delacruz@email.com',
-    lastMessage: 'Thank you! I will wait for the confirmation.',
-    time: '10:32 AM',
+    name: "Juan Dela Cruz",
+    email: "juan.delacruz@email.com",
+    lastMessage: "Thank you! I will wait for the confirmation.",
+    time: "10:32 AM",
     unread: 2,
     messages: [
       {
         id: 1,
-        sender: 'guest',
-        text: 'Hello, I would like to ask about my reservation.',
-        time: '10:25 AM',
+        sender: "guest",
+        text: "Hello, I would like to ask about my reservation.",
+        time: "10:25 AM",
       },
       {
         id: 2,
-        sender: 'admin',
-        text: 'Hello Juan! Sure, may I have your booking name?',
-        time: '10:27 AM',
+        sender: "admin",
+        text: "Hello Juan! Sure, may I have your booking name?",
+        time: "10:27 AM",
       },
       {
         id: 3,
-        sender: 'guest',
-        text: 'Juan Dela Cruz. I booked an Overnight Stay.',
-        time: '10:29 AM',
+        sender: "guest",
+        text: "Juan Dela Cruz. I booked an Overnight Stay.",
+        time: "10:29 AM",
       },
       {
         id: 4,
-        sender: 'admin',
-        text: 'Thank you! I found your reservation. It is currently being processed.',
-        time: '10:30 AM',
+        sender: "admin",
+        text: "Thank you! I found your reservation. It is currently being processed.",
+        time: "10:30 AM",
       },
       {
         id: 5,
-        sender: 'guest',
-        text: 'Thank you! I will wait for the confirmation.',
-        time: '10:32 AM',
+        sender: "guest",
+        text: "Thank you! I will wait for the confirmation.",
+        time: "10:32 AM",
       },
     ],
   },
   {
     id: 2,
-    name: 'Maria Santos',
-    email: 'maria.santos@email.com',
-    lastMessage: 'Can I change my booking date?',
-    time: '9:15 AM',
+    name: "Maria Santos",
+    email: "maria.santos@email.com",
+    lastMessage: "Can I change my booking date?",
+    time: "9:15 AM",
     unread: 1,
     messages: [
       {
         id: 1,
-        sender: 'guest',
-        text: 'Can I change my booking date?',
-        time: '9:15 AM',
+        sender: "guest",
+        text: "Can I change my booking date?",
+        time: "9:15 AM",
       },
     ],
   },
   {
     id: 3,
-    name: 'Pedro Reyes',
-    email: 'pedro.reyes@email.com',
-    lastMessage: 'I already sent my payment receipt.',
-    time: 'Yesterday',
+    name: "Pedro Reyes",
+    email: "pedro.reyes@email.com",
+    lastMessage: "I already sent my payment receipt.",
+    time: "Yesterday",
     unread: 0,
     messages: [
       {
         id: 1,
-        sender: 'guest',
-        text: 'I already sent my payment receipt.',
-        time: 'Yesterday',
+        sender: "guest",
+        text: "I already sent my payment receipt.",
+        time: "Yesterday",
       },
     ],
   },
   {
     id: 4,
-    name: 'Ana Lopez',
-    email: 'ana.lopez@email.com',
-    lastMessage: 'Thank you for your help!',
-    time: 'Yesterday',
+    name: "Ana Lopez",
+    email: "ana.lopez@email.com",
+    lastMessage: "Thank you for your help!",
+    time: "Yesterday",
     unread: 0,
     messages: [
       {
         id: 1,
-        sender: 'admin',
-        text: 'Your reservation has been cancelled successfully.',
-        time: 'Yesterday',
+        sender: "admin",
+        text: "Your reservation has been cancelled successfully.",
+        time: "Yesterday",
       },
       {
         id: 2,
-        sender: 'guest',
-        text: 'Thank you for your help!',
-        time: 'Yesterday',
+        sender: "guest",
+        text: "Thank you for your help!",
+        time: "Yesterday",
       },
     ],
   },
@@ -100,9 +100,10 @@ const initialChats = [
 
 export default function Chat() {
   const [chats, setChats] = useState(initialChats);
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState("");
   const [selectedChat, setSelectedChat] = useState(initialChats[0]);
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState("");
+  const [mobileConversationOpen, setMobileConversationOpen] = useState(false);
 
   const filteredChats = chats.filter(
     (chat) =>
@@ -112,72 +113,87 @@ export default function Chat() {
 
   const selectChat = (chat) => {
     setSelectedChat(chat);
+    setMobileConversationOpen(true);
 
-    setChats((prev) =>
-      prev.map((item) =>
+    setChats((previousChats) =>
+      previousChats.map((item) =>
         item.id === chat.id
-          ? { ...item, unread: 0 }
+          ? {
+              ...item,
+              unread: 0,
+            }
           : item
       )
     );
   };
 
-  const sendMessage = (e) => {
-    e.preventDefault();
+  const sendMessage = (event) => {
+    event.preventDefault();
 
-    if (!message.trim()) return;
+    const trimmedMessage = message.trim();
+
+    if (!trimmedMessage) {
+      return;
+    }
 
     const newMessage = {
       id: Date.now(),
-      sender: 'admin',
-      text: message,
-      time: 'Just now',
+      sender: "admin",
+      text: trimmedMessage,
+      time: "Just now",
     };
 
     const updatedChat = {
       ...selectedChat,
-      lastMessage: message,
-      time: 'Just now',
-      messages: [...selectedChat.messages, newMessage],
+      lastMessage: trimmedMessage,
+      time: "Just now",
+      messages: [
+        ...selectedChat.messages,
+        newMessage,
+      ],
     };
 
     setSelectedChat(updatedChat);
 
-    setChats((prev) =>
-      prev.map((chat) =>
-        chat.id === selectedChat.id ? updatedChat : chat
+    setChats((previousChats) =>
+      previousChats.map((chat) =>
+        chat.id === selectedChat.id
+          ? updatedChat
+          : chat
       )
     );
 
-    setMessage('');
+    setMessage("");
   };
 
   return (
     <div className="chat-page">
+      <header className="chat-page-header">
+        <h1>Chat</h1>
+        <p>Communicate with your guests.</p>
+      </header>
 
-      <div className="chat-header">
-        <div>
-          <h1>Chat</h1>
-          <p>Communicate with your guests</p>
-        </div>
-      </div>
-
-      <div className="chat-container">
-
+      <div
+        className={`chat-container ${
+          mobileConversationOpen
+            ? "mobile-conversation-open"
+            : ""
+        }`}
+      >
         {/* Conversations */}
-        <div className="chat-sidebar">
-
+        <aside className="chat-sidebar">
           <div className="chat-search">
             <input
               type="text"
               placeholder="Search guests..."
               value={search}
-              onChange={(e) => setSearch(e.target.value)}
+              onChange={(event) =>
+                setSearch(event.target.value)
+              }
             />
           </div>
 
           <div className="chat-list">
-
             {filteredChats.length === 0 ? (
               <div className="chat-no-results">
                 No conversations found.
@@ -185,11 +201,16 @@ export default function Chat() {
             ) : (
               filteredChats.map((chat) => (
                 <button
+                  type="button"
                   key={chat.id}
                   className={`chat-preview ${
-                    selectedChat.id === chat.id ? 'active' : ''
+                    selectedChat.id === chat.id
+                      ? "active"
+                      : ""
                   }`}
-                  onClick={() => selectChat(chat)}
+                  onClick={() =>
+                    selectChat(chat)
+                  }
                 >
                   <div className="chat-avatar">
                     {chat.name.charAt(0)}
@@ -197,12 +218,19 @@ export default function Chat() {
 
                   <div className="chat-preview-content">
                     <div className="chat-preview-top">
-                      <strong>{chat.name}</strong>
-                      <small>{chat.time}</small>
+                      <strong>
+                        {chat.name}
+                      </strong>
+
+                      <small>
+                        {chat.time}
+                      </small>
                     </div>
 
                     <div className="chat-preview-bottom">
-                      <span>{chat.lastMessage}</span>
+                      <span>
+                        {chat.lastMessage}
+                      </span>
 
                       {chat.unread > 0 && (
                         <b className="chat-unread">
@@ -214,33 +242,41 @@ export default function Chat() {
                 </button>
               ))
             )}
-
           </div>
-        </div>
+        </aside>
 
         {/* Conversation */}
-        <div className="chat-conversation">
-
+        <section className="chat-conversation">
           <div className="conversation-header">
+            <button
+              type="button"
+              className="conversation-back-button"
+              onClick={() =>
+                setMobileConversationOpen(false)
+              }
+              aria-label="Back to conversations"
+            >
+              ‹
+            </button>
 
             <div className="chat-avatar large">
               {selectedChat.name.charAt(0)}
             </div>
 
-            <div>
+            <div className="conversation-person">
               <h2>{selectedChat.name}</h2>
               <p>{selectedChat.email}</p>
             </div>
-
           </div>
 
           <div className="messages">
-
             {selectedChat.messages.map((msg) => (
               <div
                 key={msg.id}
                 className={`message-row ${
-                  msg.sender === 'admin' ? 'admin-message' : 'guest-message'
+                  msg.sender === "admin"
+                    ? "admin-message"
+                    : "guest-message"
                 }`}
               >
                 <div className="message-bubble">
@@ -249,28 +285,27 @@ export default function Chat() {
                 </div>
               </div>
             ))}
-
           </div>
 
-          <form className="message-form" onSubmit={sendMessage}>
-
+          <form
+            className="message-form"
+            onSubmit={sendMessage}
+          >
             <input
               type="text"
               placeholder="Type your message..."
               value={message}
-              onChange={(e) => setMessage(e.target.value)}
+              onChange={(event) =>
+                setMessage(event.target.value)
+              }
             />
 
             <button type="submit">
               Send
             </button>
-
           </form>
-
-        </div>
-
+        </section>
       </div>
-
     </div>
   );
 }

@@ -1,252 +1,528 @@
 @import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Poppins:wght@300;400;500;600&display=swap");
 
-@import "../../App.css";
+/* ==========================================
+   DIRECTION PAGE
+   ========================================== */
+
+.direction-page,
+.direction-page * {
+  box-sizing: border-box;
+}
 
 .direction-page {
   position: relative;
+
+  width: 100%;
+  min-width: 0;
   min-height: 100vh;
-  overflow: hidden;
-  color: #fff;
-  font-family: "Poppins", sans-serif;
-  background: url("../../Assets/Background.png") center/cover no-repeat;
+
+  overflow-x: hidden;
+
+  color: #ffffff;
+
+  font-family:
+    "Poppins",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+
+  background:
+    url("../../Assets/Background.png")
+    center / cover
+    no-repeat;
 }
 
 .direction-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(8, 22, 10, 0.72);
+
   z-index: 0;
+
+  background:
+    rgba(8, 22, 10, 0.72);
+
+  pointer-events: none;
 }
 
 .direction-container {
   position: relative;
   z-index: 1;
-  width: min(1300px, 92%);
-  margin: auto;
-  padding: 120px 0 60px;
+
+  width: min(1300px, calc(100% - 40px));
+
+  margin: 0 auto;
+
+  padding:
+    clamp(52px, 7vw, 88px)
+    0
+    clamp(44px, 6vw, 64px);
 }
 
-/* ================= HERO ================= */
+
+/* ==========================================
+   HERO
+   ========================================== */
 
 .direction-hero {
+  width: min(100%, 820px);
+
+  margin:
+    0
+    auto
+    clamp(30px, 5vw, 46px);
+
   text-align: center;
-  margin-bottom: 45px;
 }
 
 .direction-hero h4 {
+  margin:
+    0
+    0
+    15px;
+
   color: #d6bb63;
-  font-size: 15px;
-  letter-spacing: 6px;
-  margin-bottom: 15px;
+
+  font-size:
+    clamp(0.72rem, 1.2vw, 0.94rem);
+
+  letter-spacing:
+    clamp(3px, 0.65vw, 6px);
 }
 
 .direction-hero h1 {
-  font-family: "Cinzel", serif;
-  font-size: clamp(2.5rem, 5vw, 4.5rem);
-  margin-bottom: 18px;
+  margin:
+    0
+    0
+    18px;
+
+  color: #ffffff;
+
+  font-family:
+    "Cinzel",
+    Georgia,
+    serif;
+
+  font-size:
+    clamp(2.25rem, 6vw, 4.5rem);
+
   font-weight: 700;
+
+  line-height: 1.08;
 }
 
-.direction-hero span {
+.direction-hero h1 span {
   color: #b4d57d;
 }
 
 .direction-hero p {
-  max-width: 700px;
-  margin: auto;
-  font-size: 1.1rem;
+  width: min(100%, 700px);
+
+  margin: 0 auto;
+
   color: #eeeeee;
+
+  font-size:
+    clamp(0.95rem, 1.5vw, 1.1rem);
+
   line-height: 1.7;
 }
 
-/* ================= MAP ================= */
+
+/* ==========================================
+   MAP
+   ========================================== */
 
 .map-card {
   position: relative;
+
+  width: 100%;
+
+  margin-bottom:
+    clamp(30px, 5vw, 46px);
+
   overflow: hidden;
-  border-radius: 28px;
-  border: 2px solid rgba(214, 187, 99, .55);
-  background: rgba(255,255,255,.07);
+
+  border:
+    2px solid
+    rgba(214, 187, 99, 0.55);
+
+  border-radius:
+    clamp(18px, 3vw, 28px);
+
+  background:
+    rgba(255, 255, 255, 0.07);
+
+  box-shadow:
+    0 20px 50px
+    rgba(0, 0, 0, 0.45);
+
   backdrop-filter: blur(10px);
-  box-shadow: 0 20px 50px rgba(0,0,0,.45);
-  margin-bottom: 45px;
 }
 
 .map-card iframe {
   display: block;
+
   width: 100%;
-  height: 600px;
+  height:
+    clamp(420px, 52vw, 600px);
+
   border: 0;
 }
 
-/* ================= TRAVEL CARD ================= */
+
+/* ==========================================
+   TRAVEL CARD
+   ========================================== */
 
 .travel-card {
   position: absolute;
-  top: 125px;
-  left: 10px;
-  width: 340px;
-  background: rgba(255,255,255,.95);
-  color: #17351d;
-  border-radius: 8px;
-  padding: 16px 20px;
-  box-shadow: 0 4px 15px rgba(0,0,0,.2);
+
+  top:
+    clamp(24px, 8vw, 125px);
+
+  left: 14px;
+
   z-index: 20;
+
+  width:
+    min(340px, calc(100% - 28px));
+
+  padding:
+    16px
+    20px;
+
+  border-radius: 10px;
+
+  background:
+    rgba(255, 255, 255, 0.96);
+
+  box-shadow:
+    0 4px 15px
+    rgba(0, 0, 0, 0.2);
+
+  color: #17351d;
 }
 
 .travel-icon {
   width: 44px;
   height: 44px;
-  border-radius: 50%;
-  background: #4e6933;
+
+  margin-bottom: 10px;
+
   display: flex;
+
   align-items: center;
   justify-content: center;
+
+  border-radius: 50%;
+
+  background: #4e6933;
+
+  color: #ffffff;
+
   font-size: 22px;
-  color: white;
-  margin-bottom: 10px;
 }
 
 .travel-card h3 {
-  margin: 0;
+  margin: 0 0 6px;
+
+  color: #284b2d;
+
   font-size: 1.05rem;
   font-weight: 600;
 }
 
-.travel-card h1 {
-  margin: 6px 0;
-  font-size: 2.2rem;
-  color: #284b2d;
-}
-
 .travel-card p {
   margin: 0;
-  color: #666;
+
+  color: #666666;
+
   font-size: 0.88rem;
-  line-height: 1.3;
+
+  line-height: 1.45;
 }
 
-/* ================= CONTACT ================= */
 
-.contact-grid {
+/* ==========================================
+   CONTACT CARDS
+   ========================================== */
+
+/*
+  These selectors are scoped to .direction-page because
+  Home.css also uses the generic class name .info-card.
+*/
+
+.direction-page .contact-grid {
+  width: 100%;
+
   display: grid;
-  grid-template-columns: repeat(4,1fr);
-  gap: 25px;
+
+  grid-template-columns:
+    repeat(4, minmax(0, 1fr));
+
+  gap:
+    clamp(14px, 2.5vw, 25px);
 }
 
-.info-card {
+.direction-page .info-card {
+  min-width: 0;
+
   display: flex;
-  gap: 18px;
-  padding: 28px;
+
+  align-items: flex-start;
+
+  gap:
+    clamp(12px, 2vw, 18px);
+
+  padding:
+    clamp(18px, 2.5vw, 28px);
+
   border-radius: 24px;
-  background: rgba(255,255,255,.88);
+
+  background:
+    rgba(255, 255, 255, 0.9);
+
+  box-shadow:
+    0 12px 30px
+    rgba(0, 0, 0, 0.2);
+
   color: #203620;
-  transition: .3s;
-  box-shadow: 0 12px 30px rgba(0,0,0,.2);
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
-.info-card:hover {
-  transform: translateY(-8px);
+.direction-page .info-card:hover {
+  transform:
+    translateY(-5px);
+
+  box-shadow:
+    0 16px 34px
+    rgba(0, 0, 0, 0.24);
 }
 
-.icon {
-  width: 60px;
-  height: 60px;
-  min-width: 60px;
-  border-radius: 50%;
-  background: #4e6933;
-  color: white;
+.direction-page .icon {
+  width: 56px;
+  height: 56px;
+
+  min-width: 56px;
+
   display: flex;
+
   align-items: center;
   justify-content: center;
-  font-size: 26px;
+
+  border-radius: 50%;
+
+  background: #4e6933;
+
+  color: #ffffff;
+
+  font-size: 24px;
 }
 
-.info-card h3 {
-  margin: 0 0 10px;
+.direction-page .info-card > div:last-child {
+  min-width: 0;
+}
+
+.direction-page .info-card h3 {
+  margin:
+    0
+    0
+    10px;
+
   color: #274726;
-  font-size: 1rem;
+
+  font-size:
+    clamp(0.86rem, 1.25vw, 1rem);
+
   letter-spacing: 1px;
 }
 
-.info-card p {
+.direction-page .info-card p {
   margin: 0;
-  line-height: 1.8;
-  font-size: .95rem;
+
+  color: #4c5b4d;
+
+  font-size:
+    clamp(0.86rem, 1.2vw, 0.95rem);
+
+  line-height: 1.7;
+
+  overflow-wrap: anywhere;
 }
 
-/* ================= FOOTER ================= */
+
+/* ==========================================
+   FOOTER QUOTE
+   ========================================== */
 
 .direction-footer {
+  width: min(100%, 900px);
+
+  margin:
+    clamp(36px, 6vw, 55px)
+    auto
+    0;
+
   text-align: center;
-  margin-top: 55px;
 }
 
 .direction-footer p {
+  margin: 0;
+
   color: #d8c277;
-  font-size: 1.25rem;
-  font-family: "Cinzel", serif;
+
+  font-family:
+    "Cinzel",
+    Georgia,
+    serif;
+
+  font-size:
+    clamp(0.95rem, 2vw, 1.25rem);
+
   letter-spacing: 1px;
+
+  line-height: 1.6;
 }
 
-/* ================= RESPONSIVE ================= */
 
-@media (max-width:1100px){
+/* ==========================================
+   TABLET / SMALL LAPTOP
+   ========================================== */
 
-.contact-grid{
-grid-template-columns:repeat(2,1fr);
+@media (max-width: 1100px) {
+  .direction-page .contact-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
 }
 
+
+/* ==========================================
+   MOBILE / TABLET
+   ========================================== */
+
+@media (max-width: 768px) {
+  .direction-container {
+    width:
+      min(100% - 28px, 1300px);
+
+    padding-top: 42px;
+  }
+
+  .map-card {
+    display: flex;
+    flex-direction: column;
+
+    overflow: hidden;
+  }
+
+  /*
+    On smaller screens, the address card becomes part of the
+    normal flow instead of floating over the map.
+  */
+  .travel-card {
+    position: relative;
+
+    top: auto;
+    left: auto;
+
+    width: 100%;
+
+    border-radius: 0;
+
+    box-shadow: none;
+  }
+
+  .map-card iframe {
+    height:
+      clamp(330px, 70vw, 450px);
+  }
+
+  .direction-page .contact-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .direction-page .info-card:hover {
+    transform: none;
+  }
 }
 
-@media (max-width:768px){
 
-.direction-container{
-padding-top:100px;
+/* ==========================================
+   SMALL PHONE
+   ========================================== */
+
+@media (max-width: 500px) {
+  .direction-container {
+    width:
+      min(100% - 20px, 1300px);
+
+    padding-bottom: 38px;
+  }
+
+  .direction-hero {
+    margin-bottom: 28px;
+  }
+
+  .direction-hero h1 {
+    font-size:
+      clamp(2rem, 11vw, 2.75rem);
+  }
+
+  .map-card iframe {
+    height:
+      clamp(300px, 88vw, 370px);
+  }
+
+  .travel-card {
+    padding: 16px;
+  }
+
+  .direction-page .info-card {
+    padding: 18px;
+
+    border-radius: 18px;
+  }
+
+  .direction-page .icon {
+    width: 48px;
+    height: 48px;
+
+    min-width: 48px;
+
+    font-size: 21px;
+  }
 }
 
-.direction-hero h1{
-font-size:2.8rem;
-}
 
-.travel-card{
-position:relative;
-top:0;
-left:0;
-width:100%;
-border-radius:0;
-box-shadow:none;
-}
+/* ==========================================
+   VERY SMALL PHONE
+   ========================================== */
 
-.map-card iframe{
-height:450px;
-}
+@media (max-width: 360px) {
+  .direction-container {
+    width:
+      min(100% - 14px, 1300px);
+  }
 
-.contact-grid{
-grid-template-columns:1fr;
-}
+  .direction-page .info-card {
+    gap: 10px;
 
-}
+    padding:
+      16px
+      13px;
+  }
 
-@media (max-width:500px){
+  .direction-page .icon {
+    width: 42px;
+    height: 42px;
 
-.direction-hero h1{
-font-size:2.2rem;
-}
+    min-width: 42px;
 
-.direction-hero p{
-font-size:.95rem;
-}
-
-.map-card iframe{
-height:350px;
-}
-
-.travel-card h1{
-font-size:2.4rem;
-}
-
-.info-card{
-padding:22px;
-}
+    font-size: 18px;
+  }
 }

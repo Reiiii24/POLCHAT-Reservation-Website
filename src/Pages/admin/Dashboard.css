@@ -1,113 +1,400 @@
-.dashboard-page {
-  padding: 32px;
-  background: #efe6d7;
-  min-height: 100vh;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+/* ==========================================
+   ADMIN DASHBOARD
+   ========================================== */
+
+.dashboard-page,
+.dashboard-page * {
+  box-sizing: border-box;
 }
 
-.dashboard-page h1 {
-  font-family: Georgia, serif;
-  color: #2c2217;
-  margin-bottom: 24px;
+.dashboard-page {
+  width: 100%;
+  min-width: 0;
+  min-height: 100vh;
+
+  padding:
+    clamp(20px, 3vw, 32px);
+
+  overflow-x: hidden;
+
+  background: #efe6d7;
+
+  font-family:
+    "Inter",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
 }
+
+.dashboard-heading {
+  width: min(100%, 1400px);
+  margin: 0 auto 24px;
+}
+
+.dashboard-heading h1 {
+  margin: 0;
+
+  color: #2c2217;
+
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  font-size:
+    clamp(1.75rem, 3vw, 2.3rem);
+}
+
+.dashboard-heading p {
+  margin: 7px 0 0;
+
+  color: #8a7353;
+
+  font-size:
+    clamp(0.82rem, 1.2vw, 0.95rem);
+
+  line-height: 1.5;
+}
+
+
+/* ==========================================
+   STAT CARDS
+   ========================================== */
 
 .stat-grid {
+  width: min(100%, 1400px);
+
+  margin: 0 auto 28px;
+
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 16px;
-  margin-bottom: 28px;
+
+  grid-template-columns:
+    repeat(4, minmax(0, 1fr));
+
+  gap: clamp(12px, 2vw, 16px);
 }
 
 .stat-card {
-  padding: 20px;
+  min-width: 0;
+
+  padding:
+    clamp(16px, 2vw, 22px);
+
   border-radius: 16px;
+
   background: #fff9ef;
-  box-shadow: 0 10px 24px rgba(71, 52, 28, 0.08);
+
+  box-shadow:
+    0 10px 24px
+    rgba(71, 52, 28, 0.08);
+
   text-align: center;
 }
 
 .stat-value {
-  font-size: 2rem;
-  font-weight: 700;
-  color: #2f2418;
   margin: 0;
+
+  color: #2f2418;
+
+  font-size:
+    clamp(1.7rem, 3vw, 2.1rem);
+
+  font-weight: 700;
 }
 
 .stat-label {
   margin: 4px 0 0;
+
   color: #6b5a47;
-  font-size: 0.9rem;
+
+  font-size:
+    clamp(0.78rem, 1.2vw, 0.9rem);
+
+  line-height: 1.4;
 }
 
+
+/* ==========================================
+   MAIN DASHBOARD GRID
+   ========================================== */
+
 .dashboard-grid {
+  width: min(100%, 1400px);
+
+  margin: 0 auto;
+
   display: grid;
-  grid-template-columns: 1.1fr 1fr;
+
+  grid-template-columns:
+    minmax(0, 1.1fr)
+    minmax(0, 1fr);
+
   gap: 20px;
+
+  align-items: start;
 }
 
 .chart-card,
 .recent-card {
-  background: #fff9ef;
+  min-width: 0;
+
+  padding:
+    clamp(16px, 2vw, 20px);
+
   border-radius: 16px;
-  padding: 20px;
-  box-shadow: 0 10px 24px rgba(71, 52, 28, 0.08);
+
+  background: #fff9ef;
+
+  box-shadow:
+    0 10px 24px
+    rgba(71, 52, 28, 0.08);
 }
 
 .chart-card h2,
 .recent-card h2 {
   margin: 0 0 16px;
-  font-family: Georgia, serif;
-  font-size: 1.2rem;
+
   color: #2c2217;
+
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  font-size:
+    clamp(1.05rem, 1.8vw, 1.25rem);
+}
+
+.dashboard-chart-wrap {
+  width: 100%;
+  min-width: 0;
+  height: 280px;
+}
+
+
+/* ==========================================
+   RECENT BOOKINGS
+   ========================================== */
+
+.recent-table-wrap {
+  width: 100%;
+
+  overflow-x: auto;
+
+  -webkit-overflow-scrolling: touch;
 }
 
 .recent-table {
   width: 100%;
+
   border-collapse: collapse;
+
   font-size: 0.9rem;
 }
 
 .recent-table th {
-  text-align: left;
-  color: #8a7353;
-  font-weight: 600;
   padding: 8px;
-  border-bottom: 1px solid rgba(138, 115, 83, 0.2);
+
+  border-bottom:
+    1px solid
+    rgba(138, 115, 83, 0.2);
+
+  color: #8a7353;
+
+  font-weight: 600;
+
+  text-align: left;
+
+  white-space: nowrap;
 }
 
 .recent-table td {
   padding: 10px 8px;
+
+  border-bottom:
+    1px solid
+    rgba(138, 115, 83, 0.1);
+
   color: #4d4638;
-  border-bottom: 1px solid rgba(138, 115, 83, 0.1);
 }
 
 .status-badge {
+  display: inline-block;
+
   padding: 4px 10px;
+
   border-radius: 999px;
+
   font-size: 0.78rem;
   font-weight: 600;
+
+  white-space: nowrap;
 }
 
 .status-badge.confirmed {
-  background: rgba(87, 155, 87, 0.15);
+  background:
+    rgba(87, 155, 87, 0.15);
+
   color: #3f7a3f;
 }
 
 .status-badge.pending {
-  background: rgba(212, 168, 92, 0.2);
+  background:
+    rgba(212, 168, 92, 0.2);
+
   color: #a17c2d;
 }
 
 .status-badge.cancelled {
-  background: rgba(200, 80, 80, 0.15);
+  background:
+    rgba(200, 80, 80, 0.15);
+
   color: #b04242;
 }
 
-@media (max-width: 1000px) {
+
+/* ==========================================
+   TABLET / SMALL LAPTOP
+   ========================================== */
+
+@media (max-width: 1100px) {
   .stat-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
   }
+
   .dashboard-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+
+/* ==========================================
+   MOBILE
+   ========================================== */
+
+@media (max-width: 700px) {
+  .dashboard-page {
+    padding:
+      18px
+      14px
+      32px;
+  }
+
+  .stat-grid {
+    gap: 10px;
+  }
+
+  .stat-card {
+    padding:
+      15px
+      10px;
+  }
+
+  .dashboard-chart-wrap {
+    height: 240px;
+  }
+
+  /*
+    On phones, the recent-bookings table becomes a card list.
+  */
+  .recent-table,
+  .recent-table tbody,
+  .recent-table tr,
+  .recent-table td {
+    display: block;
+
+    width: 100%;
+  }
+
+  .recent-table thead {
+    display: none;
+  }
+
+  .recent-table tr {
+    margin-bottom: 12px;
+
+    padding: 12px;
+
+    border:
+      1px solid
+      rgba(138, 115, 83, 0.14);
+
+    border-radius: 12px;
+
+    background: #fffdf8;
+  }
+
+  .recent-table tr:last-child {
+    margin-bottom: 0;
+  }
+
+  .recent-table td {
+    position: relative;
+
+    min-height: 34px;
+
+    padding:
+      7px
+      0
+      7px
+      44%;
+
+    border-bottom:
+      1px solid
+      rgba(138, 115, 83, 0.08);
+
+    text-align: right;
+
+    overflow-wrap: anywhere;
+  }
+
+  .recent-table td:last-child {
+    border-bottom: none;
+  }
+
+  .recent-table td::before {
+    content:
+      attr(data-label);
+
+    position: absolute;
+
+    left: 0;
+    top: 7px;
+
+    width: 40%;
+
+    color: #8a7353;
+
+    font-size: 0.75rem;
+    font-weight: 700;
+
+    text-align: left;
+  }
+}
+
+
+/* ==========================================
+   SMALL PHONE
+   ========================================== */
+
+@media (max-width: 420px) {
+  .dashboard-page {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .stat-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard-chart-wrap {
+    height: 220px;
+  }
+
+  .chart-card,
+  .recent-card {
+    padding: 14px;
   }
 }

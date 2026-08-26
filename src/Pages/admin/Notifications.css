@@ -1,90 +1,240 @@
-.notif-page {
-  padding: 32px;
-  background: #efe6d7;
-  min-height: 100vh;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  max-width: 800px;
-  margin: 0 auto;
+/* ==========================================
+   ADMIN NOTIFICATIONS
+   ========================================== */
+
+.notif-page,
+.notif-page * {
+  box-sizing: border-box;
 }
 
+.notif-page {
+  width: min(100%, 900px);
+  min-width: 0;
+  min-height: 100vh;
+
+  margin: 0 auto;
+
+  padding:
+    clamp(20px, 3vw, 32px);
+
+  background: #efe6d7;
+
+  font-family:
+    "Inter",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+}
+
+
+/* ==========================================
+   HEADER
+   ========================================== */
+
 .notif-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
   margin-bottom: 20px;
+
+  display: flex;
+
+  align-items: flex-start;
+  justify-content: space-between;
+
+  gap: 18px;
+}
+
+.notif-header > div {
+  min-width: 0;
 }
 
 .notif-header h1 {
-  font-family: Georgia, serif;
-  color: #2c2217;
+  margin: 0;
+
   display: flex;
+
   align-items: center;
+
+  flex-wrap: wrap;
+
   gap: 10px;
+
+  color: #2c2217;
+
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  font-size:
+    clamp(1.75rem, 3vw, 2.3rem);
+}
+
+.notif-header p {
+  margin:
+    7px
+    0
+    0;
+
+  color: #8a7353;
+
+  font-size:
+    clamp(0.82rem, 1.3vw, 0.95rem);
+
+  line-height: 1.5;
 }
 
 .unread-count {
-  background: #b04242;
-  color: #fff;
-  font-size: 0.8rem;
-  padding: 2px 9px;
+  padding:
+    2px
+    9px;
+
   border-radius: 999px;
-  font-family: 'Inter', sans-serif;
+
+  background: #b04242;
+
+  color: #ffffff;
+
+  font-family:
+    "Inter",
+    sans-serif;
+
+  font-size: 0.8rem;
 }
 
 .mark-all-btn {
-  padding: 8px 16px;
+  min-height: 40px;
+
+  padding:
+    8px
+    16px;
+
+  flex-shrink: 0;
+
+  border:
+    1px solid
+    rgba(138, 115, 83, 0.3);
+
   border-radius: 999px;
-  border: 1px solid rgba(138, 115, 83, 0.3);
+
   background: #fff9ef;
+
   color: #4d4638;
-  cursor: pointer;
+
+  font-family: inherit;
+
   font-size: 0.85rem;
+
+  cursor: pointer;
 }
 
-.mark-all-btn:hover {
+.mark-all-btn:hover:not(:disabled) {
   background: #f6efe2;
 }
 
+.mark-all-btn:disabled {
+  opacity: 0.55;
+
+  cursor: not-allowed;
+}
+
+
+/* ==========================================
+   FILTERS
+   ========================================== */
+
 .notif-filters {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
   margin-bottom: 20px;
+
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 8px;
 }
 
 .filter-chip {
-  padding: 6px 14px;
+  min-height: 34px;
+
+  padding:
+    6px
+    14px;
+
+  border:
+    1px solid
+    rgba(138, 115, 83, 0.3);
+
   border-radius: 999px;
-  border: 1px solid rgba(138, 115, 83, 0.3);
+
   background: #fff9ef;
+
   color: #6b5a47;
+
+  font-family: inherit;
+
   font-size: 0.85rem;
+
   cursor: pointer;
 }
 
 .filter-chip.active {
-  background: #2c2217;
-  color: #f1dd9a;
   border-color: #2c2217;
+
+  background: #2c2217;
+
+  color: #f1dd9a;
 }
+
+
+/* ==========================================
+   NOTIFICATION LIST
+   ========================================== */
 
 .notif-list {
   display: flex;
+
   flex-direction: column;
+
   gap: 10px;
 }
 
 .notif-card {
-  display: flex;
-  align-items: flex-start;
-  gap: 14px;
-  padding: 16px;
-  border-radius: 14px;
-  background: #fff9ef;
-  box-shadow: 0 6px 18px rgba(71, 52, 28, 0.06);
-  cursor: pointer;
   position: relative;
-  transition: background 0.15s ease;
+
+  width: 100%;
+  min-width: 0;
+
+  padding:
+    16px
+    38px
+    16px
+    16px;
+
+  display: flex;
+
+  align-items: flex-start;
+
+  gap: 14px;
+
+  border: none;
+  border-radius: 14px;
+
+  background: #fff9ef;
+
+  box-shadow:
+    0 6px 18px
+    rgba(71, 52, 28, 0.06);
+
+  color: inherit;
+
+  font-family: inherit;
+
+  text-align: left;
+
+  cursor: pointer;
+
+  transition:
+    background 0.15s ease,
+    transform 0.15s ease;
 }
 
 .notif-card.unread {
@@ -93,36 +243,136 @@
 
 .notif-card:hover {
   background: #f6efe2;
+
+  transform:
+    translateY(-1px);
 }
 
 .notif-icon {
+  flex-shrink: 0;
+
   font-size: 1.3rem;
 }
 
+.notif-content {
+  min-width: 0;
+
+  flex: 1;
+}
+
 .notif-content p {
-  margin: 0 0 4px;
+  margin:
+    0
+    0
+    4px;
+
   color: #2f2418;
+
+  font-size:
+    clamp(0.86rem, 1.3vw, 0.95rem);
+
   line-height: 1.5;
-  font-size: 0.95rem;
+
+  overflow-wrap: anywhere;
 }
 
 .notif-content small {
   color: #8a7353;
+
   font-size: 0.8rem;
 }
 
 .dot {
   position: absolute;
+
   top: 16px;
   right: 16px;
+
   width: 8px;
   height: 8px;
+
   border-radius: 50%;
+
   background: #b04242;
 }
 
 .no-notif {
-  text-align: center;
+  margin: 0;
+
+  padding:
+    40px
+    16px;
+
+  border-radius: 14px;
+
+  background: #fff9ef;
+
   color: #8a7353;
-  padding: 40px 0;
+
+  text-align: center;
+}
+
+
+/* ==========================================
+   MOBILE
+   ========================================== */
+
+@media (max-width: 700px) {
+  .notif-page {
+    width: 100%;
+
+    padding:
+      18px
+      12px
+      32px;
+  }
+
+  .notif-header {
+    flex-direction: column;
+
+    align-items: stretch;
+
+    gap: 14px;
+  }
+
+  .mark-all-btn {
+    width: 100%;
+  }
+
+  .notif-filters {
+    display: grid;
+
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+  .filter-chip {
+    width: 100%;
+  }
+}
+
+@media (max-width: 390px) {
+  .notif-page {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+
+  .notif-card {
+    padding:
+      14px
+      32px
+      14px
+      12px;
+
+    gap: 10px;
+  }
+
+  .notif-icon {
+    font-size: 1.15rem;
+  }
+
+  .dot {
+    top: 14px;
+    right: 12px;
+  }
 }

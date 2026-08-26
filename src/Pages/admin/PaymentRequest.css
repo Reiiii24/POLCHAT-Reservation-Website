@@ -1,144 +1,304 @@
+/* ==========================================
+   PAYMENT REQUESTS
+   ========================================== */
+
+.payment-page,
+.payment-page * {
+  box-sizing: border-box;
+}
+
 .payment-page {
-  padding: 32px;
-  background: #efe6d7;
+  width: 100%;
+  min-width: 0;
   min-height: 100vh;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+  padding:
+    clamp(20px, 3vw, 32px);
+
+  overflow-x: hidden;
+
+  background: #efe6d7;
+
+  font-family:
+    "Inter",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
 }
 
 .payment-header {
-  max-width: 1200px;
+  width: min(100%, 1300px);
+
   margin: 0 auto 20px;
 }
 
 .payment-header h1 {
-  font-family: Georgia, serif;
+  margin: 0;
+
   color: #2c2217;
-  margin-bottom: 6px;
+
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  font-size:
+    clamp(1.75rem, 3vw, 2.3rem);
 }
 
 .payment-header p {
+  margin:
+    7px
+    0
+    0;
+
   color: #8a7353;
+
+  font-size:
+    clamp(0.82rem, 1.3vw, 0.95rem);
+
+  line-height: 1.5;
 }
 
+
+/* ==========================================
+   CONTROLS
+   ========================================== */
+
 .payment-controls {
-  max-width: 1200px;
+  width: min(100%, 1300px);
+
   margin: 0 auto 20px;
+
   display: flex;
-  gap: 12px;
+
   flex-wrap: wrap;
+
+  gap: 12px;
+}
+
+.payment-search,
+.payment-filter {
+  min-height: 44px;
+
+  padding:
+    10px
+    14px;
+
+  outline: none;
+
+  border:
+    1px solid
+    rgba(138, 115, 83, 0.3);
+
+  border-radius: 10px;
+
+  background: #fff9ef;
+
+  color: #3e372f;
+
+  font-family: inherit;
+
+  font-size: 0.95rem;
 }
 
 .payment-search {
-  flex: 1;
-  min-width: 240px;
-  padding: 10px 16px;
-  border-radius: 10px;
-  border: 1px solid rgba(138, 115, 83, 0.3);
-  background: #fff9ef;
-  font-size: 0.95rem;
+  min-width: 220px;
+
+  flex:
+    1 1
+    320px;
 }
 
 .payment-filter {
-  padding: 10px 16px;
-  border-radius: 10px;
-  border: 1px solid rgba(138, 115, 83, 0.3);
-  background: #fff9ef;
-  font-size: 0.95rem;
+  min-width: 180px;
+
+  flex:
+    0 1
+    220px;
 }
 
+.payment-search:focus,
+.payment-filter:focus {
+  border-color: #8f7a55;
+
+  box-shadow:
+    0 0 0 3px
+    rgba(138, 115, 83, 0.1);
+}
+
+
+/* ==========================================
+   TABLE
+   ========================================== */
+
 .payment-table-card {
-  max-width: 1200px;
+  width: min(100%, 1300px);
+
   margin: 0 auto;
-  background: #fff9ef;
-  border-radius: 16px;
-  padding: 20px;
-  box-shadow: 0 10px 24px rgba(71, 52, 28, 0.08);
+
+  padding:
+    clamp(14px, 2vw, 20px);
+
   overflow-x: auto;
+
+  border-radius: 16px;
+
+  background: #fff9ef;
+
+  box-shadow:
+    0 10px 24px
+    rgba(71, 52, 28, 0.08);
+
+  -webkit-overflow-scrolling: touch;
 }
 
 .payment-table {
   width: 100%;
+
+  min-width: 1020px;
+
   border-collapse: collapse;
+
   font-size: 0.88rem;
 }
 
 .payment-table th {
-  text-align: left;
+  padding:
+    10px
+    8px;
+
+  border-bottom:
+    1px solid
+    rgba(138, 115, 83, 0.2);
+
   color: #8a7353;
+
   font-weight: 600;
-  padding: 10px 8px;
-  border-bottom: 1px solid rgba(138, 115, 83, 0.2);
+
+  text-align: left;
+
   white-space: nowrap;
 }
 
 .payment-table td {
-  padding: 13px 8px;
+  padding:
+    13px
+    8px;
+
+  border-bottom:
+    1px solid
+    rgba(138, 115, 83, 0.1);
+
   color: #4d4638;
-  border-bottom: 1px solid rgba(138, 115, 83, 0.1);
+
   white-space: nowrap;
 }
 
 .payment-table td strong {
   display: block;
+
   color: #2c2217;
 }
 
 .payment-table td small {
   display: block;
-  color: #9b8970;
+
   margin-top: 3px;
+
+  color: #9b8970;
 }
 
 .payment-amount {
-  font-weight: 700;
   color: #2c2217 !important;
+
+  font-weight: 700;
 }
 
+
+/* ==========================================
+   STATUS
+   ========================================== */
+
 .payment-status {
-  padding: 4px 10px;
+  display: inline-block;
+
+  padding:
+    4px
+    10px;
+
   border-radius: 999px;
+
   font-size: 0.75rem;
   font-weight: 600;
+
+  white-space: nowrap;
 }
 
 .payment-status.approved {
-  background: rgba(87, 155, 87, 0.15);
+  background:
+    rgba(87, 155, 87, 0.15);
+
   color: #3f7a3f;
 }
 
 .payment-status.pending {
-  background: rgba(212, 168, 92, 0.2);
+  background:
+    rgba(212, 168, 92, 0.2);
+
   color: #a17c2d;
 }
 
 .payment-status.rejected {
-  background: rgba(200, 80, 80, 0.15);
+  background:
+    rgba(200, 80, 80, 0.15);
+
   color: #b04242;
 }
 
+
+/* ==========================================
+   ACTIONS
+   ========================================== */
+
 .payment-actions {
   display: flex;
+
+  flex-wrap: wrap;
+
   gap: 6px;
 }
 
 .approve-btn,
 .reject-btn {
+  min-height: 32px;
+
+  padding:
+    6px
+    10px;
+
   border: none;
   border-radius: 8px;
-  padding: 6px 10px;
-  cursor: pointer;
+
+  font-family: inherit;
+
   font-size: 0.75rem;
   font-weight: 600;
+
+  cursor: pointer;
 }
 
 .approve-btn {
   background: #4f7130;
-  color: white;
+
+  color: #ffffff;
 }
 
 .reject-btn {
   background: #b04242;
-  color: white;
+
+  color: #ffffff;
 }
 
 .approve-btn:hover {
@@ -151,11 +311,205 @@
 
 .action-done {
   color: #8a7353;
+
   font-size: 0.78rem;
 }
 
 .payment-no-results {
-  text-align: center;
-  padding: 30px;
-  color: #8a7353;
+  padding: 30px !important;
+
+  color: #8a7353 !important;
+
+  text-align: center !important;
+}
+
+
+/* ==========================================
+   MOBILE CARD VIEW
+   ========================================== */
+
+@media (max-width: 700px) {
+  .payment-page {
+    padding:
+      18px
+      12px
+      32px;
+  }
+
+  .payment-controls {
+    flex-direction: column;
+  }
+
+  .payment-search,
+  .payment-filter {
+    width: 100%;
+    min-width: 0;
+
+    flex: none;
+  }
+
+  .payment-table-card {
+    padding: 0;
+
+    overflow: visible;
+
+    border-radius: 0;
+
+    background: transparent;
+
+    box-shadow: none;
+  }
+
+  .payment-table {
+    min-width: 0;
+  }
+
+  .payment-table,
+  .payment-table tbody,
+  .payment-table tr,
+  .payment-table td {
+    display: block;
+
+    width: 100%;
+  }
+
+  .payment-table thead {
+    display: none;
+  }
+
+  .payment-table tbody {
+    display: grid;
+
+    gap: 14px;
+  }
+
+  .payment-table tr {
+    padding:
+      14px;
+
+    border:
+      1px solid
+      rgba(138, 115, 83, 0.14);
+
+    border-radius: 14px;
+
+    background: #fff9ef;
+
+    box-shadow:
+      0 8px 20px
+      rgba(71, 52, 28, 0.07);
+  }
+
+  .payment-table td {
+    position: relative;
+
+    min-height: 38px;
+
+    padding:
+      8px
+      0
+      8px
+      42%;
+
+    border-bottom:
+      1px solid
+      rgba(138, 115, 83, 0.08);
+
+    white-space: normal;
+
+    text-align: right;
+
+    overflow-wrap: anywhere;
+  }
+
+  .payment-table td:last-child {
+    border-bottom: none;
+  }
+
+  .payment-table td::before {
+    content:
+      attr(data-label);
+
+    position: absolute;
+
+    left: 0;
+    top: 8px;
+
+    width: 38%;
+
+    color: #8a7353;
+
+    font-size: 0.72rem;
+    font-weight: 700;
+
+    text-align: left;
+  }
+
+  .payment-table td strong,
+  .payment-table td small {
+    text-align: right;
+  }
+
+  .payment-actions {
+    justify-content: flex-end;
+  }
+
+  .payment-empty-row {
+    padding: 0 !important;
+
+    border: none !important;
+
+    background: transparent !important;
+
+    box-shadow: none !important;
+  }
+
+  .payment-empty-row td {
+    padding: 28px 14px !important;
+
+    border: none !important;
+
+    border-radius: 14px;
+
+    background: #fff9ef;
+  }
+
+  .payment-empty-row td::before {
+    display: none;
+  }
+}
+
+@media (max-width: 390px) {
+  .payment-page {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+
+  .payment-table tr {
+    padding:
+      13px
+      11px;
+  }
+
+  .payment-table td {
+    padding-left: 39%;
+
+    font-size: 0.82rem;
+  }
+
+  .payment-table td::before {
+    width: 36%;
+
+    font-size: 0.68rem;
+  }
+
+  .payment-actions {
+    flex-direction: column;
+
+    align-items: flex-end;
+  }
+
+  .payment-actions button {
+    width: min(120px, 100%);
+  }
 }
