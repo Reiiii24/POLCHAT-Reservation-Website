@@ -156,6 +156,19 @@
    NAVIGATION
    ========================================== */
 
+.admin-sidebar-top-link {
+  padding:
+    16px
+    12px
+    0;
+}
+
+
+.admin-sidebar-top-link .admin-nav-link {
+  margin: 0;
+}
+
+
 .admin-sidebar-label {
   padding:
     23px
@@ -460,6 +473,14 @@
   }
 
 
+  .admin-sidebar-top-link {
+    padding:
+      14px
+      10px
+      0;
+  }
+
+
   .admin-nav {
     padding:
       15px
@@ -571,6 +592,14 @@
     font-size: 24px;
 
     cursor: pointer;
+  }
+
+
+  .admin-sidebar-top-link {
+    padding:
+      12px
+      10px
+      0;
   }
 
 
