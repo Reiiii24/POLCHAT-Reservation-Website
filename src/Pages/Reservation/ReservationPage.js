@@ -1,7 +1,10 @@
-import { useEffect, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
+
 import "./ReservationPage.css";
-
-
 
 import placeHolderOne from "../../Assets/placeHolderOne.jpg";
 import placeHolderTwo from "../../Assets/placeHolderTwo.png";
@@ -27,57 +30,111 @@ const resortImages = [
 ];
 
 
+/* =========================
+   DATE HELPERS
+   ========================= */
+
+const formatDateKey = (
+  year,
+  monthIndex,
+  day
+) => {
+  const month = String(
+    monthIndex + 1
+  ).padStart(2, "0");
+
+  const formattedDay = String(
+    day
+  ).padStart(2, "0");
+
+  return `${year}-${month}-${formattedDay}`;
+};
+
+
+const formatDateObjectForDatabase = (
+  date
+) => {
+  return formatDateKey(
+    date.getFullYear(),
+    date.getMonth(),
+    date.getDate()
+  );
+};
+
+
+/* =========================
+   COMPONENT
+   ========================= */
+
 function ReservationPage() {
   const today = new Date();
 
-  const [step, setStep] = useState(1);
+  const [step, setStep] =
+    useState(1);
 
-  const [showSuccess, setShowSuccess] =
-    useState(false);
+  const [
+    showSuccess,
+    setShowSuccess,
+  ] = useState(false);
 
-  const [formError, setFormError] =
-    useState("");
+  const [
+    formError,
+    setFormError,
+  ] = useState("");
 
-  const [isSubmitting, setIsSubmitting] =
-    useState(false);
+  const [
+    isSubmitting,
+    setIsSubmitting,
+  ] = useState(false);
 
 
   /* =========================
      SLIDESHOW
      ========================= */
 
-  const [currentSlide, setCurrentSlide] =
-    useState(0);
+  const [
+    currentSlide,
+    setCurrentSlide,
+  ] = useState(0);
+
 
   useEffect(() => {
-    const slideshowTimer = setInterval(() => {
-      setCurrentSlide((previousSlide) =>
-        previousSlide === resortImages.length - 1
-          ? 0
-          : previousSlide + 1
-      );
-    }, 5000);
+    const slideshowTimer =
+      setInterval(() => {
+        setCurrentSlide(
+          (previousSlide) =>
+            previousSlide ===
+            resortImages.length - 1
+              ? 0
+              : previousSlide + 1
+        );
+      }, 5000);
 
     return () => {
-      clearInterval(slideshowTimer);
+      clearInterval(
+        slideshowTimer
+      );
     };
   }, []);
 
 
   const previousSlide = () => {
-    setCurrentSlide((previousSlideIndex) =>
-      previousSlideIndex === 0
-        ? resortImages.length - 1
-        : previousSlideIndex - 1
+    setCurrentSlide(
+      (previousSlideIndex) =>
+        previousSlideIndex === 0
+          ? resortImages.length - 1
+          : previousSlideIndex - 1
     );
   };
 
 
   const nextSlide = () => {
-    setCurrentSlide((previousSlideIndex) =>
-      previousSlideIndex === resortImages.length - 1
-        ? 0
-        : previousSlideIndex + 1
+    setCurrentSlide(
+      (previousSlideIndex) =>
+        previousSlideIndex ===
+        resortImages.length - 1
+          ? 0
+          : previousSlideIndex + 1
     );
   };
 
@@ -86,13 +143,13 @@ function ReservationPage() {
      FORM DATA
      ========================= */
 
-  const [formData, setFormData] = useState({
+  const [
+    formData,
+    setFormData,
+  ] = useState({
     name: "",
     bookingType: "",
-
-    // NEW
     groupName: "",
-
     address: "",
     contactNumber: "",
     guests: "",
@@ -105,17 +162,47 @@ function ReservationPage() {
 
 
   /* =========================
-     CALENDAR
+     CALENDAR STATE
      ========================= */
 
-  const [currentMonth, setCurrentMonth] =
-    useState(today.getMonth());
+  const [
+    currentMonth,
+    setCurrentMonth,
+  ] = useState(
+    today.getMonth()
+  );
 
-  const [currentYear, setCurrentYear] =
-    useState(today.getFullYear());
+  const [
+    currentYear,
+    setCurrentYear,
+  ] = useState(
+    today.getFullYear()
+  );
 
-  const [selectedDate, setSelectedDate] =
-    useState(null);
+  const [
+    selectedDate,
+    setSelectedDate,
+  ] = useState(null);
+
+
+  /* =========================
+     AVAILABILITY STATE
+     ========================= */
+
+  const [
+    availabilityByDate,
+    setAvailabilityByDate,
+  ] = useState({});
+
+  const [
+    availabilityLoading,
+    setAvailabilityLoading,
+  ] = useState(false);
+
+  const [
+    availabilityError,
+    setAvailabilityError,
+  ] = useState("");
 
 
   const monthNames = [
@@ -134,18 +221,263 @@ function ReservationPage() {
   ];
 
 
-  const daysInMonth = new Date(
-    currentYear,
-    currentMonth + 1,
-    0
-  ).getDate();
+  const daysInMonth =
+    new Date(
+      currentYear,
+      currentMonth + 1,
+      0
+    ).getDate();
 
 
-  const firstDayOfMonth = new Date(
-    currentYear,
-    currentMonth,
-    1
-  ).getDay();
+  const firstDayOfMonth =
+    new Date(
+      currentYear,
+      currentMonth,
+      1
+    ).getDay();
+
+
+  /* =========================
+     LOAD CONFIRMED
+     RESERVATION AVAILABILITY
+     ========================= */
+
+  const fetchConfirmedAvailability =
+    useCallback(async () => {
+      setAvailabilityLoading(
+        true
+      );
+
+      setAvailabilityError("");
+
+      const startDate =
+        formatDateKey(
+          currentYear,
+          currentMonth,
+          1
+        );
+
+      const endDate =
+        formatDateKey(
+          currentYear,
+          currentMonth,
+          daysInMonth
+        );
+
+      const {
+        data,
+        error,
+      } = await supabase.rpc(
+        "get_confirmed_reservation_availability",
+        {
+          p_start_date:
+            startDate,
+
+          p_end_date:
+            endDate,
+        }
+      );
+
+
+      if (error) {
+        console.error(
+          "Reservation availability error:",
+          error
+        );
+
+        setAvailabilityError(
+          "Availability could not be loaded. Final availability will still be checked when you submit."
+        );
+
+        setAvailabilityLoading(
+          false
+        );
+
+        return;
+      }
+
+
+      const nextAvailability =
+        {};
+
+
+      (data || []).forEach(
+        (item) => {
+          nextAvailability[
+            item.reservation_date
+          ] = item;
+        }
+      );
+
+
+      setAvailabilityByDate(
+        nextAvailability
+      );
+
+      setAvailabilityLoading(
+        false
+      );
+    }, [
+      currentMonth,
+      currentYear,
+      daysInMonth,
+    ]);
+
+
+  /* =========================
+     LOAD WHEN MONTH CHANGES
+     ========================= */
+
+  useEffect(() => {
+    fetchConfirmedAvailability();
+  }, [
+    fetchConfirmedAvailability,
+  ]);
+
+
+  /* =========================
+     REALTIME AVAILABILITY
+     ========================= */
+
+  useEffect(() => {
+    const channel =
+      supabase
+        .channel(
+          "reservation-availability"
+        )
+        .on(
+          "broadcast",
+          {
+            event:
+              "availability_changed",
+          },
+          () => {
+            fetchConfirmedAvailability();
+          }
+        )
+        .subscribe();
+
+
+    return () => {
+      supabase.removeChannel(
+        channel
+      );
+    };
+  }, [
+    fetchConfirmedAvailability,
+  ]);
+
+
+  /* =========================
+     AVAILABILITY HELPERS
+     ========================= */
+
+  const getAvailabilityForDay = (
+    day
+  ) => {
+    const dateKey =
+      formatDateKey(
+        currentYear,
+        currentMonth,
+        day
+      );
+
+    return (
+      availabilityByDate[
+        dateKey
+      ] || null
+    );
+  };
+
+
+  const getAvailabilityForDate =
+  useCallback(
+    (date) => {
+      if (!date) {
+        return null;
+      }
+
+      const dateKey =
+        formatDateObjectForDatabase(
+          date
+        );
+
+      return (
+        availabilityByDate[
+          dateKey
+        ] || null
+      );
+    },
+    [availabilityByDate]
+  );
+
+
+  /* =========================
+     RESPOND TO REALTIME
+     CONFLICTS
+     ========================= */
+
+  useEffect(() => {
+    if (!selectedDate) {
+      return;
+    }
+
+
+    const availability =
+      getAvailabilityForDate(
+        selectedDate
+      );
+
+
+    /*
+      A confirmed 22 Hours booking
+      makes the entire date unavailable.
+    */
+
+    if (
+      availability
+        ?.availability_status ===
+      "unavailable"
+    ) {
+      setSelectedDate(null);
+
+      setStep(1);
+
+      setFormError(
+        "The date you selected has just become fully unavailable because a 22 Hours reservation was confirmed. Please choose another date."
+      );
+
+      return;
+    }
+
+
+    /*
+      If a Day Tour / Overnight becomes
+      confirmed while this customer is
+      trying to book 22 Hours, require
+      another date.
+    */
+
+    if (
+      availability
+        ?.availability_status ===
+        "partial" &&
+      formData.stayType ===
+        "22 Hours"
+    ) {
+      setSelectedDate(null);
+
+      setStep(1);
+
+      setFormError(
+        "22 Hours requires an entirely free date. The selected date now has a confirmed Day Tour or Overnight reservation. Please choose another date."
+      );
+    }
+  }, [
+    selectedDate,
+  formData.stayType,
+  getAvailabilityForDate,
+  ]);
 
 
   /* =========================
@@ -160,24 +492,32 @@ function ReservationPage() {
 
 
   const guestCount =
-    Number(formData.guests) || 0;
+    Number(
+      formData.guests
+    ) || 0;
 
 
   const selectedCapacity =
-    capacityLimits[formData.stayType] || 0;
+    capacityLimits[
+      formData.stayType
+    ] || 0;
 
 
   const exceedsCapacity =
     selectedCapacity > 0 &&
-    guestCount > selectedCapacity;
+    guestCount >
+      selectedCapacity;
 
 
-  /* Base rate includes 20 guests */
+  /* =========================
+     EXTRA GUEST FEE
+     ========================= */
 
-  const extraGuests = Math.max(
-    0,
-    guestCount - 20
-  );
+  const extraGuests =
+    Math.max(
+      0,
+      guestCount - 20
+    );
 
 
   const extraGuestFee =
@@ -185,33 +525,108 @@ function ReservationPage() {
 
 
   /* =========================
-     FORM FUNCTIONS
+     FORM CHANGE
      ========================= */
 
-  const handleChange = (event) => {
-    const { name, value } = event.target;
+  const handleChange = (
+    event
+  ) => {
+    const {
+      name,
+      value,
+    } = event.target;
+
 
     /*
-      When changing between Family and Company,
-      reset the previous group name.
+      Reset group name when
+      switching Family / Company.
     */
 
-    if (name === "bookingType") {
-      setFormData((previousData) => ({
-        ...previousData,
-        bookingType: value,
-        groupName: "",
-      }));
-    } else {
-      setFormData((previousData) => ({
-        ...previousData,
-        [name]: value,
-      }));
+    if (
+      name ===
+      "bookingType"
+    ) {
+      setFormData(
+        (previousData) => ({
+          ...previousData,
+
+          bookingType:
+            value,
+
+          groupName:
+            "",
+        })
+      );
+
+      setFormError("");
+
+      return;
     }
+
+
+    /*
+      If the customer already selected
+      a yellow date, then changes the
+      reservation type to 22 Hours,
+      clear that date.
+    */
+
+    if (
+      name === "stayType" &&
+      value ===
+        "22 Hours" &&
+      selectedDate
+    ) {
+      const availability =
+        getAvailabilityForDate(
+          selectedDate
+        );
+
+
+      if (
+        availability
+          ?.availability_status ===
+        "partial"
+      ) {
+        setFormData(
+          (previousData) => ({
+            ...previousData,
+
+            stayType:
+              value,
+          })
+        );
+
+        setSelectedDate(
+          null
+        );
+
+        setFormError(
+          "22 Hours requires an entirely free date. Your previously selected date already has a confirmed Day Tour or Overnight reservation. Please select another date."
+        );
+
+        return;
+      }
+    }
+
+
+    setFormData(
+      (previousData) => ({
+        ...previousData,
+
+        [name]:
+          value,
+      })
+    );
+
 
     setFormError("");
   };
 
+
+  /* =========================
+     NEXT BUTTON
+     ========================= */
 
   const handleNext = () => {
     if (
@@ -232,7 +647,43 @@ function ReservationPage() {
     }
 
 
-    if (guestCount < 1) {
+    const dateAvailability =
+      getAvailabilityForDate(
+        selectedDate
+      );
+
+
+    if (
+      dateAvailability
+        ?.availability_status ===
+      "unavailable"
+    ) {
+      setFormError(
+        "This date is fully unavailable because a confirmed 22 Hours reservation occupies the resort."
+      );
+
+      return;
+    }
+
+
+    if (
+      formData.stayType ===
+        "22 Hours" &&
+      dateAvailability
+        ?.availability_status ===
+        "partial"
+    ) {
+      setFormError(
+        "22 Hours requires an entirely free date. Please choose a date without a confirmed Day Tour or Overnight reservation."
+      );
+
+      return;
+    }
+
+
+    if (
+      guestCount < 1
+    ) {
       setFormError(
         "The number of guests must be at least 1."
       );
@@ -241,7 +692,9 @@ function ReservationPage() {
     }
 
 
-    if (exceedsCapacity) {
+    if (
+      exceedsCapacity
+    ) {
       setFormError(
         `${formData.stayType} allows a maximum of ${selectedCapacity} guests.`
       );
@@ -251,6 +704,7 @@ function ReservationPage() {
 
 
     setFormError("");
+
     setStep(2);
   };
 
@@ -259,173 +713,287 @@ function ReservationPage() {
      DATABASE DATE FORMAT
      ========================= */
 
-  const formatDateForDatabase = (date) => {
-    const year =
-      date.getFullYear();
-
-    const month = String(
-      date.getMonth() + 1
-    ).padStart(2, "0");
-
-    const day = String(
-      date.getDate()
-    ).padStart(2, "0");
-
-    return `${year}-${month}-${day}`;
+  const formatDateForDatabase = (
+    date
+  ) => {
+    return formatDateObjectForDatabase(
+      date
+    );
   };
 
 
   /* =========================
-     SUPABASE SUBMISSION
+     SUBMIT RESERVATION
      ========================= */
 
-  const handleSubmit = async () => {
-    if (
-      !formData.email ||
-      !formData.confirmEmail ||
-      !formData.arrivalTime
-    ) {
-      setFormError(
-        "Please complete all required fields before submitting."
-      );
-
-      return;
-    }
-
-
-    if (!selectedDate) {
-      setFormError(
-        "Please select a reservation date."
-      );
-
-      return;
-    }
-
-
-    if (
-      formData.email.trim().toLowerCase() !==
-      formData.confirmEmail.trim().toLowerCase()
-    ) {
-      setFormError(
-        "The email addresses do not match."
-      );
-
-      return;
-    }
-
-
-    if (exceedsCapacity) {
-      setFormError(
-        `${formData.stayType} allows a maximum of ${selectedCapacity} guests.`
-      );
-
-      return;
-    }
-
-
-    if (isSubmitting) {
-      return;
-    }
-
-
-    setFormError("");
-    setIsSubmitting(true);
-
-
-    const reservationData = {
-      name:
-        formData.name.trim(),
-
-      customer_type:
-        formData.bookingType,
-
-      // NEW DATABASE FIELD
-      group_name:
-        formData.groupName.trim(),
-
-      address:
-        formData.address.trim(),
-
-      contact_number:
-        formData.contactNumber.trim(),
-
-      email:
-        formData.email
-          .trim()
-          .toLowerCase(),
-
-      number_of_guests:
-        guestCount,
-
-      reservation_type:
-        formData.stayType,
-
-      reservation_date:
-        formatDateForDatabase(
-          selectedDate
-        ),
-
-      arrival_time:
-        formData.arrivalTime,
-
-      special_requests:
-        formData.specialRequests.trim()
-          ? formData.specialRequests.trim()
-          : null,
-
-      extra_guest_fee:
-        extraGuestFee,
-    };
-
-
-    try {
-      const { error } = await supabase
-        .from("reservations")
-        .insert([reservationData]);
-
-
-      if (error) {
-        console.error(
-          "Supabase reservation error:",
-          error
-        );
-
+  const handleSubmit =
+    async () => {
+      if (
+        !formData.email ||
+        !formData.confirmEmail ||
+        !formData.arrivalTime
+      ) {
         setFormError(
-          "We could not submit your reservation. Please try again."
+          "Please complete all required fields before submitting."
         );
 
         return;
       }
 
 
-      setShowSuccess(true);
+      if (
+        !selectedDate
+      ) {
+        setFormError(
+          "Please select a reservation date."
+        );
 
-    } catch (error) {
-      console.error(
-        "Unexpected reservation error:",
-        error
+        setStep(1);
+
+        return;
+      }
+
+
+      /*
+        Check the currently loaded
+        confirmed availability again.
+      */
+
+      const dateAvailability =
+        getAvailabilityForDate(
+          selectedDate
+        );
+
+
+      if (
+        dateAvailability
+          ?.availability_status ===
+        "unavailable"
+      ) {
+        setFormError(
+          "This date is fully unavailable because a confirmed 22 Hours reservation occupies the resort."
+        );
+
+        setStep(1);
+
+        return;
+      }
+
+
+      if (
+        formData.stayType ===
+          "22 Hours" &&
+        dateAvailability
+          ?.availability_status ===
+          "partial"
+      ) {
+        setFormError(
+          "22 Hours requires an entirely free date. Please choose a date without a confirmed Day Tour or Overnight reservation."
+        );
+
+        setStep(1);
+
+        return;
+      }
+
+
+      /*
+        Email confirmation.
+      */
+
+      if (
+        formData.email
+          .trim()
+          .toLowerCase() !==
+        formData.confirmEmail
+          .trim()
+          .toLowerCase()
+      ) {
+        setFormError(
+          "The email addresses do not match."
+        );
+
+        return;
+      }
+
+
+      if (
+        exceedsCapacity
+      ) {
+        setFormError(
+          `${formData.stayType} allows a maximum of ${selectedCapacity} guests.`
+        );
+
+        return;
+      }
+
+
+      if (
+        isSubmitting
+      ) {
+        return;
+      }
+
+
+      setFormError("");
+
+      setIsSubmitting(
+        true
       );
 
-      setFormError(
-        "An unexpected error occurred. Please try again."
-      );
 
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+      const reservationData = {
+        name:
+          formData.name.trim(),
+
+        customer_type:
+          formData.bookingType,
+
+        group_name:
+          formData.groupName.trim(),
+
+        address:
+          formData.address.trim(),
+
+        contact_number:
+          formData.contactNumber.trim(),
+
+        email:
+          formData.email
+            .trim()
+            .toLowerCase(),
+
+        number_of_guests:
+          guestCount,
+
+        reservation_type:
+          formData.stayType,
+
+        reservation_date:
+          formatDateForDatabase(
+            selectedDate
+          ),
+
+        arrival_time:
+          formData.arrivalTime,
+
+        special_requests:
+          formData.specialRequests
+            .trim()
+            ? formData
+                .specialRequests
+                .trim()
+            : null,
+
+        extra_guest_fee:
+          extraGuestFee,
+      };
+
+
+      try {
+        const {
+          error,
+        } =
+          await supabase
+            .from(
+              "reservations"
+            )
+            .insert([
+              reservationData,
+            ]);
+
+
+        if (error) {
+          console.error(
+            "Supabase reservation error:",
+            error
+          );
+
+
+          const databaseMessage =
+            error.message ||
+            "";
+
+
+          /*
+            These are the messages raised
+            by our database-level 22 Hours
+            conflict trigger.
+          */
+
+          if (
+            databaseMessage.includes(
+              "active 22 Hours reservation"
+            ) ||
+            databaseMessage.includes(
+              "cannot be reserved for 22 Hours"
+            ) ||
+            databaseMessage.includes(
+              "another active reservation already exists"
+            )
+          ) {
+            setFormError(
+              databaseMessage
+            );
+
+            setStep(1);
+          } else {
+            setFormError(
+              "We could not submit your reservation. Please try again."
+            );
+          }
+
+
+          return;
+        }
+
+
+        setShowSuccess(
+          true
+        );
+
+
+        /*
+          Refresh availability in case
+          anything changed during submit.
+        */
+
+        fetchConfirmedAvailability();
+
+      } catch (error) {
+        console.error(
+          "Unexpected reservation error:",
+          error
+        );
+
+        setFormError(
+          "An unexpected error occurred. Please try again."
+        );
+
+      } finally {
+        setIsSubmitting(
+          false
+        );
+      }
+    };
 
 
   /* =========================
-     CALENDAR FUNCTIONS
+     MONTH NAVIGATION
      ========================= */
 
   const previousMonth = () => {
-    if (currentMonth === 0) {
-      setCurrentMonth(11);
+    if (
+      currentMonth === 0
+    ) {
+      setCurrentMonth(
+        11
+      );
+
       setCurrentYear(
         currentYear - 1
       );
+
     } else {
       setCurrentMonth(
         currentMonth - 1
@@ -435,11 +1003,17 @@ function ReservationPage() {
 
 
   const nextMonth = () => {
-    if (currentMonth === 11) {
-      setCurrentMonth(0);
+    if (
+      currentMonth === 11
+    ) {
+      setCurrentMonth(
+        0
+      );
+
       setCurrentYear(
         currentYear + 1
       );
+
     } else {
       setCurrentMonth(
         currentMonth + 1
@@ -448,12 +1022,19 @@ function ReservationPage() {
   };
 
 
-  const selectDate = (day) => {
-    const chosenDate = new Date(
-      currentYear,
-      currentMonth,
-      day
-    );
+  /* =========================
+     SELECT DATE
+     ========================= */
+
+  const selectDate = (
+    day
+  ) => {
+    const chosenDate =
+      new Date(
+        currentYear,
+        currentMonth,
+        day
+      );
 
 
     chosenDate.setHours(
@@ -476,10 +1057,62 @@ function ReservationPage() {
     );
 
 
+    /*
+      Past dates cannot
+      be selected.
+    */
+
     if (
       chosenDate <
       currentDate
     ) {
+      return;
+    }
+
+
+    const availability =
+      getAvailabilityForDay(
+        day
+      );
+
+
+    /*
+      RED DATE:
+      Confirmed 22 Hours reservation.
+    */
+
+    if (
+      availability
+        ?.availability_status ===
+      "unavailable"
+    ) {
+      setFormError(
+        "This date is fully unavailable because a confirmed 22 Hours reservation occupies the resort."
+      );
+
+      return;
+    }
+
+
+    /*
+      YELLOW DATE:
+      Day Tour / Overnight confirmed.
+
+      Still selectable for Day Tour or
+      Overnight, but not for 22 Hours.
+    */
+
+    if (
+      formData.stayType ===
+        "22 Hours" &&
+      availability
+        ?.availability_status ===
+        "partial"
+    ) {
+      setFormError(
+        "22 Hours requires an entirely free date. This date already has a confirmed Day Tour or Overnight reservation."
+      );
+
       return;
     }
 
@@ -492,14 +1125,23 @@ function ReservationPage() {
   };
 
 
-  const isSelected = (day) => {
-    if (!selectedDate) {
+  /* =========================
+     SELECTED DATE CHECK
+     ========================= */
+
+  const isSelected = (
+    day
+  ) => {
+    if (
+      !selectedDate
+    ) {
       return false;
     }
 
 
     return (
-      selectedDate.getDate() === day &&
+      selectedDate.getDate() ===
+        day &&
       selectedDate.getMonth() ===
         currentMonth &&
       selectedDate.getFullYear() ===
@@ -508,12 +1150,19 @@ function ReservationPage() {
   };
 
 
-  const isPastDate = (day) => {
-    const date = new Date(
-      currentYear,
-      currentMonth,
-      day
-    );
+  /* =========================
+     PAST DATE CHECK
+     ========================= */
+
+  const isPastDate = (
+    day
+  ) => {
+    const date =
+      new Date(
+        currentYear,
+        currentMonth,
+        day
+      );
 
 
     date.setHours(
@@ -543,9 +1192,12 @@ function ReservationPage() {
   };
 
 
+  /* =========================
+     PAGE
+     ========================= */
+
   return (
-    <div
-      className="reservation-page">
+    <div className="reservation-page">
 
       <div className="slider-frame">
 
@@ -566,72 +1218,95 @@ function ReservationPage() {
 
           <div className="reservation-slideshow-shell">
 
-  {/* LEFT ARROW */}
-  <button
-    type="button"
-    className="reservation-slide-outside-control reservation-slide-outside-previous"
-    onClick={previousSlide}
-    aria-label="Previous resort image"
-  >
-    &#10094;
-  </button>
+            {/* LEFT ARROW */}
+
+            <button
+              type="button"
+              className="reservation-slide-outside-control reservation-slide-outside-previous"
+              onClick={
+                previousSlide
+              }
+              aria-label="Previous resort image"
+            >
+              &#10094;
+            </button>
 
 
-  {/* IMAGE */}
-  <div className="reservation-slideshow">
+            {/* IMAGE */}
 
-    <img
-      src={resortImages[currentSlide]}
-      alt={`PolChat Garden Resort view ${
-        currentSlide + 1
-      }`}
-      className="reservation-slide-image"
-    />
+            <div className="reservation-slideshow">
 
-    <div className="reservation-slide-overlay" />
-
-
-    {/* DOTS */}
-    <div className="reservation-slide-dots">
-
-      {resortImages.map((_, index) => (
-        <button
-          key={index}
-          type="button"
-          aria-label={`Show resort image ${
-            index + 1
-          }`}
-          onClick={() =>
-            setCurrentSlide(index)
-          }
-          className={`reservation-slide-dot ${
-            currentSlide === index
-              ? "reservation-slide-dot-active"
-              : ""
-          }`}
-        />
-      ))}
-
-    </div>
-
-  </div>
+              <img
+                src={
+                  resortImages[
+                    currentSlide
+                  ]
+                }
+                alt={`PolChat Garden Resort view ${
+                  currentSlide + 1
+                }`}
+                className="reservation-slide-image"
+              />
 
 
-  {/* RIGHT ARROW */}
-  <button
-    type="button"
-    className="reservation-slide-outside-control reservation-slide-outside-next"
-    onClick={nextSlide}
-    aria-label="Next resort image"
-  >
-    &#10095;
-  </button>
+              <div className="reservation-slide-overlay" />
 
-</div>
+
+              {/* DOTS */}
+
+              <div className="reservation-slide-dots">
+
+                {resortImages.map(
+                  (
+                    _,
+                    index
+                  ) => (
+                    <button
+                      key={
+                        index
+                      }
+                      type="button"
+                      aria-label={`Show resort image ${
+                        index + 1
+                      }`}
+                      onClick={() =>
+                        setCurrentSlide(
+                          index
+                        )
+                      }
+                      className={`reservation-slide-dot ${
+                        currentSlide ===
+                        index
+                          ? "reservation-slide-dot-active"
+                          : ""
+                      }`}
+                    />
+                  )
+                )}
+
+              </div>
+
+            </div>
+
+
+            {/* RIGHT ARROW */}
+
+            <button
+              type="button"
+              className="reservation-slide-outside-control reservation-slide-outside-next"
+              onClick={
+                nextSlide
+              }
+              aria-label="Next resort image"
+            >
+              &#10095;
+            </button>
+
+          </div>
 
 
           {/* =========================
-              WHITE RESERVATION CARD
+              RESERVATION CARD
               ========================= */}
 
           <div className="reservation-card">
@@ -647,22 +1322,34 @@ function ReservationPage() {
                 {step === 1 ? (
                   <>
 
+                    {/* NAME */}
+
                     <label>
+
                       <span>
-                        Name <b>*</b>
+                        Name{" "}
+                        <b>*</b>
                       </span>
 
                       <input
                         type="text"
                         name="name"
-                        value={formData.name}
-                        onChange={handleChange}
+                        value={
+                          formData.name
+                        }
+                        onChange={
+                          handleChange
+                        }
                         placeholder="Enter your full name"
                       />
+
                     </label>
 
 
+                    {/* FAMILY / COMPANY */}
+
                     <label>
+
                       <span>
                         Family or Company{" "}
                         <b>*</b>
@@ -673,7 +1360,9 @@ function ReservationPage() {
                         value={
                           formData.bookingType
                         }
-                        onChange={handleChange}
+                        onChange={
+                          handleChange
+                        }
                       >
 
                         <option value="">
@@ -689,10 +1378,11 @@ function ReservationPage() {
                         </option>
 
                       </select>
+
                     </label>
 
 
-                    {/* DYNAMIC FAMILY / COMPANY NAME */}
+                    {/* GROUP NAME */}
 
                     {formData.bookingType && (
                       <label>
@@ -704,6 +1394,7 @@ function ReservationPage() {
                             : "Company Name"}{" "}
                           <b>*</b>
                         </span>
+
 
                         <input
                           type="text"
@@ -726,9 +1417,13 @@ function ReservationPage() {
                     )}
 
 
+                    {/* ADDRESS */}
+
                     <label>
+
                       <span>
-                        Address <b>*</b>
+                        Address{" "}
+                        <b>*</b>
                       </span>
 
                       <input
@@ -742,10 +1437,14 @@ function ReservationPage() {
                         }
                         placeholder="Enter your address"
                       />
+
                     </label>
 
 
+                    {/* CONTACT NUMBER */}
+
                     <label>
+
                       <span>
                         Contact Number{" "}
                         <b>*</b>
@@ -762,10 +1461,14 @@ function ReservationPage() {
                         }
                         placeholder="09XXXXXXXXX"
                       />
+
                     </label>
 
 
+                    {/* NUMBER OF GUESTS */}
+
                     <label>
+
                       <span>
                         Number of Guests{" "}
                         <b>*</b>
@@ -783,10 +1486,14 @@ function ReservationPage() {
                         min="1"
                         placeholder="Number of guests"
                       />
+
                     </label>
 
 
+                    {/* RESERVATION TYPE */}
+
                     <label>
+
                       <span>
                         Reservation Type{" "}
                         <b>*</b>
@@ -819,6 +1526,7 @@ function ReservationPage() {
                         </option>
 
                       </select>
+
                     </label>
 
 
@@ -828,19 +1536,24 @@ function ReservationPage() {
                       <div className="capacity-info">
 
                         <strong>
-                          {formData.stayType}
+                          {
+                            formData.stayType
+                          }
                         </strong>
 
                         <span>
                           Maximum capacity:{" "}
-                          {selectedCapacity} guests
+                          {
+                            selectedCapacity
+                          }{" "}
+                          guests
                         </span>
+
 
                         {formData.stayType ===
                           "22 Hours" && (
                           <span>
-                            Sleeping capacity is
-                            limited to 25 guests.
+                            Sleeping capacity is limited to 25 guests.
                           </span>
                         )}
 
@@ -861,8 +1574,7 @@ function ReservationPage() {
                       </p>
 
                       <p>
-                        Additional guests are
-                        charged{" "}
+                        Additional guests are charged{" "}
                         <strong>
                           ₱200 per person
                         </strong>
@@ -870,13 +1582,18 @@ function ReservationPage() {
                       </p>
 
 
-                      {extraGuests > 0 &&
+                      {extraGuests >
+                        0 &&
                         !exceedsCapacity && (
                           <div className="additional-fee">
 
-                            {extraGuests} additional{" "}
+                            {
+                              extraGuests
+                            }{" "}
+                            additional{" "}
 
-                            {extraGuests === 1
+                            {extraGuests ===
+                            1
                               ? "guest"
                               : "guests"}
 
@@ -894,10 +1611,15 @@ function ReservationPage() {
                       {exceedsCapacity && (
                         <div className="capacity-warning">
 
-                          This exceeds the
-                          maximum capacity of{" "}
-                          {selectedCapacity} guests
-                          for {formData.stayType}.
+                          This exceeds the maximum capacity of{" "}
+                          {
+                            selectedCapacity
+                          }{" "}
+                          guests for{" "}
+                          {
+                            formData.stayType
+                          }
+                          .
 
                         </div>
                       )}
@@ -905,9 +1627,13 @@ function ReservationPage() {
                     </div>
 
 
+                    {/* FORM ERROR */}
+
                     {formError && (
                       <p className="form-error">
-                        {formError}
+                        {
+                          formError
+                        }
                       </p>
                     )}
 
@@ -915,7 +1641,9 @@ function ReservationPage() {
                     <button
                       className="submit-btn"
                       type="button"
-                      onClick={handleNext}
+                      onClick={
+                        handleNext
+                      }
                     >
                       Next
                     </button>
@@ -924,9 +1652,13 @@ function ReservationPage() {
                 ) : (
                   <>
 
+                    {/* EMAIL */}
+
                     <label>
+
                       <span>
-                        E-Mail <b>*</b>
+                        E-Mail{" "}
+                        <b>*</b>
                       </span>
 
                       <input
@@ -940,10 +1672,14 @@ function ReservationPage() {
                         }
                         placeholder="example@email.com"
                       />
+
                     </label>
 
 
+                    {/* CONFIRM EMAIL */}
+
                     <label>
+
                       <span>
                         Confirm E-Mail{" "}
                         <b>*</b>
@@ -960,10 +1696,14 @@ function ReservationPage() {
                         }
                         placeholder="Re-enter your email"
                       />
+
                     </label>
 
 
+                    {/* ARRIVAL TIME */}
+
                     <label>
+
                       <span>
                         Preferred Arrival Time{" "}
                         <b>*</b>
@@ -979,10 +1719,14 @@ function ReservationPage() {
                           handleChange
                         }
                       />
+
                     </label>
 
 
+                    {/* SPECIAL REQUESTS */}
+
                     <label>
+
                       <span>
                         Special Requests
                       </span>
@@ -998,12 +1742,15 @@ function ReservationPage() {
                         }
                         placeholder="Add any requests or notes here..."
                       />
+
                     </label>
 
 
                     {formError && (
                       <p className="form-error">
-                        {formError}
+                        {
+                          formError
+                        }
                       </p>
                     )}
 
@@ -1017,8 +1764,13 @@ function ReservationPage() {
                           isSubmitting
                         }
                         onClick={() => {
-                          setStep(1);
-                          setFormError("");
+                          setStep(
+                            1
+                          );
+
+                          setFormError(
+                            ""
+                          );
                         }}
                       >
                         Back
@@ -1056,193 +1808,415 @@ function ReservationPage() {
 
               <div className="reservation-calendar-section">
 
-  <div className="reservation-calendar-header">
-    <h3>Reservation Date</h3>
-  </div>
+                <div className="reservation-calendar-header">
 
-  <div className="reservation-calendar-box">
+                  <h3>
+                    Reservation Date
+                  </h3>
 
-    {/* MONTH NAVIGATION */}
-    <div className="reservation-calendar-navigation">
-
-      <button
-        type="button"
-        onClick={previousMonth}
-        className="reservation-calendar-nav-btn"
-        aria-label="Previous month"
-      >
-        &#10094;
-      </button>
-
-      <h2>
-        {monthNames[currentMonth]} {currentYear}
-      </h2>
-
-      <button
-        type="button"
-        onClick={nextMonth}
-        className="reservation-calendar-nav-btn"
-        aria-label="Next month"
-      >
-        &#10095;
-      </button>
-
-    </div>
-
-    {/* WEEKDAY HEADINGS */}
-    <div className="reservation-calendar-weekdays">
-      <span>Sun</span>
-      <span>Mon</span>
-      <span>Tue</span>
-      <span>Wed</span>
-      <span>Thu</span>
-      <span>Fri</span>
-      <span>Sat</span>
-    </div>
-
-    {/* CALENDAR DATES */}
-    <div className="reservation-calendar-days">
-
-      {Array.from({
-        length: firstDayOfMonth,
-      }).map((_, index) => (
-        <div
-          key={`blank-${index}`}
-          className="reservation-calendar-empty"
-        />
-      ))}
-
-      {Array.from(
-        { length: daysInMonth },
-        (_, index) => {
-          const day = index + 1;
-          const past = isPastDate(day);
-
-          return (
-            <button
-              key={day}
-              type="button"
-              disabled={past}
-              onClick={() => selectDate(day)}
-              className={`reservation-calendar-day ${
-                isSelected(day)
-                  ? "reservation-calendar-day-selected"
-                  : ""
-              } ${
-                past
-                  ? "reservation-calendar-day-disabled"
-                  : ""
-              }`}
-            >
-              {day}
-            </button>
-          );
-        }
-      )}
-
-    </div>
-
-    {/* SELECTED DATE */}
-    <div className="reservation-selected-date">
-
-      {selectedDate ? (
-        <>
-          <span>Selected Date</span>
-
-          <strong>
-            {selectedDate.toLocaleDateString(
-              "en-US",
-              {
-                month: "long",
-                day: "numeric",
-                year: "numeric",
-              }
-            )}
-          </strong>
-        </>
-      ) : (
-        <span>
-          Please select your reservation date.
-        </span>
-      )}
-
-    </div>
-
-  </div>
+                </div>
 
 
-                {/* RESERVATION RULES */}
+                <div className="reservation-calendar-box">
+
+                  {/* MONTH NAVIGATION */}
+
+                  <div className="reservation-calendar-navigation">
+
+                    <button
+                      type="button"
+                      onClick={
+                        previousMonth
+                      }
+                      className="reservation-calendar-nav-btn"
+                      aria-label="Previous month"
+                    >
+                      &#10094;
+                    </button>
+
+
+                    <h2>
+                      {
+                        monthNames[
+                          currentMonth
+                        ]
+                      }{" "}
+                      {
+                        currentYear
+                      }
+                    </h2>
+
+
+                    <button
+                      type="button"
+                      onClick={
+                        nextMonth
+                      }
+                      className="reservation-calendar-nav-btn"
+                      aria-label="Next month"
+                    >
+                      &#10095;
+                    </button>
+
+                  </div>
+
+
+                  {/* WEEKDAYS */}
+
+                  <div className="reservation-calendar-weekdays">
+
+                    <span>
+                      Sun
+                    </span>
+
+                    <span>
+                      Mon
+                    </span>
+
+                    <span>
+                      Tue
+                    </span>
+
+                    <span>
+                      Wed
+                    </span>
+
+                    <span>
+                      Thu
+                    </span>
+
+                    <span>
+                      Fri
+                    </span>
+
+                    <span>
+                      Sat
+                    </span>
+
+                  </div>
+
+
+                  {/* CALENDAR DAYS */}
+
+                  <div className="reservation-calendar-days">
+
+                    {Array.from({
+                      length:
+                        firstDayOfMonth,
+                    }).map(
+                      (
+                        _,
+                        index
+                      ) => (
+                        <div
+                          key={`blank-${index}`}
+                          className="reservation-calendar-empty"
+                        />
+                      )
+                    )}
+
+
+                    {Array.from(
+                      {
+                        length:
+                          daysInMonth,
+                      },
+                      (
+                        _,
+                        index
+                      ) => {
+                        const day =
+                          index +
+                          1;
+
+                        const past =
+                          isPastDate(
+                            day
+                          );
+
+                        const availability =
+                          getAvailabilityForDay(
+                            day
+                          );
+
+
+                        const partiallyBooked =
+                          !past &&
+                          availability
+                            ?.availability_status ===
+                            "partial";
+
+
+                        const fullyUnavailable =
+                          !past &&
+                          availability
+                            ?.availability_status ===
+                            "unavailable";
+
+
+                        return (
+                          <button
+                            key={
+                              day
+                            }
+                            type="button"
+                            disabled={
+                              past ||
+                              fullyUnavailable
+                            }
+                            onClick={() =>
+                              selectDate(
+                                day
+                              )
+                            }
+                            title={
+                              fullyUnavailable
+                                ? "Fully unavailable — confirmed 22 Hours reservation"
+                                : partiallyBooked
+                                ? "Partially booked — confirmed Day Tour or Overnight reservation"
+                                : "Available"
+                            }
+                            aria-label={
+                              fullyUnavailable
+                                ? `${day}, fully unavailable`
+                                : partiallyBooked
+                                ? `${day}, partially booked`
+                                : `${day}, available`
+                            }
+                            className={`reservation-calendar-day ${
+                              isSelected(
+                                day
+                              )
+                                ? "reservation-calendar-day-selected"
+                                : ""
+                            } ${
+                              past
+                                ? "reservation-calendar-day-disabled"
+                                : ""
+                            } ${
+                              partiallyBooked
+                                ? "reservation-calendar-day-partial"
+                                : ""
+                            } ${
+                              fullyUnavailable
+                                ? "reservation-calendar-day-unavailable"
+                                : ""
+                            }`}
+                          >
+                            {
+                              day
+                            }
+                          </button>
+                        );
+                      }
+                    )}
+
+                  </div>
+
+
+                  {/* =========================
+                      AVAILABILITY LEGEND
+                      ========================= */}
+
+                  <div className="reservation-calendar-availability">
+
+                    <div className="reservation-calendar-availability-item">
+
+                      <span className="reservation-calendar-availability-dot reservation-calendar-availability-dot-partial" />
+
+                      <span>
+                        Day Tour / Overnight confirmed
+                      </span>
+
+                    </div>
+
+
+                    <div className="reservation-calendar-availability-item">
+
+                      <span className="reservation-calendar-availability-dot reservation-calendar-availability-dot-unavailable" />
+
+                      <span>
+                        Fully unavailable — 22 Hours confirmed
+                      </span>
+
+                    </div>
+
+                  </div>
+
+
+                  {/* AVAILABILITY LOADING */}
+
+                  {availabilityLoading && (
+                    <p className="reservation-calendar-availability-message">
+
+                      Checking confirmed reservations...
+
+                    </p>
+                  )}
+
+
+                  {/* AVAILABILITY ERROR */}
+
+                  {availabilityError && (
+                    <p className="reservation-calendar-availability-error">
+
+                      {
+                        availabilityError
+                      }
+
+                    </p>
+                  )}
+
+
+                  {/* =========================
+                      SELECTED DATE
+                      ========================= */}
+
+                  <div className="reservation-selected-date">
+
+                    {selectedDate ? (
+                      <>
+
+                        <span>
+                          Selected Date
+                        </span>
+
+
+                        <strong>
+                          {selectedDate.toLocaleDateString(
+                            "en-US",
+                            {
+                              month:
+                                "long",
+
+                              day:
+                                "numeric",
+
+                              year:
+                                "numeric",
+                            }
+                          )}
+                        </strong>
+
+
+                        {getAvailabilityForDate(
+                          selectedDate
+                        )
+                          ?.availability_status ===
+                          "partial" && (
+                          <small className="reservation-selected-date-note">
+
+                            This date already has a confirmed Day Tour or Overnight reservation. A 22 Hours booking is not available for this date.
+
+                          </small>
+                        )}
+
+                      </>
+                    ) : (
+                      <span>
+                        Please select your reservation date.
+                      </span>
+                    )}
+
+                  </div>
+
+                </div>
+
+
+                {/* =========================
+                    RESERVATION RULES
+                    ========================= */}
 
                 <div className="reservation-policies">
 
                   <h3>
-                    Important Reservation
-                    Policies
+                    Important Reservation Policies
                   </h3>
+
 
                   <ul>
 
                     <li>
+
                       The base rate covers up to{" "}
+
                       <strong>
                         20 guests
                       </strong>
-                      . Additional guests are
-                      charged{" "}
+
+                      . Additional guests are charged{" "}
+
                       <strong>
                         ₱200 per person
                       </strong>
-                      , subject to the applicable
-                      guest capacity.
+
+                      , subject to the applicable guest capacity.
+
                     </li>
 
 
                     <li>
+
                       A{" "}
+
+                      <strong>
+                        22 Hours reservation
+                      </strong>{" "}
+
+                      requires exclusive use of the resort for the selected date. A date with a confirmed 22 Hours reservation is fully unavailable, while a date with a confirmed Day Tour or Overnight reservation cannot be selected for 22 Hours.
+
+                    </li>
+
+
+                    <li>
+
+                      A{" "}
+
                       <strong>
                         ₱2,000 security deposit
                       </strong>{" "}
-                      is required to cover
-                      possible missing or damaged
-                      resort property. Any
-                      refundable amount will be
-                      returned within{" "}
+
+                      is required to cover possible missing or damaged resort property. Any refundable amount will be returned within{" "}
+
                       <strong>
                         24 hours after checkout
                       </strong>
+
                       , following inspection.
+
                     </li>
 
 
                     <li>
-                      To confirm a reservation,
-                      guests must pay{" "}
+
+                      To confirm a reservation, guests must pay{" "}
+
                       <strong>
-                        50% of the required down
-                        payment
+                        50% of the required down payment
                       </strong>{" "}
+
                       together with the{" "}
+
                       <strong>
                         ₱2,000 security deposit
                       </strong>
+
                       .
+
                     </li>
 
 
                     <li>
-                      Guests are encouraged to
-                      bring their own personal
-                      essentials and preferred
-                      items for their stay.
+
+                      Guests are encouraged to bring their own personal essentials and preferred items for their stay.
+
                     </li>
 
 
                     <li>
-                      To maintain a comfortable
-                      and safe environment for
-                      everyone, loud, disruptive,
-                      or disorderly gatherings
-                      are not allowed.
+
+                      To maintain a comfortable and safe environment for everyone, loud, disruptive, or disorderly gatherings are not allowed.
+
                     </li>
 
                   </ul>
@@ -1283,23 +2257,23 @@ function ReservationPage() {
 
 
               <p>
-                Your reservation request has
-                been submitted successfully.
+                Your reservation request has been submitted successfully.
               </p>
 
 
               <p className="success-note">
-                Please wait for confirmation
-                from PolChat Garden Resort
-                before considering your
-                reservation final.
+
+                Please wait for confirmation from PolChat Garden Resort before considering your reservation final.
+
               </p>
 
 
               <button
                 type="button"
                 onClick={() =>
-                  setShowSuccess(false)
+                  setShowSuccess(
+                    false
+                  )
                 }
               >
                 Close

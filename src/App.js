@@ -25,6 +25,8 @@ import Direction from "./Pages/Direction/Direction";
    ========================= */
 
 import AdminLayout from "./Pages/admin/AdminLayout";
+import AdminLogin from "./Pages/admin/AdminLogin";
+import AdminProtectedRoute from "./Pages/admin/AdminProtectedRoute";
 
 import Dashboard from "./Pages/admin/Dashboard";
 import Booking from "./Pages/admin/Booking";
@@ -32,7 +34,6 @@ import Calendar from "./Pages/admin/Calendar";
 import Chat from "./Pages/admin/Chat";
 import CustomerHistory from "./Pages/admin/CustomerHistory";
 import Notifications from "./Pages/admin/Notifications";
-import PaymentRequests from "./Pages/admin/PaymentRequest";
 
 
 import "./App.css";
@@ -113,8 +114,17 @@ function App() {
             ===================================== */}
 
         <Route
+          path="/admin/login"
+          element={<AdminLogin />}
+        />
+
+        <Route
           path="/admin"
-          element={<AdminLayout />}
+          element={
+            <AdminProtectedRoute>
+              <AdminLayout />
+            </AdminProtectedRoute>
+          }
         >
 
           {/* Default Admin Page */}
@@ -148,10 +158,6 @@ function App() {
             element={<Notifications />}
           />
 
-          <Route
-            path="payments"
-            element={<PaymentRequests />}
-          />
 
         </Route>
 

@@ -1377,3 +1377,112 @@
   }
 
 }
+
+
+/* ==========================================================
+   RESERVATION CALENDAR - CONFIRMED AVAILABILITY
+   Append this section to the END of ReservationPage.css.
+   ========================================================== */
+
+/* Yellow = at least one confirmed Day Tour / Overnight. */
+.reservation-calendar-day-partial:not(
+  .reservation-calendar-day-disabled
+) {
+  background: #f3d77d;
+  border-color: #d1ad3d;
+  color: #59440a;
+}
+
+/* Keep a yellow date visibly yellow when selected. */
+.reservation-calendar-day-partial.reservation-calendar-day-selected {
+  background: #f3d77d;
+  border-color: #315b3c;
+  color: #59440a;
+  box-shadow: 0 0 0 3px rgba(49, 91, 60, 0.2);
+}
+
+/* Red = confirmed 22 Hours reservation, so the full date is unavailable. */
+.reservation-calendar-day-unavailable:not(
+  .reservation-calendar-day-disabled
+) {
+  background: #c85c55;
+  border-color: #a84741;
+  color: #ffffff;
+  cursor: not-allowed;
+  opacity: 0.92;
+}
+
+/* Preserve the red appearance of a fully unavailable disabled date. */
+.reservation-calendar-day-unavailable:disabled {
+  background: #c85c55;
+  border-color: #a84741;
+  color: #ffffff;
+  cursor: not-allowed;
+  opacity: 0.92;
+}
+
+/* Calendar legend */
+.reservation-calendar-availability {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  margin-top: 14px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: #f7f3e8;
+}
+
+.reservation-calendar-availability-item {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: #665d4e;
+  font-size: 0.76rem;
+  line-height: 1.35;
+}
+
+.reservation-calendar-availability-dot {
+  width: 10px;
+  height: 10px;
+  flex-shrink: 0;
+  border-radius: 50%;
+}
+
+.reservation-calendar-availability-dot-partial {
+  background: #d1ad3d;
+}
+
+.reservation-calendar-availability-dot-unavailable {
+  background: #c85c55;
+}
+
+.reservation-calendar-availability-message,
+.reservation-calendar-availability-error {
+  margin: 10px 0 0;
+  font-size: 0.76rem;
+  line-height: 1.45;
+}
+
+.reservation-calendar-availability-message {
+  color: #777064;
+}
+
+.reservation-calendar-availability-error {
+  color: #a4443d;
+}
+
+.reservation-selected-date-note {
+  display: block;
+  margin-top: 7px;
+  color: #8a6d24;
+  font-size: 0.75rem;
+  line-height: 1.45;
+}
+
+@media (max-width: 600px) {
+  .reservation-calendar-availability {
+    flex-direction: column;
+    gap: 8px;
+    padding: 10px 12px;
+  }
+}

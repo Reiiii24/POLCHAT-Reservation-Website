@@ -1,48 +1,13 @@
-import { useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
+
+import { supabase } from "../../lib/supabaseClient";
+
 import "./Calendar.css";
 
-const calendarBookings = [
-  {
-    id: 1,
-    date: "2026-08-25",
-    guest: "Juan Dela Cruz",
-    type: "Overnight",
-    status: "Pending",
-    amount: "₱3,500",
-  },
-  {
-    id: 2,
-    date: "2026-08-27",
-    guest: "Maria Santos",
-    type: "Day Tour",
-    status: "Confirmed",
-    amount: "₱1,200",
-  },
-  {
-    id: 3,
-    date: "2026-08-28",
-    guest: "Pedro Reyes",
-    type: "22-Hour Stay",
-    status: "Confirmed",
-    amount: "₱4,000",
-  },
-  {
-    id: 4,
-    date: "2026-08-29",
-    guest: "Ana Lopez",
-    type: "Day Tour",
-    status: "Cancelled",
-    amount: "₱1,200",
-  },
-  {
-    id: 5,
-    date: "2026-09-02",
-    guest: "Mark Torres",
-    type: "Overnight",
-    status: "Pending",
-    amount: "₱3,500",
-  },
-];
 
 const monthNames = [
   "January",
@@ -59,6 +24,7 @@ const monthNames = [
   "December",
 ];
 
+
 const weekDays = [
   "Sun",
   "Mon",
@@ -69,27 +35,178 @@ const weekDays = [
   "Sat",
 ];
 
-export default function Calendar() {
-  const today = new Date();
 
-  const [currentDate, setCurrentDate] = useState(
+/* ==========================================
+   DATE HELPERS
+   ========================================== */
+
+function formatDateKey(
+  year,
+  month,
+  day
+) {
+  const monthNumber =
+    String(
+      month + 1
+    ).padStart(
+      2,
+      "0"
+    );
+
+  const dayNumber =
+    String(
+      day
+    ).padStart(
+      2,
+      "0"
+    );
+
+  return `${year}-${monthNumber}-${dayNumber}`;
+}
+
+
+function formatDisplayDate(
+  dateString
+) {
+  if (!dateString) {
+    return "—";
+  }
+
+  const date =
     new Date(
-      today.getFullYear(),
-      today.getMonth(),
-      1
-    )
+      `${dateString}T00:00:00`
+    );
+
+  return date.toLocaleDateString(
+    "en-PH",
+    {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    }
   );
+}
+
+
+function formatArrivalTime(
+  timeString
+) {
+  if (!timeString) {
+    return "Not specified";
+  }
+
+  const [
+    hours,
+    minutes,
+  ] =
+    timeString.split(":");
+
+  const date =
+    new Date();
+
+  date.setHours(
+    Number(hours),
+    Number(minutes),
+    0,
+    0
+  );
+
+  return date.toLocaleTimeString(
+    "en-PH",
+    {
+      hour: "numeric",
+      minute: "2-digit",
+    }
+  );
+}
+
+
+function formatBookingId(
+  booking
+) {
+  const year =
+    booking.reservation_date
+      ? booking.reservation_date.slice(
+          0,
+          4
+        )
+      : new Date().getFullYear();
+
+  return `BK-${year}-${String(
+    booking.id
+  ).padStart(
+    3,
+    "0"
+  )}`;
+}
+
+
+/* ==========================================
+   STATUS HELPER
+   ========================================== */
+
+function getStatusClass(
+  status
+) {
+  return String(
+    status || ""
+  )
+    .trim()
+    .toLowerCase();
+}
+
+
+/* ==========================================
+   ADMIN CALENDAR
+   ========================================== */
+
+export default function Calendar() {
+  const today =
+    new Date();
+
+  const [
+    currentDate,
+    setCurrentDate,
+  ] =
+    useState(
+      new Date(
+        today.getFullYear(),
+        today.getMonth(),
+        1
+      )
+    );
+
+  const [
+    bookings,
+    setBookings,
+  ] =
+    useState([]);
 
   const [
     selectedBooking,
     setSelectedBooking,
-  ] = useState(null);
+  ] =
+    useState(null);
+
+  const [
+    loading,
+    setLoading,
+  ] =
+    useState(true);
+
+  const [
+    error,
+    setError,
+  ] =
+    useState("");
+
 
   const year =
     currentDate.getFullYear();
 
   const month =
     currentDate.getMonth();
+
 
   const firstDay =
     new Date(
@@ -98,6 +215,7 @@ export default function Calendar() {
       1
     ).getDay();
 
+
   const daysInMonth =
     new Date(
       year,
@@ -105,145 +223,469 @@ export default function Calendar() {
       0
     ).getDate();
 
-  const previousMonth = () => {
-    setCurrentDate(
-      new Date(
+
+  /* ========================================
+     LOAD RESERVATIONS
+     ======================================== */
+
+  const fetchBookings =
+    useCallback(
+      async () => {
+        setLoading(
+          true
+        );
+
+        setError(
+          ""
+        );
+
+
+        const startDate =
+          formatDateKey(
+            year,
+            month,
+            1
+          );
+
+
+        const endDate =
+          formatDateKey(
+            year,
+            month,
+            daysInMonth
+          );
+
+
+        const {
+          data,
+          error:
+            fetchError,
+        } =
+          await supabase
+            .from(
+              "reservations"
+            )
+            .select(`
+              id,
+              name,
+              customer_type,
+              group_name,
+              address,
+              contact_number,
+              email,
+              number_of_guests,
+              reservation_type,
+              reservation_date,
+              arrival_time,
+              special_requests,
+              status,
+              extra_guest_fee,
+              created_at,
+              hold_expires_at
+            `)
+            .gte(
+              "reservation_date",
+              startDate
+            )
+            .lte(
+              "reservation_date",
+              endDate
+            )
+            .order(
+              "reservation_date",
+              {
+                ascending:
+                  true,
+              }
+            )
+            .order(
+              "created_at",
+              {
+                ascending:
+                  true,
+              }
+            );
+
+
+        if (
+          fetchError
+        ) {
+          console.error(
+            "Calendar reservation error:",
+            fetchError
+          );
+
+          setError(
+            "Unable to load reservations for this month."
+          );
+
+          setBookings(
+            []
+          );
+
+          setLoading(
+            false
+          );
+
+          return;
+        }
+
+
+        const nextBookings =
+          data || [];
+
+
+        setBookings(
+          nextBookings
+        );
+
+
+        /*
+          If the detail panel is
+          currently open, update it
+          with the newest database
+          version of that booking.
+        */
+
+        setSelectedBooking(
+          (
+            previousBooking
+          ) => {
+            if (
+              !previousBooking
+            ) {
+              return null;
+            }
+
+            return (
+              nextBookings.find(
+                (
+                  booking
+                ) =>
+                  booking.id ===
+                  previousBooking.id
+              ) ||
+              null
+            );
+          }
+        );
+
+
+        setLoading(
+          false
+        );
+      },
+      [
         year,
-        month - 1,
-        1
-      )
+        month,
+        daysInMonth,
+      ]
     );
-  };
 
-  const nextMonth = () => {
-    setCurrentDate(
-      new Date(
-        year,
-        month + 1,
-        1
-      )
-    );
-  };
 
-  const goToToday = () => {
-    setCurrentDate(
-      new Date(
-        today.getFullYear(),
-        today.getMonth(),
-        1
-      )
-    );
-  };
+  /* ========================================
+     LOAD WHEN MONTH CHANGES
+     ======================================== */
 
-  const formatDate = (day) => {
-    const monthNumber =
-      String(month + 1).padStart(
-        2,
-        "0"
+  useEffect(() => {
+    fetchBookings();
+  }, [
+    fetchBookings,
+  ]);
+
+
+  /* ========================================
+     REALTIME
+     ======================================== */
+
+  useEffect(() => {
+    const channel =
+      supabase
+        .channel(
+          "admin-calendar-reservations"
+        )
+        .on(
+          "postgres_changes",
+          {
+            event:
+              "*",
+
+            schema:
+              "public",
+
+            table:
+              "reservations",
+          },
+          () => {
+            fetchBookings();
+          }
+        )
+        .subscribe();
+
+
+    return () => {
+      supabase.removeChannel(
+        channel
+      );
+    };
+  }, [
+    fetchBookings,
+  ]);
+
+
+  /* ========================================
+     MONTH NAVIGATION
+     ======================================== */
+
+  const previousMonth =
+    () => {
+      setSelectedBooking(
+        null
       );
 
-    const dayNumber =
-      String(day).padStart(
-        2,
-        "0"
+      setCurrentDate(
+        new Date(
+          year,
+          month - 1,
+          1
+        )
+      );
+    };
+
+
+  const nextMonth =
+    () => {
+      setSelectedBooking(
+        null
       );
 
-    return `${year}-${monthNumber}-${dayNumber}`;
-  };
+      setCurrentDate(
+        new Date(
+          year,
+          month + 1,
+          1
+        )
+      );
+    };
 
-  const getBookingsForDate = (day) => {
-    const date =
-      formatDate(day);
 
-    return calendarBookings.filter(
-      (booking) =>
-        booking.date === date
-    );
-  };
+  const goToToday =
+    () => {
+      setSelectedBooking(
+        null
+      );
 
-  const isToday = (day) => {
-    return (
-      today.getFullYear() === year &&
-      today.getMonth() === month &&
-      today.getDate() === day
-    );
-  };
+      setCurrentDate(
+        new Date(
+          today.getFullYear(),
+          today.getMonth(),
+          1
+        )
+      );
+    };
 
-  const calendarDays = [];
+
+  /* ========================================
+     BOOKINGS FOR A DATE
+     ======================================== */
+
+  const getBookingsForDate =
+    (day) => {
+      const date =
+        formatDateKey(
+          year,
+          month,
+          day
+        );
+
+      return bookings.filter(
+        (
+          booking
+        ) =>
+          booking.reservation_date ===
+          date
+      );
+    };
+
+
+  /* ========================================
+     TODAY CHECK
+     ======================================== */
+
+  const isToday =
+    (day) => {
+      return (
+        today.getFullYear() ===
+          year &&
+        today.getMonth() ===
+          month &&
+        today.getDate() ===
+          day
+      );
+    };
+
+
+  /* ========================================
+     CALENDAR DAY ARRAY
+     ======================================== */
+
+  const calendarDays =
+    [];
+
 
   for (
     let index = 0;
-    index < firstDay;
+    index <
+    firstDay;
     index++
   ) {
-    calendarDays.push(null);
+    calendarDays.push(
+      null
+    );
   }
+
 
   for (
     let day = 1;
-    day <= daysInMonth;
+    day <=
+    daysInMonth;
     day++
   ) {
-    calendarDays.push(day);
+    calendarDays.push(
+      day
+    );
   }
+
+
+  /* ========================================
+     PAGE
+     ======================================== */
 
   return (
     <div className="calendar-page">
+
+      {/* =========================
+          HEADER
+          ========================= */}
+
       <div className="calendar-header">
+
         <div>
-          <h1>Calendar</h1>
+
+          <h1>
+            Calendar
+          </h1>
 
           <p>
-            View reservations and important
-            booking dates.
+            View reservations and important booking dates.
           </p>
+
         </div>
+
 
         <button
           type="button"
           className="today-btn"
-          onClick={goToToday}
+          onClick={
+            goToToday
+          }
         >
           Today
         </button>
+
       </div>
 
+
+      {/* =========================
+          ERROR
+          ========================= */}
+
+      {error && (
+        <div className="calendar-error">
+          {
+            error
+          }
+        </div>
+      )}
+
+
+      {/* =========================
+          CALENDAR
+          ========================= */}
+
       <div className="calendar-card">
+
         <div className="calendar-navigation">
+
           <button
             type="button"
             className="month-arrow"
-            onClick={previousMonth}
+            onClick={
+              previousMonth
+            }
             aria-label="Previous month"
           >
             ‹
           </button>
 
+
           <h2>
-            {monthNames[month]} {year}
+            {
+              monthNames[
+                month
+              ]
+            }{" "}
+            {
+              year
+            }
           </h2>
+
 
           <button
             type="button"
             className="month-arrow"
-            onClick={nextMonth}
+            onClick={
+              nextMonth
+            }
             aria-label="Next month"
           >
             ›
           </button>
+
         </div>
+
+
+        {/* WEEKDAY HEADER */}
 
         <div className="week-header">
-          {weekDays.map((day) => (
-            <div key={day}>
-              {day}
-            </div>
-          ))}
+
+          {weekDays.map(
+            (day) => (
+              <div
+                key={
+                  day
+                }
+              >
+                {
+                  day
+                }
+              </div>
+            )
+          )}
+
         </div>
 
+
+        {/* CALENDAR GRID */}
+
         <div className="calendar-grid">
+
           {calendarDays.map(
-            (day, index) => {
+            (
+              day,
+              index
+            ) => {
+
               if (!day) {
                 return (
                   <div
@@ -253,48 +695,104 @@ export default function Calendar() {
                 );
               }
 
-              const bookings =
-                getBookingsForDate(day);
+
+              const dayBookings =
+                getBookingsForDate(
+                  day
+                );
+
 
               return (
                 <div
-                  key={day}
+                  key={
+                    day
+                  }
                   className={`calendar-day ${
-                    isToday(day)
+                    isToday(
+                      day
+                    )
                       ? "today"
                       : ""
                   }`}
                 >
+
                   <div className="day-number">
-                    {day}
+                    {
+                      day
+                    }
                   </div>
 
+
                   <div className="calendar-events">
-                    {bookings.map(
-                      (booking) => (
+
+                    {dayBookings.map(
+                      (
+                        booking
+                      ) => (
                         <button
                           type="button"
-                          key={booking.id}
-                          className={`calendar-event ${booking.status.toLowerCase()}`}
+                          key={
+                            booking.id
+                          }
+                          className={`calendar-event ${getStatusClass(
+                            booking.status
+                          )}`}
                           onClick={() =>
                             setSelectedBooking(
                               booking
                             )
                           }
+                          title={`${booking.name} — ${booking.reservation_type} — ${booking.status}`}
                         >
-                          {booking.guest}
+                          <span className="calendar-event-name">
+                            {
+                              booking.name
+                            }
+                          </span>
+
+                          <span className="calendar-event-type">
+                            {
+                              booking.reservation_type
+                            }
+                          </span>
                         </button>
                       )
                     )}
+
+
+                    {!loading &&
+                      dayBookings.length ===
+                        0 && (
+                        <span className="calendar-no-event">
+                          &nbsp;
+                        </span>
+                      )}
+
                   </div>
+
                 </div>
               );
             }
           )}
+
         </div>
+
+
+        {loading && (
+          <div className="calendar-loading">
+            Loading reservations...
+          </div>
+        )}
+
       </div>
 
+
+      {/* =========================
+          LEGEND
+          ========================= */}
+
       <div className="calendar-legend">
+
         <div>
           <span className="legend-dot confirmed-dot" />
           Confirmed
@@ -306,69 +804,229 @@ export default function Calendar() {
         </div>
 
         <div>
+          <span className="legend-dot rejected-dot" />
+          Rejected
+        </div>
+
+        <div>
           <span className="legend-dot cancelled-dot" />
           Cancelled
         </div>
+
       </div>
+
+
+      {/* =========================
+          BOOKING DETAILS
+          ========================= */}
 
       {selectedBooking && (
         <div className="calendar-details">
+
           <div className="details-header">
-            <h2>Booking Details</h2>
+
+            <div>
+
+              <h2>
+                Booking Details
+              </h2>
+
+              <p className="details-booking-id">
+                {formatBookingId(
+                  selectedBooking
+                )}
+              </p>
+
+            </div>
+
 
             <button
               type="button"
               onClick={() =>
-                setSelectedBooking(null)
+                setSelectedBooking(
+                  null
+                )
               }
               className="close-details"
               aria-label="Close booking details"
             >
               ×
             </button>
+
           </div>
+
 
           <div className="details-content">
+
             <div>
-              <span>Guest</span>
+              <span>
+                Guest
+              </span>
+
               <strong>
-                {selectedBooking.guest}
+                {
+                  selectedBooking.name
+                }
               </strong>
             </div>
 
+
             <div>
-              <span>Booking Type</span>
+              <span>
+                Family / Company
+              </span>
+
               <strong>
-                {selectedBooking.type}
+                {
+                  selectedBooking.customer_type
+                }
+              </strong>
+
+              {selectedBooking.group_name && (
+                <small>
+                  {
+                    selectedBooking.group_name
+                  }
+                </small>
+              )}
+            </div>
+
+
+            <div>
+              <span>
+                Booking Type
+              </span>
+
+              <strong>
+                {
+                  selectedBooking.reservation_type
+                }
               </strong>
             </div>
 
+
             <div>
-              <span>Date</span>
+              <span>
+                Date
+              </span>
+
               <strong>
-                {selectedBooking.date}
+                {formatDisplayDate(
+                  selectedBooking.reservation_date
+                )}
               </strong>
             </div>
 
+
             <div>
-              <span>Amount</span>
+              <span>
+                Preferred Arrival
+              </span>
+
               <strong>
-                {selectedBooking.amount}
+                {formatArrivalTime(
+                  selectedBooking.arrival_time
+                )}
               </strong>
             </div>
 
+
             <div>
-              <span>Status</span>
+              <span>
+                Number of Guests
+              </span>
+
+              <strong>
+                {
+                  selectedBooking.number_of_guests
+                }
+              </strong>
+            </div>
+
+
+            <div>
+              <span>
+                Extra Guest Fee
+              </span>
+
+              <strong>
+                ₱
+                {Number(
+                  selectedBooking.extra_guest_fee ||
+                    0
+                ).toLocaleString(
+                  "en-PH"
+                )}
+              </strong>
+            </div>
+
+
+            <div>
+              <span>
+                Contact Number
+              </span>
+
+              <strong>
+                {
+                  selectedBooking.contact_number ||
+                  "—"
+                }
+              </strong>
+            </div>
+
+
+            <div>
+              <span>
+                E-Mail
+              </span>
+
+              <strong>
+                {
+                  selectedBooking.email ||
+                  "—"
+                }
+              </strong>
+            </div>
+
+
+            <div>
+              <span>
+                Status
+              </span>
 
               <strong
-                className={`details-status ${selectedBooking.status.toLowerCase()}`}
+                className={`details-status ${getStatusClass(
+                  selectedBooking.status
+                )}`}
               >
-                {selectedBooking.status}
+                {
+                  selectedBooking.status
+                }
               </strong>
             </div>
+
           </div>
+
+
+          {selectedBooking.special_requests && (
+            <div className="calendar-special-request">
+
+              <span>
+                Special Requests
+              </span>
+
+              <p>
+                {
+                  selectedBooking.special_requests
+                }
+              </p>
+
+            </div>
+          )}
+
         </div>
       )}
+
     </div>
   );
 }

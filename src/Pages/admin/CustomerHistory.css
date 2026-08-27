@@ -27,10 +27,18 @@
     sans-serif;
 }
 
-.history-header {
-  width: min(100%, 1300px);
 
-  margin: 0 auto 20px;
+/* ==========================================
+   HEADER
+   ========================================== */
+
+.history-header {
+  width: min(100%, 1400px);
+
+  margin:
+    0
+    auto
+    20px;
 }
 
 .history-header h1 {
@@ -44,18 +52,60 @@
     serif;
 
   font-size:
-    clamp(1.75rem, 3vw, 2.3rem);
+    clamp(
+      1.75rem,
+      3vw,
+      2.3rem
+    );
 }
 
 .history-header p {
-  margin: 7px 0 0;
+  margin:
+    7px
+    0
+    0;
 
   color: #8a7353;
 
   font-size:
-    clamp(0.82rem, 1.3vw, 0.95rem);
+    clamp(
+      0.82rem,
+      1.3vw,
+      0.95rem
+    );
 
   line-height: 1.5;
+}
+
+
+/* ==========================================
+   ERROR
+   ========================================== */
+
+.history-error {
+  width: min(100%, 1400px);
+
+  margin:
+    0
+    auto
+    16px;
+
+  padding:
+    11px
+    14px;
+
+  border:
+    1px solid
+    rgba(176, 66, 66, 0.2);
+
+  border-radius: 10px;
+
+  background:
+    rgba(176, 66, 66, 0.08);
+
+  color: #9b3535;
+
+  font-size: 0.85rem;
 }
 
 
@@ -64,9 +114,12 @@
    ========================================== */
 
 .history-controls {
-  width: min(100%, 1300px);
+  width: min(100%, 1400px);
 
-  margin: 0 auto 20px;
+  margin:
+    0
+    auto
+    20px;
 
   display: flex;
 
@@ -105,7 +158,7 @@
 
   flex:
     1 1
-    320px;
+    360px;
 }
 
 .history-filter {
@@ -127,13 +180,15 @@
 
 
 /* ==========================================
-   TABLE
+   CUSTOMER TABLE CARD
    ========================================== */
 
 .history-table-card {
-  width: min(100%, 1300px);
+  width: min(100%, 1400px);
 
-  margin: 0 auto;
+  margin:
+    0
+    auto;
 
   padding:
     clamp(14px, 2vw, 20px);
@@ -151,14 +206,38 @@
   -webkit-overflow-scrolling: touch;
 }
 
+
+/* ==========================================
+   LOADING
+   ========================================== */
+
+.history-loading {
+  width: 100%;
+
+  padding:
+    36px
+    16px;
+
+  color: #8a7353;
+
+  font-size: 0.85rem;
+
+  text-align: center;
+}
+
+
+/* ==========================================
+   CUSTOMER TABLE
+   ========================================== */
+
 .history-table {
   width: 100%;
 
-  min-width: 780px;
+  min-width: 1050px;
 
   border-collapse: collapse;
 
-  font-size: 0.92rem;
+  font-size: 0.88rem;
 }
 
 .history-table th {
@@ -190,8 +269,50 @@
 
   color: #4d4638;
 
-  white-space: nowrap;
+  vertical-align: middle;
 }
+
+.history-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+
+/* ==========================================
+   CUSTOMER INFORMATION
+   ========================================== */
+
+.history-customer-name,
+.history-group-type,
+.history-total {
+  display: block;
+
+  color: #2f2418;
+
+  font-weight: 600;
+}
+
+.history-customer-email,
+.history-group-name,
+.history-latest-type {
+  display: block;
+
+  margin-top: 3px;
+
+  color: #8a7353;
+
+  font-size: 0.72rem;
+
+  overflow-wrap: anywhere;
+}
+
+.history-total {
+  font-size: 1rem;
+}
+
+
+/* ==========================================
+   STATUS BADGES
+   ========================================== */
 
 .history-status {
   display: inline-block;
@@ -202,7 +323,7 @@
 
   border-radius: 999px;
 
-  font-size: 0.78rem;
+  font-size: 0.75rem;
   font-weight: 600;
 
   white-space: nowrap;
@@ -229,8 +350,122 @@
   color: #b04242;
 }
 
+.history-status.rejected {
+  background:
+    rgba(152, 72, 72, 0.16);
+
+  color: #8f3f3f;
+}
+
+
+/* ==========================================
+   STATUS SUMMARY
+   ========================================== */
+
+.history-summary {
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 5px;
+}
+
+.history-summary-item {
+  display: inline-block;
+
+  padding:
+    3px
+    7px;
+
+  border-radius: 999px;
+
+  font-size: 0.65rem;
+  font-weight: 600;
+
+  white-space: nowrap;
+}
+
+.history-summary-item.confirmed {
+  background:
+    rgba(87, 155, 87, 0.13);
+
+  color: #3f7a3f;
+}
+
+.history-summary-item.pending {
+  background:
+    rgba(212, 168, 92, 0.18);
+
+  color: #a17c2d;
+}
+
+.history-summary-item.rejected {
+  background:
+    rgba(152, 72, 72, 0.14);
+
+  color: #8f3f3f;
+}
+
+.history-summary-item.cancelled {
+  background:
+    rgba(200, 80, 80, 0.13);
+
+  color: #b04242;
+}
+
+
+/* ==========================================
+   VIEW HISTORY BUTTON
+   ========================================== */
+
+.history-view-btn {
+  min-height: 34px;
+
+  padding:
+    7px
+    12px;
+
+  border:
+    1px solid
+    rgba(79, 113, 48, 0.28);
+
+  border-radius: 8px;
+
+  background:
+    rgba(79, 113, 48, 0.08);
+
+  color: #3f652f;
+
+  font-family: inherit;
+  font-size: 0.75rem;
+  font-weight: 600;
+
+  white-space: nowrap;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+.history-view-btn:hover {
+  background:
+    rgba(79, 113, 48, 0.16);
+
+  transform:
+    translateY(-1px);
+}
+
+
+/* ==========================================
+   NO RESULTS
+   ========================================== */
+
 .no-results {
-  padding: 24px !important;
+  padding:
+    30px
+    16px !important;
 
   color: #8a7353 !important;
 
@@ -239,10 +474,376 @@
 
 
 /* ==========================================
+   CUSTOMER DETAILS
+   ========================================== */
+
+.customer-history-details {
+  width: min(100%, 1400px);
+
+  margin:
+    22px
+    auto
+    0;
+
+  padding:
+    clamp(16px, 2vw, 22px);
+
+  border-radius: 16px;
+
+  background: #fff9ef;
+
+  box-shadow:
+    0 10px 24px
+    rgba(71, 52, 28, 0.08);
+}
+
+
+/* ==========================================
+   DETAILS HEADER
+   ========================================== */
+
+.customer-details-header {
+  padding-bottom: 14px;
+
+  display: flex;
+
+  align-items: flex-start;
+  justify-content: space-between;
+
+  gap: 16px;
+
+  border-bottom:
+    1px solid
+    rgba(138, 115, 83, 0.15);
+}
+
+.customer-details-header > div {
+  min-width: 0;
+}
+
+.customer-details-header h2 {
+  margin: 0;
+
+  color: #2c2217;
+
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  font-size:
+    clamp(
+      1.2rem,
+      2vw,
+      1.5rem
+    );
+
+  overflow-wrap: anywhere;
+}
+
+.customer-details-header p {
+  margin:
+    4px
+    0
+    0;
+
+  color: #8a7353;
+
+  font-size: 0.8rem;
+
+  overflow-wrap: anywhere;
+}
+
+.history-close-btn {
+  width: 36px;
+  height: 36px;
+
+  flex-shrink: 0;
+
+  padding: 0;
+
+  border: none;
+
+  background: transparent;
+
+  color: #8a7353;
+
+  font-size: 1.6rem;
+
+  cursor: pointer;
+}
+
+.history-close-btn:hover {
+  color: #4d4638;
+}
+
+
+/* ==========================================
+   CUSTOMER PROFILE
+   ========================================== */
+
+.customer-profile-grid {
+  margin-top: 18px;
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      auto-fit,
+      minmax(150px, 1fr)
+    );
+
+  gap:
+    16px
+    24px;
+}
+
+.customer-profile-grid div {
+  min-width: 0;
+}
+
+.customer-profile-grid span {
+  display: block;
+
+  margin-bottom: 4px;
+
+  color: #8a7353;
+
+  font-size: 0.74rem;
+}
+
+.customer-profile-grid strong {
+  display: block;
+
+  color: #2c2217;
+
+  font-size: 0.88rem;
+
+  overflow-wrap: anywhere;
+}
+
+.customer-profile-grid .customer-address {
+  grid-column:
+    span 2;
+}
+
+
+/* ==========================================
+   RESERVATION HISTORY HEADING
+   ========================================== */
+
+.customer-reservation-heading {
+  margin:
+    26px
+    0
+    14px;
+
+  padding-top: 18px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 12px;
+
+  border-top:
+    1px solid
+    rgba(138, 115, 83, 0.15);
+}
+
+.customer-reservation-heading h3 {
+  margin: 0;
+
+  color: #2c2217;
+
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  font-size: 1.05rem;
+}
+
+.customer-reservation-heading > span {
+  color: #8a7353;
+
+  font-size: 0.75rem;
+}
+
+
+/* ==========================================
+   RESERVATION LIST
+   ========================================== */
+
+.customer-reservation-list {
+  display: grid;
+
+  gap: 12px;
+}
+
+.customer-reservation-card {
+  padding:
+    14px
+    16px;
+
+  border:
+    1px solid
+    rgba(138, 115, 83, 0.14);
+
+  border-radius: 12px;
+
+  background: #fffdf8;
+}
+
+
+/* ==========================================
+   RESERVATION TOP
+   ========================================== */
+
+.customer-reservation-top {
+  padding-bottom: 10px;
+
+  display: flex;
+
+  align-items: flex-start;
+  justify-content: space-between;
+
+  gap: 12px;
+
+  border-bottom:
+    1px solid
+    rgba(138, 115, 83, 0.1);
+}
+
+.customer-reservation-top > div {
+  min-width: 0;
+}
+
+.history-booking-id {
+  display: block;
+
+  color: #2c2217;
+
+  font-size: 0.84rem;
+}
+
+.history-reservation-date {
+  display: block;
+
+  margin-top: 3px;
+
+  color: #8a7353;
+
+  font-size: 0.72rem;
+}
+
+
+/* ==========================================
+   RESERVATION INFO
+   ========================================== */
+
+.customer-reservation-info {
+  margin-top: 12px;
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      4,
+      minmax(0, 1fr)
+    );
+
+  gap:
+    12px
+    18px;
+}
+
+.customer-reservation-info div {
+  min-width: 0;
+}
+
+.customer-reservation-info span {
+  display: block;
+
+  margin-bottom: 3px;
+
+  color: #8a7353;
+
+  font-size: 0.69rem;
+}
+
+.customer-reservation-info strong {
+  display: block;
+
+  color: #3e372f;
+
+  font-size: 0.82rem;
+
+  overflow-wrap: anywhere;
+}
+
+
+/* ==========================================
+   SPECIAL REQUESTS
+   ========================================== */
+
+.history-special-request {
+  margin-top: 12px;
+
+  padding-top: 10px;
+
+  border-top:
+    1px solid
+    rgba(138, 115, 83, 0.1);
+}
+
+.history-special-request span {
+  display: block;
+
+  margin-bottom: 4px;
+
+  color: #8a7353;
+
+  font-size: 0.69rem;
+}
+
+.history-special-request p {
+  margin: 0;
+
+  color: #4d4638;
+
+  font-size: 0.82rem;
+
+  line-height: 1.55;
+
+  overflow-wrap: anywhere;
+}
+
+
+/* ==========================================
+   TABLET
+   ========================================== */
+
+@media (max-width: 950px) {
+
+  .customer-reservation-info {
+    grid-template-columns:
+      repeat(
+        2,
+        minmax(0, 1fr)
+      );
+  }
+
+}
+
+
+/* ==========================================
    MOBILE CARD VIEW
    ========================================== */
 
 @media (max-width: 700px) {
+
   .history-page {
     padding:
       18px
@@ -250,9 +851,11 @@
       32px;
   }
 
+
   .history-controls {
     flex-direction: column;
   }
+
 
   .history-search,
   .history-filter {
@@ -261,6 +864,7 @@
 
     flex: none;
   }
+
 
   .history-table-card {
     padding: 0;
@@ -274,9 +878,11 @@
     box-shadow: none;
   }
 
+
   .history-table {
     min-width: 0;
   }
+
 
   .history-table,
   .history-table tbody,
@@ -287,9 +893,11 @@
     width: 100%;
   }
 
+
   .history-table thead {
     display: none;
   }
+
 
   .history-table tbody {
     display: grid;
@@ -297,9 +905,9 @@
     gap: 14px;
   }
 
+
   .history-table tr {
-    padding:
-      14px;
+    padding: 14px;
 
     border:
       1px solid
@@ -314,16 +922,17 @@
       rgba(71, 52, 28, 0.07);
   }
 
+
   .history-table td {
     position: relative;
 
-    min-height: 36px;
+    min-height: 38px;
 
     padding:
-      7px
+      8px
       0
-      7px
-      39%;
+      8px
+      41%;
 
     border-bottom:
       1px solid
@@ -336,9 +945,11 @@
     overflow-wrap: anywhere;
   }
 
+
   .history-table td:last-child {
     border-bottom: none;
   }
+
 
   .history-table td::before {
     content:
@@ -347,17 +958,32 @@
     position: absolute;
 
     left: 0;
-    top: 7px;
+    top: 8px;
 
-    width: 35%;
+    width: 36%;
 
     color: #8a7353;
 
-    font-size: 0.72rem;
+    font-size: 0.7rem;
     font-weight: 700;
 
     text-align: left;
   }
+
+
+  .history-customer-name,
+  .history-group-type,
+  .history-customer-email,
+  .history-group-name,
+  .history-latest-type {
+    text-align: right;
+  }
+
+
+  .history-summary {
+    justify-content: flex-end;
+  }
+
 
   .history-empty-row {
     padding: 0 !important;
@@ -369,8 +995,11 @@
     box-shadow: none !important;
   }
 
+
   .history-empty-row td {
-    padding: 28px 14px !important;
+    padding:
+      28px
+      14px !important;
 
     border: none !important;
 
@@ -379,16 +1008,40 @@
     background: #fff9ef;
   }
 
+
   .history-empty-row td::before {
     display: none;
   }
+
+
+  .customer-profile-grid {
+    grid-template-columns:
+      repeat(
+        2,
+        minmax(0, 1fr)
+      );
+  }
+
+
+  .customer-profile-grid .customer-address {
+    grid-column:
+      1 / -1;
+  }
+
 }
 
-@media (max-width: 390px) {
+
+/* ==========================================
+   SMALL PHONE
+   ========================================== */
+
+@media (max-width: 430px) {
+
   .history-page {
     padding-left: 8px;
     padding-right: 8px;
   }
+
 
   .history-table tr {
     padding:
@@ -396,15 +1049,56 @@
       11px;
   }
 
-  .history-table td {
-    padding-left: 37%;
 
-    font-size: 0.84rem;
+  .history-table td {
+    padding-left: 39%;
+
+    font-size: 0.82rem;
   }
+
 
   .history-table td::before {
-    width: 34%;
+    width: 35%;
 
-    font-size: 0.68rem;
+    font-size: 0.67rem;
   }
+
+
+  .customer-history-details {
+    padding:
+      14px
+      12px;
+  }
+
+
+  .customer-profile-grid {
+    grid-template-columns:
+      1fr;
+  }
+
+
+  .customer-profile-grid .customer-address {
+    grid-column: auto;
+  }
+
+
+  .customer-reservation-heading {
+    align-items: flex-start;
+
+    flex-direction: column;
+
+    gap: 4px;
+  }
+
+
+  .customer-reservation-top {
+    align-items: flex-start;
+  }
+
+
+  .customer-reservation-info {
+    grid-template-columns:
+      1fr;
+  }
+
 }

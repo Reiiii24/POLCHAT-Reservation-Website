@@ -19,14 +19,14 @@ const quickQuestions = [
     id: 3,
     question: "How many guests are allowed?",
     answer:
-      "The base rate covers up to 20 guests. Additional guests are charged ₱200 per person. Day Tour can accommodate up to 60 guests, Overnight bookings are subject to the resort's approved capacity, and 22-Hour stays have a sleeping capacity of 25 guests.",
+      "The base rate covers up to 20 guests. Additional guests are charged ₱200 per person. Day Tour can accommodate up to 60 guests, Overnight can accommodate up to 35 guests, and 22-Hour stays have a sleeping capacity of 25 guests.",
   },
 
   {
     id: 4,
-    question: "What payment methods do you accept?",
-    answer:
-      "Payment instructions will be provided as part of the reservation confirmation process. Please make sure that payments are sent only through the resort's official payment channels.",
+  question: "What payment methods do you accept?",
+  answer:
+    "PolChat Garden Resort accepts GCash and online banking. Once your reservation request is accepted, payment instructions can be provided through Chat with Admin. Payments are manually verified by the resort administrator before the reservation is confirmed.",
   },
 
   {
@@ -37,10 +37,11 @@ const quickQuestions = [
   },
 
   {
-    id: 6,
-    question: "How much do I need to pay to reserve?",
-    answer:
-      "To reserve a slot, guests must provide the required 50% down payment together with the ₱2,000 security deposit.",
+     id: 6,
+  question: "How much do I need to pay to reserve?",
+  answer:
+    "Reservation confirmation requires the applicable 50% down payment together with the ₱2,000 security deposit. Payment instructions will be provided by the resort administrator through the official chat.",
+
   },
 
   {

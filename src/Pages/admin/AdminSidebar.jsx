@@ -1,14 +1,21 @@
 import {
   NavLink,
+  useNavigate,
 } from "react-router-dom";
 
+import { useState } from "react";
+
+import { supabase } from "../../lib/supabaseClient";
+
 import "./AdminSidebar.css";
+
 
 const topLink = {
   path: "/admin/notifications",
   label: "Notifications",
   icon: "◉",
 };
+
 
 const adminLinks = [
   {
@@ -42,17 +49,68 @@ const adminLinks = [
     icon: "♙",
   },
 
-  {
-    path: "/admin/payments",
-    label: "Payment Requests",
-    icon: "₱",
-  },
+
 ];
+
 
 export default function AdminSidebar({
   isOpen = false,
   onClose = () => {},
 }) {
+  const navigate = useNavigate();
+
+  const [isLoggingOut, setIsLoggingOut] =
+    useState(false);
+
+
+  /* ========================
+     LOGOUT
+     ======================== */
+
+  const handleLogout = async () => {
+    if (isLoggingOut) {
+      return;
+    }
+
+    setIsLoggingOut(true);
+
+    const { error } =
+      await supabase.auth.signOut();
+
+    if (error) {
+      console.error(
+        "Logout error:",
+        error
+      );
+
+      setIsLoggingOut(false);
+
+      return;
+    }
+
+    /*
+      Close the mobile sidebar if
+      it happens to be open.
+    */
+    onClose();
+
+    /*
+      Redirect to login after the
+      Supabase session has been removed.
+    */
+    navigate(
+      "/admin/login",
+      {
+        replace: true,
+      }
+    );
+  };
+
+
+  /* ========================
+     NAVIGATION LINK
+     ======================== */
+
   const renderNavLink = (link) => (
     <NavLink
       key={link.path}
@@ -80,6 +138,7 @@ export default function AdminSidebar({
     </NavLink>
   );
 
+
   return (
     <aside
       className={`admin-sidebar ${
@@ -88,17 +147,21 @@ export default function AdminSidebar({
           : ""
       }`}
     >
+
       {/* ========================
           HEADER
           ======================== */}
 
       <div className="admin-sidebar-header">
+
         <div className="admin-logo">
+
           <span className="admin-logo-mark">
             P
           </span>
 
           <div className="admin-logo-text">
+
             <h2>
               PolChat
             </h2>
@@ -106,8 +169,11 @@ export default function AdminSidebar({
             <p>
               ADMIN PANEL
             </p>
+
           </div>
+
         </div>
+
 
         <button
           type="button"
@@ -117,11 +183,18 @@ export default function AdminSidebar({
         >
           ×
         </button>
+
       </div>
+
+
+      {/* ========================
+          NOTIFICATIONS
+          ======================== */}
 
       <div className="admin-sidebar-top-link">
         {renderNavLink(topLink)}
       </div>
+
 
       {/* ========================
           NAVIGATION
@@ -132,20 +205,26 @@ export default function AdminSidebar({
       </div>
 
       <nav className="admin-nav">
-        {adminLinks.map(renderNavLink)}
+        {adminLinks.map(
+          renderNavLink
+        )}
       </nav>
+
 
       {/* ========================
           ADMIN PROFILE
           ======================== */}
 
       <div className="admin-sidebar-footer">
+
         <div className="admin-profile">
+
           <div className="admin-profile-avatar">
             A
           </div>
 
           <div className="admin-profile-info">
+
             <strong>
               Administrator
             </strong>
@@ -153,22 +232,37 @@ export default function AdminSidebar({
             <span>
               PolChat Garden Resort
             </span>
+
           </div>
+
         </div>
+
+
+        {/* ========================
+            LOGOUT BUTTON
+            ======================== */}
 
         <button
           type="button"
           className="admin-logout"
+          onClick={handleLogout}
+          disabled={isLoggingOut}
         >
+
           <span className="admin-logout-icon">
             ↪
           </span>
 
           <span className="admin-logout-text">
-            Log Out
+            {isLoggingOut
+              ? "Logging Out..."
+              : "Log Out"}
           </span>
+
         </button>
+
       </div>
+
     </aside>
   );
 }

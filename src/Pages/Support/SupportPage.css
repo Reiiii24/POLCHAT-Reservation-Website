@@ -720,6 +720,574 @@
 
 
 /* ==========================================
+   CUSTOMER CHAT SESSION
+   ========================================== */
+
+.support-page .admin-chat-customer-bar {
+  padding:
+    9px
+    clamp(14px, 2.5vw, 22px);
+
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 14px;
+
+  border-bottom:
+    1px solid
+    #e7e3d8;
+
+  background: #f2efe5;
+}
+
+
+.support-page
+.admin-chat-customer-bar > div {
+  min-width: 0;
+}
+
+
+.support-page
+.admin-chat-customer-bar span {
+  display: block;
+
+  margin-bottom: 2px;
+
+  color: #85877e;
+
+  font-size: 0.64rem;
+}
+
+
+.support-page
+.admin-chat-customer-bar strong {
+  display: block;
+
+  overflow: hidden;
+
+  color: #3d413b;
+
+  font-size: 0.78rem;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+}
+
+
+.support-page
+.admin-chat-customer-bar small {
+  display: block;
+
+  margin-top: 2px;
+
+  overflow: hidden;
+
+  color: #85877e;
+
+  font-size: 0.65rem;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+}
+
+
+/* ==========================================
+   END CHAT
+   ========================================== */
+
+.support-page .admin-chat-end-button {
+  min-height: 32px;
+
+  padding:
+    6px
+    11px;
+
+  flex-shrink: 0;
+
+  border:
+    1px solid
+    rgba(176, 66, 66, 0.28);
+
+  border-radius: 8px;
+
+  background:
+    rgba(176, 66, 66, 0.06);
+
+  color: #9b3535;
+
+  font-family: inherit;
+
+  font-size: 0.69rem;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease;
+}
+
+
+.support-page
+.admin-chat-end-button:hover {
+  border-color:
+    rgba(176, 66, 66, 0.45);
+
+  background:
+    rgba(176, 66, 66, 0.12);
+}
+
+
+/* ==========================================
+   END CHAT - MOBILE
+   ========================================== */
+
+@media (max-width: 500px) {
+
+  .support-page
+  .admin-chat-customer-bar {
+    align-items: flex-start;
+  }
+
+
+  .support-page
+  .admin-chat-end-button {
+    min-height: 30px;
+
+    padding:
+      5px
+      9px;
+
+    font-size: 0.65rem;
+  }
+
+}
+
+/* ==========================================
+   REAL ADMIN CHAT
+   ========================================== */
+
+.support-page .admin-chat-loading {
+  min-height: 500px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  padding: 30px;
+
+  color: #77796f;
+
+  font-size: 0.85rem;
+
+  text-align: center;
+}
+
+
+/* ==========================================
+   START CHAT INTRO
+   ========================================== */
+
+.support-page .admin-chat-intro {
+  width: min(100%, 620px);
+
+  margin:
+    30px
+    auto
+    0;
+
+  padding:
+    0
+    20px;
+
+  text-align: center;
+}
+
+.support-page .admin-chat-intro h3 {
+  margin:
+    0
+    0
+    8px;
+
+  color: #2c302a;
+
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  font-size: 1.25rem;
+}
+
+.support-page .admin-chat-intro > p {
+  margin:
+    0
+    auto;
+
+  color: #77796f;
+
+  font-size: 0.82rem;
+
+  line-height: 1.55;
+}
+
+.support-page .admin-chat-intro-note {
+  margin-top:
+    10px !important;
+
+  padding:
+    10px
+    12px;
+
+  border-radius: 8px;
+
+  background: #f3efe2;
+
+  color: #6c624d !important;
+
+  font-size:
+    0.75rem !important;
+}
+
+
+/* ==========================================
+   START CHAT FORM
+   ========================================== */
+
+.support-page .admin-chat-start-form {
+  width: min(100%, 500px);
+
+  margin:
+    22px
+    auto
+    30px;
+
+  padding:
+    0
+    20px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 15px;
+}
+
+.support-page .admin-chat-start-form label {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 6px;
+}
+
+.support-page .admin-chat-start-form label span {
+  color: #51574e;
+
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.support-page .admin-chat-start-form input {
+  width: 100%;
+
+  min-height: 44px;
+
+  padding:
+    10px
+    13px;
+
+  outline: none;
+
+  border:
+    1px solid #d8d5cb;
+
+  border-radius: 9px;
+
+  background: #ffffff;
+
+  color: #333333;
+
+  font-family: inherit;
+
+  font-size: 0.85rem;
+}
+
+.support-page .admin-chat-start-form input:focus {
+  border-color: #6a8e71;
+
+  box-shadow:
+    0 0 0 3px
+    rgba(82, 116, 89, 0.1);
+}
+
+.support-page .admin-chat-start-button {
+  min-height: 44px;
+
+  border: none;
+
+  border-radius: 9px;
+
+  background: #315b3c;
+
+  color: #ffffff;
+
+  font-family: inherit;
+
+  font-size: 0.82rem;
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+.support-page
+.admin-chat-start-button:hover:not(:disabled) {
+  background: #24482f;
+}
+
+.support-page
+.admin-chat-start-button:disabled {
+  opacity: 0.65;
+
+  cursor: not-allowed;
+}
+
+
+/* ==========================================
+   CHAT ERROR
+   ========================================== */
+
+.support-page .admin-chat-error {
+  padding:
+    10px
+    12px;
+
+  border:
+    1px solid
+    rgba(176, 66, 66, 0.2);
+
+  border-radius: 8px;
+
+  background:
+    rgba(176, 66, 66, 0.08);
+
+  color: #9b3535;
+
+  font-size: 0.75rem;
+
+  line-height: 1.5;
+}
+
+.support-page .admin-chat-error.message-error {
+  margin:
+    10px
+    18px
+    0;
+}
+
+
+/* ==========================================
+   CUSTOMER CHAT INFO BAR
+   ========================================== */
+
+.support-page .admin-chat-customer-bar {
+  padding:
+    9px
+    clamp(14px, 2.5vw, 22px);
+
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 12px;
+
+  border-bottom:
+    1px solid #e7e3d8;
+
+  background: #f2efe5;
+}
+
+.support-page
+.admin-chat-customer-bar > div {
+  min-width: 0;
+}
+
+.support-page
+.admin-chat-customer-bar span {
+  display: block;
+
+  margin-bottom: 2px;
+
+  color: #85877e;
+
+  font-size: 0.65rem;
+}
+
+.support-page
+.admin-chat-customer-bar strong {
+  display: block;
+
+  overflow: hidden;
+
+  color: #3d413b;
+
+  font-size: 0.78rem;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+}
+
+.support-page
+.admin-chat-customer-bar button {
+  flex-shrink: 0;
+
+  padding:
+    6px
+    10px;
+
+  border:
+    1px solid
+    #cfc9b8;
+
+  border-radius: 7px;
+
+  background: transparent;
+
+  color: #685d49;
+
+  font-family: inherit;
+
+  font-size: 0.68rem;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.support-page
+.admin-chat-customer-bar button:hover {
+  background: #e8e2d3;
+}
+
+
+/* ==========================================
+   EMPTY CHAT
+   ========================================== */
+
+.support-page .admin-chat-empty {
+  width: min(100%, 430px);
+
+  margin: auto;
+
+  padding:
+    30px
+    20px;
+
+  text-align: center;
+}
+
+.support-page .admin-chat-empty strong {
+  display: block;
+
+  margin-bottom: 6px;
+
+  color: #444841;
+}
+
+.support-page .admin-chat-empty p {
+  margin: 0;
+
+  color: #85877e;
+
+  font-size: 0.77rem;
+
+  line-height: 1.55;
+}
+
+
+/* ==========================================
+   MESSAGE TIME
+   ========================================== */
+
+.support-page .admin-chat-message-time {
+  display: block;
+
+  margin-top: 4px;
+
+  color: #8c8c84;
+
+  font-size: 0.62rem;
+}
+
+.support-page
+.admin-chat-message-time.customer {
+  text-align: right;
+}
+
+
+/* ==========================================
+   CLOSED CONVERSATION
+   ========================================== */
+
+.support-page .admin-status.closed {
+  background:
+    rgba(176, 66, 66, 0.1);
+
+  color: #96433f;
+}
+
+.support-page .admin-chat-closed-notice {
+  margin:
+    12px
+    18px
+    0;
+
+  padding:
+    10px
+    12px;
+
+  border-radius: 8px;
+
+  background: #f1ede4;
+
+  color: #776a58;
+
+  font-size: 0.74rem;
+
+  line-height: 1.5;
+
+  text-align: center;
+}
+
+
+/* ==========================================
+   DISABLED CHAT INPUT
+   ========================================== */
+
+.support-page
+.chat-input-container input:disabled {
+  opacity: 0.65;
+
+  cursor: not-allowed;
+}
+
+.support-page
+.chat-send-button:disabled {
+  opacity: 0.55;
+
+  cursor: not-allowed;
+
+  transform: none;
+}
+
+
+/* ==========================================
    TABLET
    ========================================== */
 
@@ -855,4 +1423,357 @@
     margin-left: 10px;
     margin-right: 10px;
   }
+}
+
+/* ==========================================
+   CUSTOMER CHAT ATTACHMENTS
+   ========================================== */
+
+.support-page .customer-chat-attachment {
+  width: min(280px, 72vw);
+
+  padding: 8px;
+
+  border:
+    1px solid #ddd8c7;
+
+  border-radius: 12px;
+
+  background: #ffffff;
+}
+
+.support-page .customer-chat-attachment img {
+  display: block;
+
+  width: 100%;
+  max-height: 340px;
+
+  object-fit: contain;
+
+  border-radius: 8px;
+}
+
+.support-page .customer-chat-attachment small {
+  display: block;
+
+  margin-top: 6px;
+
+  color: #7c7567;
+
+  font-size: 0.66rem;
+
+  overflow-wrap: anywhere;
+}
+
+.support-page .customer-chat-attachment a {
+  color: #426e92;
+
+  text-decoration: none;
+}
+
+
+/* ==========================================
+   CUSTOMER PAYMENT CARD
+   ========================================== */
+
+.support-page .customer-payment-card {
+  width:
+    min(
+      330px,
+      78vw
+    );
+
+  overflow: hidden;
+
+  border:
+    1px solid
+    rgba(49, 91, 60, 0.2);
+
+  border-radius: 16px;
+
+  background: #ffffff;
+
+  box-shadow:
+    0 7px 18px
+    rgba(0, 0, 0, 0.07);
+}
+
+.support-page .customer-payment-card img {
+  display: block;
+
+  width: 100%;
+
+  max-height: 350px;
+
+  object-fit: cover;
+}
+
+.support-page .customer-payment-card-body {
+  padding:
+    13px
+    15px;
+}
+
+.support-page .customer-payment-card-body > span {
+  display: block;
+
+  color: #77796f;
+
+  font-size: 0.67rem;
+  font-weight: 700;
+
+  text-transform: uppercase;
+}
+
+.support-page .customer-payment-card-body > strong {
+  display: block;
+
+  margin:
+    5px
+    0;
+
+  color: #272c26;
+
+  font-size: 1.25rem;
+}
+
+.support-page .customer-payment-card-body p {
+  margin:
+    4px
+    0;
+
+  color: #65685f;
+
+  font-size: 0.76rem;
+}
+
+.support-page .customer-payment-card-body small {
+  display: block;
+
+  margin-top: 5px;
+
+  color: #56715b;
+
+  font-size: 0.65rem;
+}
+
+
+/* STATUS */
+
+.support-page .customer-payment-state {
+  margin-top: 11px;
+
+  padding:
+    8px
+    10px;
+
+  border-radius: 8px;
+
+  font-size: 0.72rem;
+  font-weight: 700;
+
+  text-align: center;
+}
+
+.support-page .customer-payment-state.pending {
+  background: #f7efd8;
+
+  color: #927126;
+}
+
+.support-page .customer-payment-state.verified {
+  background: #e4eee3;
+
+  color: #3c693f;
+}
+
+.support-page .customer-payment-state.rejected {
+  background: #f4dfdc;
+
+  color: #9a3e39;
+}
+
+
+/* ==========================================
+   PAYMENT TOOLS
+   ========================================== */
+
+.support-page .customer-payment-tools {
+  padding:
+    10px
+    18px;
+
+  border-top:
+    1px solid #ebe6da;
+
+  background: #f5f1e7;
+}
+
+.support-page .customer-payment-tools button {
+  padding:
+    8px
+    13px;
+
+  border: none;
+
+  border-radius: 8px;
+
+  background: #315b3c;
+
+  color: #ffffff;
+
+  font-family: inherit;
+
+  font-size: 0.75rem;
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+
+/* ==========================================
+   PAYMENT FORM
+   ========================================== */
+
+.support-page .customer-payment-form {
+  margin:
+    0
+    18px
+    12px;
+
+  padding: 14px;
+
+  display: grid;
+
+  gap: 10px;
+
+  border:
+    1px solid #ded8c8;
+
+  border-radius: 10px;
+
+  background: #fffdf8;
+}
+
+.support-page .customer-payment-form h3 {
+  margin: 0;
+
+  color: #333a32;
+
+  font-size: 0.9rem;
+}
+
+.support-page .customer-payment-form input,
+.support-page .customer-payment-form select {
+  width: 100%;
+
+  min-height: 40px;
+
+  padding:
+    8px
+    10px;
+
+  border:
+    1px solid #d8d5cb;
+
+  border-radius: 8px;
+
+  background: #ffffff;
+
+  font-family: inherit;
+}
+
+.support-page .customer-payment-form-actions {
+  display: flex;
+
+  gap: 8px;
+}
+
+.support-page .customer-payment-form-actions button {
+  min-height: 38px;
+
+  padding:
+    7px
+    12px;
+
+  border: none;
+
+  border-radius: 8px;
+
+  font-family: inherit;
+
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.support-page
+.customer-payment-form-actions
+button:first-child {
+  background: #315b3c;
+
+  color: #ffffff;
+}
+
+.support-page
+.customer-payment-form-actions
+button:last-child {
+  background: #ebe6da;
+
+  color: #514a3f;
+}
+
+
+/* ATTACH BUTTON */
+
+.support-page .customer-attach-button {
+  min-height: 40px;
+
+  padding:
+    9px
+    13px;
+
+  flex-shrink: 0;
+
+  border: none;
+
+  border-radius: 999px;
+
+  background: #ebe6da;
+
+  color: #554b3d;
+
+  font-family: inherit;
+
+  font-size: 0.72rem;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+
+@media (max-width: 500px) {
+
+  .support-page .customer-payment-card,
+  .support-page .customer-chat-attachment {
+    width: min(100%, 290px);
+  }
+
+
+  .support-page .customer-payment-form-actions {
+    flex-direction: column;
+  }
+
+
+  .support-page .customer-payment-form-actions button {
+    width: 100%;
+  }
+
+
+  .support-page .customer-attach-button {
+    width: 100%;
+
+    border-radius: 10px;
+  }
+
 }
