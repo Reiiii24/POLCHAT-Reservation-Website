@@ -26,22 +26,20 @@ export default function Home() {
               <span />
             </div>
             <p className="home-subcopy">
-              Leave the busy city behind and immerse yourself in the peaceful beauty of nature. At PolChat Garden, you'll find the perfect place to relax, recharge, and reconnect with the people who matter most.
-            </p>
+              
+            </p>Perfect for those who seek comfort, <p>Refocusing on the good vibes & Regenerating energy from within. </p>
+          
 
             <div className="home-actions">
               <button type="button" className="home-btn home-btn-primary">
                 Explore Resort
               </button>
-              <button type="button" className="home-btn home-btn-secondary">
-                Watch Video
-              </button> {/*Dont add this video or not?*/}
             </div>
           </div>
 
         </div>
 
-        {/*this is the booking mini navigation*/}
+        {/*this is the booking mini navigation and need functionality */} 
         <div className="booking-strip-wrap">
           <div className="booking-strip">
             <div className="booking-item">
@@ -65,8 +63,7 @@ export default function Home() {
 
       <section className="home-why">
         <div className="section-heading">
-          <p>Why Choose PolChat?</p>
-          <h2>Your Perfect Getaway Awaits</h2>
+          <h2>Your Perfect Getaway Awaits...</h2>
         </div>
 
         <div className="why-grid">
@@ -109,7 +106,7 @@ export default function Home() {
             <div className="why-icon">📍</div>
             <div>
               <h3>Accessible Location</h3>
-              <p>Conveniently located in Antipolo with easy directions.</p>
+              <p>Conveniently located in Antipolo.</p>
             </div>
           </article>
         </div>
@@ -117,22 +114,18 @@ export default function Home() {
 
       <section className="home-story">
         <div className="section-heading section-heading-left">
-          <p>About the Resort</p>
-          <h2>A Welcoming Garden Stay with Room for Rest and Celebration</h2>
+         {/* <p>About the Resort</p>*/} 
+          <h2> A Place To Relax, Recharge, & Reconnect!</h2>
         </div>
 
         <div className="story-grid">
           <div className="story-copy">
             <p>
-              PolChat Garden Resort is designed to feel warm, intimate, and
-              refreshing from the moment guests arrive. The space blends nature,
-              comfort, and simple elegance for overnight stays, day visits, and
-              special occasions.
+              <b>PolChat Garden Resort</b> is designed to feel warm and
+              refreshing from the moment guests arrive. Whether you're planning a family outing, barkada bonding, birthday celebration, or simply a well-deserved break, 
+              PolChat Garden offers a relaxing atmosphere where unforgettable memories are made.
             </p>
-            <p>
-              You can use this section for your resort background, mission,
-              guest capacity, opening hours, and your best value points.
-            </p>
+        
             <ul className="story-list">
               <li>Ideal for family weekends and private celebrations</li>
               <li>Convenient booking, cozy rooms, and relaxing surroundings</li>
@@ -148,8 +141,8 @@ export default function Home() {
 
       <section className="home-gallery">
         <div className="section-heading">  {/*for photos*/}
-          <p>Photo Highlights</p>
-          <h2>Places where you can add your best images</h2>
+         {/*<p>Photo Highlights</p>*/}
+          <h2>Photo Highlights from PolChat Garden Resort</h2>
         </div>
 
         <div className="gallery-grid"> {/*for photos in the home page*/}
@@ -171,30 +164,30 @@ export default function Home() {
       <section className="home-services-brief">
         <div className="services-brief-panel">
           <div className="section-heading section-heading-left">
-            <p>Services Brief Info</p>
-            <h2>Quick details about the services you offer</h2>
+          
+            <h2> Services of PolChat Garden Resort</h2>
           </div>
 
           <div className="services-brief-grid">
             <article className="services-brief-card">
               <h3>Day Tour Access</h3>
               <p>
-                Add a short overview of day tour schedules, inclusions, and
-                guest access here.
+                Enjoy a relaxing day surrounded by nature with access to open
+                cottages, garden spaces, and resort amenities.
               </p>
             </article>
             <article className="services-brief-card">
               <h3>Room Stays</h3>
               <p>
-                Add a brief note about room types, overnight packages, and
-                standard amenities here.
+                Stay overnight in comfortable rooms designed for restful
+                weekends, family trips, and quiet staycations.
               </p>
             </article>
             <article className="services-brief-card">
               <h3>Events &amp; Gatherings</h3>
               <p>
-                Add your event offerings for birthdays, reunions, corporate
-                bookings, or intimate celebrations.
+                Host birthdays, reunions, and special celebrations in a warm
+                garden setting made for shared moments.
               </p>
             </article>
           </div>
@@ -213,8 +206,9 @@ export default function Home() {
                 </div>
               </div>
               <p className="footer-brand-text">
-                A serene escape where comfort meets nature. Create beautiful
-                memories with your loved ones.
+                Perfect for those who seek comfort,
+                Refocusing on the good vibes & 
+                Regenerating energy from within.
               </p>
               <div className="footer-socials" aria-label="Social links">
                 <a href="/" className="footer-social">f</a>
@@ -228,21 +222,17 @@ export default function Home() {
               <ul className="footer-links">
                 <li><a href="/">Home</a></li>
                 <li><a href="/services">About Us</a></li>
-                <li><a href="/services">Rooms &amp; Rates</a></li>
-                <li><a href="/services">Amenities</a></li>
-                <li><a href="/services">Gallery</a></li>
-                <li><a href="/services">Reviews</a></li>
               </ul>
             </div>
 
             <div className="footer-column">
               <h3 className="footer-heading">Contact Us</h3>
               <ul className="footer-contact-list">
-                <li>+63 915 641 8828</li>
-                <li>reamydaine8@gmail.com</li>
+                <li>+63 915 841 0828</li>
+                <li>marrydianae8@gmail.com</li>
                 <li>
-                  Blk 5 Lot 1 Jamesa Street Balitao Subdivision, Taktak Road
-                  Brgy Sta Cruz, Antipolo City, Rizal, Philippines
+                  Blk 5 Lot 1 James Street Baltao Subdivision, 
+                  Taktak Road Brgy Sta Cruz, Antipolo City, Antipolo, Philippines, 1870
                 </li>
               </ul>
             </div>
@@ -263,7 +253,7 @@ export default function Home() {
 
           <div className="footer-bottom">
             <span className="footer-bottom-icon" aria-hidden="true">❦</span>
-            <p>© 2025 PolChat Garden Resort. All Rights Reserved.</p>
+            <p>© 2020 PolChat Garden Resort. All Rights Reserved.</p>
             <span className="footer-bottom-icon" aria-hidden="true">❦</span>
           </div>
         </div>

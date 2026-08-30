@@ -12,10 +12,7 @@
 
   overflow-x: hidden;
 
-  background:
-    radial-gradient(circle at 12% 8%, rgba(206, 176, 105, 0.18), transparent 22%),
-    radial-gradient(circle at 90% 88%, rgba(87, 116, 73, 0.24), transparent 28%),
-    linear-gradient(180deg, #ded7c4 0%, #25311f 24%, #172016 100%);
+  background: #142417;
 
   font-family:
     "Inter",
@@ -90,27 +87,17 @@
 
   border:
     1px solid
-    rgba(232, 218, 177, 0.2);
+    rgba(196, 181, 145, 0.42);
 
   border-radius: 24px;
 
-  background:
-    linear-gradient(
-      180deg,
-      rgba(255, 255, 255, 0.06) 0%,
-      rgba(255, 255, 255, 0.02) 100%
-    ),
-    linear-gradient(
-      135deg,
-      #24301d 0%,
-      #1a2115 100%
-    );
+  background: #f7f1e4;
 
   box-shadow:
     0 18px 34px
     rgba(31, 25, 19, 0.12);
 
-  color: #f6f0e3;
+  color: #173322;
 
   transition:
     transform 0.2s ease,
@@ -134,7 +121,7 @@
   background:
     radial-gradient(
       circle,
-      rgba(232, 218, 177, 0.18) 0%,
+      rgba(215, 199, 160, 0.22) 0%,
       transparent 68%
     );
 
@@ -145,47 +132,37 @@
   transform: translateY(-4px);
 
   border-color:
-    rgba(232, 218, 177, 0.26);
+    rgba(173, 156, 119, 0.4);
 
   box-shadow:
     0 22px 38px
-    rgba(31, 25, 19, 0.18);
+    rgba(31, 25, 19, 0.16);
 }
 
 .service-card:nth-child(even) {
   border-color:
-    rgba(55, 74, 46, 0.18);
+    rgba(196, 181, 145, 0.42);
 
-  background:
-    linear-gradient(
-      180deg,
-      rgba(255, 255, 255, 0.7) 0%,
-      rgba(255, 255, 255, 0.18) 100%
-    ),
-    linear-gradient(
-      135deg,
-      #e9dfcc 0%,
-      #c6ccb5 100%
-    );
+  background: #f7f1e4;
 
-  color: #25301f;
+  color: #173322;
 }
 
 .service-card:nth-child(even) h3 {
-  color: #24311e;
+  color: #173322;
 }
 
 .service-card:nth-child(even) p {
-  color: #59614d;
+  color: rgba(23, 51, 34, 0.88);
 }
 
 .service-card:nth-child(even) .service-icon {
   background:
-    rgba(45, 67, 39, 0.1);
+    rgba(203, 187, 149, 0.28);
 
   box-shadow:
     inset 0 0 0 1px
-    rgba(45, 67, 39, 0.12);
+    rgba(173, 156, 119, 0.28);
 }
 
 .service-icon {
@@ -215,7 +192,7 @@
 .service-card h3 {
   margin: 0 0 12px;
 
-  color: #fff6dd;
+  color: #173322;
 
   font-family:
     Georgia,
@@ -231,7 +208,7 @@
 .service-card p {
   margin: 0;
 
-  color: #d7ccb5;
+  color: rgba(23, 51, 34, 0.88);
 
   font-size:
     clamp(0.92rem, 1.3vw, 0.98rem);

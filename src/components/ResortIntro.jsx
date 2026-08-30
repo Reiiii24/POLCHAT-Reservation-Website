@@ -7,19 +7,22 @@ function ResortIntro() {
         <div className="intro-story">
           <p className="intro-kicker">About the Resort</p>
           <div className="intro-copy">
-            <h1>So What is PolChat Garden Resort?</h1>
+            <h1>How Polchat Came To Be?</h1>
             <p>
-              Launched in 2026, the PolChat Web-Based Resort Management System
-              was developed to bridge the gap between traditional hospitality
-              and modern digital convenience. Before this platform, booking a
-              getaway at PolChat Garden Resort required manual scheduling,
-              endless phone calls, and back-and-forth messaging.
+          Our story began with our parents' love for nature. 
+          They spent years cultivating landscaping services and planting a wide variety of flora around our property. 
+          What started with lush greenery soon expanded into a cozy retreat featuring a classic Bahay Kubo, a fun Tree House, and an inflatable pool for quick cooling off. </p>
+
+          <p>
+          Seeing the joy these simple elements brought to family and friends, my brother had a bigger vision:
+          why not turn our green sanctuary into a full-fledged resort? Encouraged by his idea, we officially launched our business in 2020, and by 2021–2022, we upgraded our simple setups with a permanent swimming pool.
             </p>
             <p>
-              We built this automated system to give guests an instant,
-              hassle-free way to check room availability, find accurate travel
-              directions, and get immediate answers to common questions — all
-              in one secure place.
+              Today, PotChat is fully family-owned and operated: </p>
+
+              <p>
+              Our Parents manage the day-to-day operations on-site, ensuring every corner of the property stays welcoming, clean, and beautiful.
+              Whether you're looking for a peaceful getaway surrounded by nature or a fun swimming day with your loved ones, our family is here to welcome yours!
             </p>
           </div>
         </div>
@@ -30,11 +33,15 @@ function ResortIntro() {
       </div>
 
       <div className="section-heading">
-        <p>Why Choose PolChat?</p>
-        <h2>Why This Resort</h2>
+        <p>So Why Choose PolChat?</p>
+        <h2> Reasons Why You Should Choose PolChat Garden Resort</h2>
       </div>
 
-      <div className="why-grid">
+      <div className="why-grid why-grid-alternating">
+        <div className="intro-photo-slot">
+          <span>Insert image 1</span>
+          <small>Garden or entrance photo</small>
+        </div>
         <article className="why-card">
           <div className="why-icon">🌿</div>
           <div>
@@ -46,6 +53,10 @@ function ResortIntro() {
             </p>
           </div>
         </article>
+        <div className="intro-photo-slot">
+          <span>Insert image 2</span>
+          <small>Pool or cottage photo</small>
+        </div>
         <article className="why-card">
           <div className="why-icon">💰</div>
           <div>
@@ -57,6 +68,10 @@ function ResortIntro() {
             </p>
           </div>
         </article>
+        <div className="intro-photo-slot">
+          <span>Insert image 3</span>
+          <small>Event or family area photo</small>
+        </div>
         <article className="why-card">
           <div className="why-icon">⭐</div>
           <div>

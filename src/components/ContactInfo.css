@@ -43,9 +43,9 @@
   margin: 0 auto;
 
   padding:
-    clamp(28px, 4vw, 40px)
-    clamp(18px, 4vw, 36px)
-    24px;
+    22px
+    clamp(18px, 3vw, 28px)
+    14px;
 
   display: grid;
 
@@ -55,7 +55,8 @@
     1fr
     0.95fr;
 
-  gap: clamp(20px, 3vw, 28px);
+  gap: clamp(16px, 2.5vw, 24px);
+  align-items: start;
 }
 
 .about-footer-column {
@@ -94,7 +95,7 @@
 .about-footer-brand-name {
   margin: 0;
 
-  color: #2a261e;
+  color: #1a2a1f;
 
   font-family:
     Georgia,
@@ -103,6 +104,8 @@
 
   font-size:
     clamp(1.65rem, 3vw, 2rem);
+
+  font-weight: 700;
 
   line-height: 1;
 }
@@ -160,16 +163,17 @@
 }
 
 .about-footer-heading {
-  margin: 0 0 16px;
+  margin: 0 0 12px;
 
-  color: #2c261d;
+  color: #1a2a1f;
 
   font-family:
     Georgia,
     "Times New Roman",
     serif;
 
-  font-size: 1.2rem;
+  font-size: 1.1rem;
+  font-weight: 700;
 }
 
 .about-footer-links,
@@ -285,12 +289,12 @@
   .about-footer-top {
     grid-template-columns: 1fr;
 
-    gap: 22px;
+    gap: 16px;
 
     padding:
-      26px
+      20px
       18px
-      22px;
+      14px;
   }
 
   .about-footer-column + .about-footer-column {
