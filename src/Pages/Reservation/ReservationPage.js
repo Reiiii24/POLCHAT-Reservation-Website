@@ -3,6 +3,7 @@ import {
   useEffect,
   useState,
 } from "react";
+import { useLocation } from "react-router-dom";
 
 import "./ReservationPage.css";
 
@@ -67,6 +68,7 @@ const formatDateObjectForDatabase = (
    ========================= */
 
 function ReservationPage() {
+  const location = useLocation();
   const today = new Date();
 
   const [step, setStep] =
@@ -152,11 +154,11 @@ function ReservationPage() {
     groupName: "",
     address: "",
     contactNumber: "",
-    guests: "",
+    guests: location.state?.availabilitySearch?.guests || "",
     stayType: "",
     email: "",
     confirmEmail: "",
-    arrivalTime: "",
+    arrivalTime: location.state?.availabilitySearch?.checkIn ? new Date(location.state.availabilitySearch.checkIn).toISOString().slice(11, 16) : "",
     specialRequests: "",
   });
 

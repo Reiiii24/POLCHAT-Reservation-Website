@@ -43,7 +43,12 @@ function ResortIntro() {
           <small>Garden or entrance photo</small>
         </div>
         <article className="why-card">
-          <div className="why-icon">🌿</div>
+          <div className="why-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" role="presentation" focusable="false">
+              <path d="M12 3c3.9 2 6.2 6 6.2 10.1 0 4.2-2.8 7.7-6.2 7.7s-6.2-3.5-6.2-7.7C5.8 9 8.1 5 12 3Zm0 3.1c-2.4 1.7-3.9 4.6-3.9 7 0 2.8 1.7 5.1 3.9 5.1s3.9-2.3 3.9-5.1c0-2.4-1.5-5.3-3.9-7Z" />
+              <path d="M12 9.2c1.3 1 2.2 2.5 2.2 4 0 1.9-1.1 3.4-2.2 3.4S9.8 15.1 9.8 13.2c0-1.5.9-3 2.2-4Z" />
+            </svg>
+          </div>
           <div>
             <h3>Nature &amp; Serenity</h3>
             <p>
@@ -58,7 +63,11 @@ function ResortIntro() {
           <small>Pool or cottage photo</small>
         </div>
         <article className="why-card">
-          <div className="why-icon">💰</div>
+          <div className="why-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" role="presentation" focusable="false">
+              <path d="M12 4c4.4 0 8 3 8 6.8 0 2.5-1.7 4.7-4.1 5.8l.1 2.4-2.1-.1-.1-1.8c-.6.1-1.2.2-1.8.2-4.4 0-8-3-8-6.8S7.6 4 12 4Zm0 2C8.7 6 6 7.9 6 10.8s2.7 4.8 6 4.8 6-1.9 6-4.8S15.3 6 12 6Zm-1 1.5h2v1h1.2c1.1 0 1.8.7 1.8 1.6s-.7 1.6-1.8 1.6H11c-.4 0-.6.2-.6.5s.2.5.6.5h3.8v1H13v1h-2v-1h-1.2c-1.1 0-1.8-.7-1.8-1.6s.7-1.6 1.8-1.6H13c.4 0 .6-.2.6-.5s-.2-.5-.6-.5h-3.8v-1H11v-1Z" />
+            </svg>
+          </div>
           <div>
             <h3>Affordable Comfort</h3>
             <p>
@@ -73,7 +82,11 @@ function ResortIntro() {
           <small>Event or family area photo</small>
         </div>
         <article className="why-card">
-          <div className="why-icon">⭐</div>
+          <div className="why-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" role="presentation" focusable="false">
+              <path d="M12 3 9.4 8.2 4 9l3.9 3.8-.9 5.4L12 15.7l5 2.5-.9-5.4L20 9l-5.4-.8L12 3Z" />
+            </svg>
+          </div>
           <div>
             <h3>Trusted Service</h3>
             <p>

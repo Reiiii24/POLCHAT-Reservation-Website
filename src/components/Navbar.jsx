@@ -38,6 +38,11 @@ const navLinks = [
     path: "/support",
     label: "Support",
   },
+
+  {
+    path: "/gallery",
+    label: "Gallery",
+  },
 ];
 
 

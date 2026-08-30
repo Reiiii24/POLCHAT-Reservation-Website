@@ -49,6 +49,11 @@ const adminLinks = [
     icon: "♙",
   },
 
+  {
+    path: "/admin/gallery",
+    label: "Gallery",
+    icon: "◧",
+  },
 
 ];
 

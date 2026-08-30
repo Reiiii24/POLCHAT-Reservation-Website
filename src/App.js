@@ -18,6 +18,7 @@ import ContactInfo from "./components/ContactInfo";
 import ReservationPage from "./Pages/Reservation/ReservationPage";
 import SupportPage from "./Pages/Support/SupportPage";
 import Direction from "./Pages/Direction/Direction";
+import Gallery from "./Pages/Gallery/Gallery";
 
 
 /* =========================
@@ -102,6 +103,11 @@ function App() {
           />
 
           <Route
+            path="/gallery"
+            element={<Gallery />}
+          />
+
+          <Route
             path="/contact"
             element={<ContactInfo />}
           />
@@ -156,6 +162,11 @@ function App() {
           <Route
             path="notifications"
             element={<Notifications />}
+          />
+
+          <Route
+            path="gallery"
+            element={<Gallery />}
           />
 
 

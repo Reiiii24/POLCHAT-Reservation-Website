@@ -297,10 +297,13 @@
   border-radius: 50%;
 
   background: #232318;
+}
 
-  color: #f1dd9a;
-
-  font-size: 1.5rem;
+.resort-intro .why-icon svg {
+  width: 28px;
+  height: 28px;
+  fill: #d8b25a;
+  display: block;
 }
 
 .resort-intro .why-card h3 {

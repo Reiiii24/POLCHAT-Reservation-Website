@@ -279,30 +279,66 @@
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr)) 230px;
   gap: 12px;
-  align-items: center;
+  align-items: end;
   border: 1px solid #12160d;
 }
 
-.booking-item {
-  padding: 8px 16px;
-  border-right: 1px solid rgba(255, 244, 211, 0.08);
+.booking-field {
+  display: block;
+  min-width: 0;
 }
 
-.booking-item:last-of-type {
-  border-right: 0;
-}
-
-.booking-item small {
+.booking-field small {
   display: block;
   margin-bottom: 4px;
   color: #c2b589;
   font-size: 0.85rem;
 }
 
-.booking-item strong {
+.booking-field input {
+  width: 100%;
+  min-width: 0;
+  padding: 12px 14px;
+  border: 1px solid rgba(255, 244, 211, 0.12);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.04);
   color: #fff7e0;
-  font-size: 1rem;
-  font-weight: 600;
+  font: inherit;
+}
+
+.booking-field input::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+}
+
+.booking-field input:focus {
+  outline: 2px solid rgba(224, 189, 115, 0.65);
+  outline-offset: 1px;
+}
+
+.booking-field input[type='number'] {
+  appearance: textfield;
+}
+
+.booking-error,
+.booking-status {
+  margin: 10px auto 0;
+  max-width: 1100px;
+  font-size: 0.92rem;
+}
+
+.booking-error {
+  color: #f2c2b2;
+}
+
+.booking-status {
+  color: #e7d6a4;
+}
+
+.booking-action {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 10px;
 }
 
 .booking-button {
@@ -393,9 +429,14 @@
   border-radius: 18px;
   flex-shrink: 0;
   background: linear-gradient(180deg, #27452f 0%, #1b2f20 100%);
-  color: #f0d48b;
   box-shadow: 0 10px 20px rgba(39, 69, 47, 0.18);
-  font-size: 1.35rem;
+}
+
+.why-icon svg {
+  width: 28px;
+  height: 28px;
+  fill: #d8b25a;
+  display: block;
 }
 
 .why-card h3,
