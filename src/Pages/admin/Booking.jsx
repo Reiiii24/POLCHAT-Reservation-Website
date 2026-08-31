@@ -541,6 +541,7 @@ export default function Booking() {
                       booking.id;
 
 
+                    // Only show the request affordance when there is real text to review.
                     const hasSpecialRequest =
                       Boolean(
                         booking.special_requests

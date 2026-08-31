@@ -7,6 +7,7 @@ export default function ContactInfo() {
       <div className="about-footer-box">
         <div className="about-footer-top">
           <div className="about-footer-column about-footer-brand-column">
+            {/* Brand block keeps the resort identity visible in the footer. */}
             <div className="about-footer-brand">
               <Logo size={40} className="footer-logo" />
               <div>
@@ -26,6 +27,7 @@ export default function ContactInfo() {
             </div>
           </div>
 
+          {/* Keep only the main links in the shared footer. */}
           <div className="about-footer-column">
             <h3 className="about-footer-heading">Quick Links</h3>
             <ul className="about-footer-links">

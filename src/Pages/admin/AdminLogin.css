@@ -29,6 +29,7 @@
     sans-serif;
 }
 
+/* Keep the login form compact so it reads like a single focused task. */
 .admin-login-card {
   width: min(100%, 430px);
 

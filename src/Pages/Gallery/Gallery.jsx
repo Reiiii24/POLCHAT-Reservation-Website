@@ -5,13 +5,16 @@ import { supabase } from "../../lib/supabaseClient";
 
 import "./Gallery.css";
 
+// Shared storage bucket for all gallery photos.
 const GALLERY_BUCKET = "gallery";
 
+// Turn a storage path into a usable image URL.
 function buildPublicUrl(path) {
   const { data } = supabase.storage.from(GALLERY_BUCKET).getPublicUrl(path);
   return data.publicUrl;
 }
 
+// Fall back to the file type when the upload name has no extension.
 function getFileExtension(file) {
   const nameParts = file.name.split(".");
 
@@ -79,6 +82,7 @@ export default function Gallery() {
     [photos]
   );
 
+  // Admins can upload several photos in one go from this form.
   const handleUpload = async (event) => {
     event.preventDefault();
 
@@ -218,6 +222,7 @@ export default function Gallery() {
       </div>
 
       {activePhoto && (
+        /* Lightbox keeps the user on the same page while browsing photos. */
         <div
           className="gallery-lightbox"
           role="dialog"

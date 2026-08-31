@@ -145,6 +145,7 @@ function ReservationPage() {
      FORM DATA
      ========================= */
 
+  // Seed the form from availability search when the user arrives from that flow.
   const [
     formData,
     setFormData,

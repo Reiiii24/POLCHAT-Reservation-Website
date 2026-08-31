@@ -57,6 +57,7 @@ function SupportPage() {
         {/* TAB CONTENT */}
         <div className="support-chat-area">
 
+          {/* Swap between self-service help and the live admin chat view. */}
           {activeTab === "chatbot" ? (
             <Chatbot
               switchToAdmin={() => setActiveTab("admin")}

@@ -13,6 +13,7 @@ import Logo from "./Logo";
 import "./Navbar.css";
 
 
+// Keep the main routes in one place so both nav layouts stay in sync.
 const navLinks = [
   {
     path: "/",

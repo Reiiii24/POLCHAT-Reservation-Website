@@ -4,6 +4,7 @@ import './ContactPage.css';
 function ContactPage() {
   return (
     <div className="contact-page">
+      {/* Hero keeps the main contact paths above the fold. */}
       <section className="contact-page-hero">
         <div className="contact-page-shell">
           <div className="contact-page-copy">

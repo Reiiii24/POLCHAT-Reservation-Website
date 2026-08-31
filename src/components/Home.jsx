@@ -18,8 +18,10 @@ const formatDateTimeForInput = (date) => {
   return `${year}-${month}-${day}T${hours}:${minutes}`;
 };
 
+// Trim the timestamp to the date part expected by the availability check.
 const getDateKey = (dateString) => dateString.slice(0, 10);
 
+// Keep the result message natural for one guest or many.
 const formatGuestsLabel = (guests) => `${guests} ${Number(guests) === 1 ? 'Guest' : 'Guests'}`;
 
 export default function Home() {
@@ -50,6 +52,7 @@ export default function Home() {
     setAvailabilityError('');
   };
 
+  // Validate the quick form first, then check the selected dates in Supabase.
   const handleCheckAvailability = async () => {
     const { checkIn, checkOut, guests } = availabilityForm;
 

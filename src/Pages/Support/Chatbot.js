@@ -87,6 +87,7 @@ function Chatbot({ switchToAdmin }) {
   };
 
   const findAutomaticResponse = (message) => {
+    // Match broad customer wording before falling back to canned help text.
     const text = message.toLowerCase();
 
     if (

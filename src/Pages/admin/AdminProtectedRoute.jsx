@@ -21,6 +21,7 @@ export default function AdminProtectedRoute({
     let isMounted = true;
 
     const checkAdminAccess = async () => {
+      // Re-check both session state and the admin RPC result before rendering.
       setLoading(true);
 
       const {

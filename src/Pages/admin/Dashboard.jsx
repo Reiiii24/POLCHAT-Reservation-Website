@@ -199,6 +199,7 @@ export default function Dashboard() {
      ======================================== */
 
   useEffect(() => {
+    // Keep the summary cards fresh when reservations change outside this view.
     const channel =
       supabase
         .channel(

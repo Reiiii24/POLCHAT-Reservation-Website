@@ -40,6 +40,7 @@ export default function AdminLayout() {
           MOBILE HEADER
           ======================== */}
 
+      {/* Mobile header keeps the menu button close on smaller screens. */}
       <header className="admin-mobile-header">
 
         <button

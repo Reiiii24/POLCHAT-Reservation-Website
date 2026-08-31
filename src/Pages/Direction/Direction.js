@@ -2,7 +2,8 @@ import "./Direction.css";
 
 export default function Direction() {
   const getDirections = () => {
-  const destination =
+    // Build a Google Maps route with the visitor's live location when available.
+    const destination =
     "Blk 5 Lot 1 James Street, Baltao Subdivision, Taktak Road, Brgy Sta Cruz, Antipolo City, Antipolo, Philippines, 1870";
 
   // Check if the browser supports GPS
@@ -74,6 +75,7 @@ export default function Direction() {
 
         {/* Google Map */}
 
+        {/* Embedded map gives visitors a fallback even without geolocation. */}
         <div className="map-card">
 
   <iframe
