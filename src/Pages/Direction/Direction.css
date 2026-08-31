@@ -1,5 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Poppins:wght@300;400;500;600&display=swap");
 
+
 /* ==========================================
    DIRECTION PAGE
    ========================================== */
@@ -8,6 +9,7 @@
 .direction-page * {
   box-sizing: border-box;
 }
+
 
 .direction-page {
   position: relative;
@@ -33,8 +35,14 @@
     no-repeat;
 }
 
+
+/* ==========================================
+   BACKGROUND OVERLAY
+   ========================================== */
+
 .direction-overlay {
   position: absolute;
+
   inset: 0;
 
   z-index: 0;
@@ -45,18 +53,38 @@
   pointer-events: none;
 }
 
+
+/* ==========================================
+   CONTAINER
+   ========================================== */
+
 .direction-container {
   position: relative;
+
   z-index: 1;
 
-  width: min(1300px, calc(100% - 40px));
+  width:
+    min(
+      1300px,
+      calc(100% - 40px)
+    );
 
-  margin: 0 auto;
+  margin:
+    0
+    auto;
 
   padding:
-    clamp(52px, 7vw, 88px)
+    clamp(
+      52px,
+      7vw,
+      88px
+    )
     0
-    clamp(44px, 6vw, 64px);
+    clamp(
+      44px,
+      6vw,
+      64px
+    );
 }
 
 
@@ -65,15 +93,24 @@
    ========================================== */
 
 .direction-hero {
-  width: min(100%, 820px);
+  width:
+    min(
+      100%,
+      820px
+    );
 
   margin:
     0
     auto
-    clamp(30px, 5vw, 46px);
+    clamp(
+      30px,
+      5vw,
+      46px
+    );
 
   text-align: center;
 }
+
 
 .direction-hero h4 {
   margin:
@@ -84,11 +121,20 @@
   color: #d6bb63;
 
   font-size:
-    clamp(0.72rem, 1.2vw, 0.94rem);
+    clamp(
+      0.72rem,
+      1.2vw,
+      0.94rem
+    );
 
   letter-spacing:
-    clamp(3px, 0.65vw, 6px);
+    clamp(
+      3px,
+      0.65vw,
+      6px
+    );
 }
+
 
 .direction-hero h1 {
   margin:
@@ -104,33 +150,49 @@
     serif;
 
   font-size:
-    clamp(2.25rem, 6vw, 4.5rem);
+    clamp(
+      2.25rem,
+      6vw,
+      4.5rem
+    );
 
   font-weight: 700;
 
   line-height: 1.08;
 }
 
+
 .direction-hero h1 span {
   color: #b4d57d;
 }
 
-.direction-hero p {
-  width: min(100%, 700px);
 
-  margin: 0 auto;
+.direction-hero p {
+  width:
+    min(
+      100%,
+      700px
+    );
+
+  margin:
+    0
+    auto;
 
   color: #eeeeee;
 
   font-size:
-    clamp(0.95rem, 1.5vw, 1.1rem);
+    clamp(
+      0.95rem,
+      1.5vw,
+      1.1rem
+    );
 
   line-height: 1.7;
 }
 
 
 /* ==========================================
-   MAP
+   MAP CARD
    ========================================== */
 
 .map-card {
@@ -139,7 +201,11 @@
   width: 100%;
 
   margin-bottom:
-    clamp(30px, 5vw, 46px);
+    clamp(
+      20px,
+      3vw,
+      28px
+    );
 
   overflow: hidden;
 
@@ -148,67 +214,120 @@
     rgba(214, 187, 99, 0.55);
 
   border-radius:
-    clamp(18px, 3vw, 28px);
+    clamp(
+      18px,
+      3vw,
+      28px
+    );
 
   background:
-    rgba(255, 255, 255, 0.07);
+    rgba(
+      255,
+      255,
+      255,
+      0.07
+    );
 
   box-shadow:
     0 20px 50px
-    rgba(0, 0, 0, 0.45);
+    rgba(
+      0,
+      0,
+      0,
+      0.45
+    );
 
-  backdrop-filter: blur(10px);
+  backdrop-filter:
+    blur(10px);
 }
+
 
 .map-card iframe {
   display: block;
 
   width: 100%;
+
   height:
-    clamp(420px, 52vw, 600px);
+    clamp(
+      420px,
+      52vw,
+      600px
+    );
 
   border: 0;
 }
 
 
 /* ==========================================
-   TRAVEL CARD
+   DIRECTIONS ACTION CARD
    ========================================== */
 
-.travel-card {
-  position: absolute;
-
-  top:
-    clamp(24px, 8vw, 125px);
-
-  left: 14px;
-
-  z-index: 20;
-
-  width:
-    min(340px, calc(100% - 28px));
+.direction-action {
+  width: 100%;
 
   padding:
-    16px
-    20px;
+    clamp(
+      18px,
+      2.5vw,
+      24px
+    );
 
-  border-radius: 10px;
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 20px;
+
+  border:
+    1px solid
+    rgba(
+      214,
+      187,
+      99,
+      0.38
+    );
+
+  border-radius: 18px;
 
   background:
-    rgba(255, 255, 255, 0.96);
+    rgba(
+      255,
+      255,
+      255,
+      0.1
+    );
 
   box-shadow:
-    0 4px 15px
-    rgba(0, 0, 0, 0.2);
+    0 12px 30px
+    rgba(
+      0,
+      0,
+      0,
+      0.18
+    );
 
-  color: #17351d;
+  backdrop-filter:
+    blur(10px);
 }
 
-.travel-icon {
-  width: 44px;
-  height: 44px;
 
-  margin-bottom: 10px;
+.direction-action-text {
+  min-width: 0;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 14px;
+}
+
+
+.direction-pin {
+  width: 48px;
+  height: 48px;
+
+  flex-shrink: 0;
 
   display: flex;
 
@@ -219,139 +338,197 @@
 
   background: #4e6933;
 
-  color: #ffffff;
-
-  font-size: 22px;
+  font-size: 1.35rem;
 }
 
-.travel-card h3 {
-  margin: 0 0 6px;
 
-  color: #284b2d;
+.direction-action-text > div {
+  min-width: 0;
+}
 
-  font-size: 1.05rem;
+
+.direction-action h3 {
+  margin:
+    0
+    0
+    4px;
+
+  color: #ffffff;
+
+  font-size:
+    clamp(
+      0.95rem,
+      1.4vw,
+      1.08rem
+    );
+
   font-weight: 600;
 }
 
-.travel-card p {
+
+.direction-action p {
   margin: 0;
 
-  color: #666666;
+  color: #d9ddd7;
 
-  font-size: 0.88rem;
+  font-size:
+    clamp(
+      0.78rem,
+      1.2vw,
+      0.88rem
+    );
 
-  line-height: 1.45;
+  line-height: 1.5;
 }
 
 
 /* ==========================================
-   CONTACT CARDS
+   GOOGLE MAPS BUTTON
    ========================================== */
 
-/*
-  These selectors are scoped to .direction-page because
-  Home.css also uses the generic class name .info-card.
-*/
-
-.direction-page .contact-grid {
-  width: 100%;
-
-  display: grid;
-
-  grid-template-columns:
-    repeat(4, minmax(0, 1fr));
-
-  gap:
-    clamp(14px, 2.5vw, 25px);
-}
-
-.direction-page .info-card {
-  min-width: 0;
-
-  display: flex;
-
-  align-items: flex-start;
-
-  gap:
-    clamp(12px, 2vw, 18px);
+.get-directions-button {
+  min-height: 46px;
 
   padding:
-    clamp(18px, 2.5vw, 28px);
+    10px
+    20px;
 
-  border-radius: 24px;
+  flex-shrink: 0;
 
-  background:
-    rgba(255, 255, 255, 0.9);
+  border:
+    1px solid
+    rgba(
+      214,
+      187,
+      99,
+      0.65
+    );
 
-  box-shadow:
-    0 12px 30px
-    rgba(0, 0, 0, 0.2);
+  border-radius: 999px;
 
-  color: #203620;
+  background: #d6bb63;
+
+  color: #172518;
+
+  font-family: inherit;
+
+  font-size: 0.86rem;
+  font-weight: 600;
+
+  cursor: pointer;
 
   transition:
-    transform 0.25s ease,
-    box-shadow 0.25s ease;
+    background 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
-.direction-page .info-card:hover {
+
+.get-directions-button:hover {
+  background: #ead27d;
+
   transform:
-    translateY(-5px);
+    translateY(-2px);
 
   box-shadow:
-    0 16px 34px
-    rgba(0, 0, 0, 0.24);
+    0 8px 20px
+    rgba(
+      0,
+      0,
+      0,
+      0.2
+    );
 }
 
-.direction-page .icon {
-  width: 56px;
-  height: 56px;
 
-  min-width: 56px;
-
-  display: flex;
-
-  align-items: center;
-  justify-content: center;
-
-  border-radius: 50%;
-
-  background: #4e6933;
-
-  color: #ffffff;
-
-  font-size: 24px;
+.get-directions-button:active {
+  transform:
+    translateY(0);
 }
 
-.direction-page .info-card > div:last-child {
-  min-width: 0;
+
+.get-directions-button:focus-visible {
+  outline:
+    3px solid
+    rgba(
+      214,
+      187,
+      99,
+      0.35
+    );
+
+  outline-offset: 3px;
 }
 
-.direction-page .info-card h3 {
+
+/* ==========================================
+   ADDRESS
+   ========================================== */
+
+.direction-address {
+  width:
+    min(
+      100%,
+      760px
+    );
+
   margin:
-    0
-    0
-    10px;
+    clamp(
+      22px,
+      4vw,
+      34px
+    )
+    auto
+    0;
 
-  color: #274726;
+  padding:
+    15px
+    20px;
 
-  font-size:
-    clamp(0.86rem, 1.25vw, 1rem);
+  border-radius: 14px;
+
+  background:
+    rgba(
+      255,
+      255,
+      255,
+      0.08
+    );
+
+  text-align: center;
+}
+
+
+.direction-address span {
+  display: block;
+
+  margin-bottom: 5px;
+
+  color: #d6bb63;
+
+  font-size: 0.7rem;
+  font-weight: 600;
 
   letter-spacing: 1px;
+
+  text-transform: uppercase;
 }
 
-.direction-page .info-card p {
+
+.direction-address p {
   margin: 0;
 
-  color: #4c5b4d;
+  color: #eeeeee;
 
   font-size:
-    clamp(0.86rem, 1.2vw, 0.95rem);
+    clamp(
+      0.8rem,
+      1.25vw,
+      0.9rem
+    );
 
-  line-height: 1.7;
-
-  overflow-wrap: anywhere;
+  line-height: 1.55;
 }
 
 
@@ -360,15 +537,24 @@
    ========================================== */
 
 .direction-footer {
-  width: min(100%, 900px);
+  width:
+    min(
+      100%,
+      900px
+    );
 
   margin:
-    clamp(36px, 6vw, 55px)
+    clamp(
+      36px,
+      6vw,
+      55px
+    )
     auto
     0;
 
   text-align: center;
 }
+
 
 .direction-footer p {
   margin: 0;
@@ -381,7 +567,11 @@
     serif;
 
   font-size:
-    clamp(0.95rem, 2vw, 1.25rem);
+    clamp(
+      0.95rem,
+      2vw,
+      1.25rem
+    );
 
   letter-spacing: 1px;
 
@@ -390,65 +580,53 @@
 
 
 /* ==========================================
-   TABLET / SMALL LAPTOP
-   ========================================== */
-
-@media (max-width: 1100px) {
-  .direction-page .contact-grid {
-    grid-template-columns:
-      repeat(2, minmax(0, 1fr));
-  }
-}
-
-
-/* ==========================================
-   MOBILE / TABLET
+   TABLET
    ========================================== */
 
 @media (max-width: 768px) {
+
   .direction-container {
     width:
-      min(100% - 28px, 1300px);
+      min(
+        calc(100% - 28px),
+        1300px
+      );
 
     padding-top: 42px;
   }
 
-  .map-card {
-    display: flex;
-    flex-direction: column;
-
-    overflow: hidden;
-  }
-
-  /*
-    On smaller screens, the address card becomes part of the
-    normal flow instead of floating over the map.
-  */
-  .travel-card {
-    position: relative;
-
-    top: auto;
-    left: auto;
-
-    width: 100%;
-
-    border-radius: 0;
-
-    box-shadow: none;
-  }
 
   .map-card iframe {
     height:
-      clamp(330px, 70vw, 450px);
+      clamp(
+        330px,
+        70vw,
+        450px
+      );
   }
 
-  .direction-page .contact-grid {
-    grid-template-columns: 1fr;
+
+  .direction-action {
+    align-items: stretch;
+
+    flex-direction: column;
   }
 
-  .direction-page .info-card:hover {
+
+  .get-directions-button {
+    width: 100%;
+  }
+
+
+  /*
+    Removing hover movement makes
+    touch interaction feel cleaner.
+  */
+
+  .get-directions-button:hover {
     transform: none;
   }
+
 }
 
 
@@ -457,45 +635,71 @@
    ========================================== */
 
 @media (max-width: 500px) {
+
   .direction-container {
     width:
-      min(100% - 20px, 1300px);
+      min(
+        calc(100% - 20px),
+        1300px
+      );
 
     padding-bottom: 38px;
   }
+
 
   .direction-hero {
     margin-bottom: 28px;
   }
 
+
   .direction-hero h1 {
     font-size:
-      clamp(2rem, 11vw, 2.75rem);
+      clamp(
+        2rem,
+        11vw,
+        2.75rem
+      );
   }
+
 
   .map-card iframe {
     height:
-      clamp(300px, 88vw, 370px);
+      clamp(
+        300px,
+        88vw,
+        370px
+      );
   }
 
-  .travel-card {
+
+  .direction-action {
     padding: 16px;
+
+    border-radius: 15px;
   }
 
-  .direction-page .info-card {
-    padding: 18px;
 
-    border-radius: 18px;
+  .direction-action-text {
+    align-items: flex-start;
+
+    gap: 11px;
   }
 
-  .direction-page .icon {
-    width: 48px;
-    height: 48px;
 
-    min-width: 48px;
+  .direction-pin {
+    width: 42px;
+    height: 42px;
 
-    font-size: 21px;
+    font-size: 1.15rem;
   }
+
+
+  .direction-address {
+    padding:
+      14px
+      15px;
+  }
+
 }
 
 
@@ -504,25 +708,44 @@
    ========================================== */
 
 @media (max-width: 360px) {
+
   .direction-container {
     width:
-      min(100% - 14px, 1300px);
+      min(
+        calc(100% - 14px),
+        1300px
+      );
   }
 
-  .direction-page .info-card {
-    gap: 10px;
+
+  .direction-action {
+    padding:
+      14px
+      12px;
+  }
+
+
+  .direction-action-text {
+    gap: 9px;
+  }
+
+
+  .direction-pin {
+    width: 38px;
+    height: 38px;
+
+    font-size: 1rem;
+  }
+
+
+  .get-directions-button {
+    min-height: 43px;
 
     padding:
-      16px
-      13px;
+      9px
+      14px;
+
+    font-size: 0.8rem;
   }
 
-  .direction-page .icon {
-    width: 42px;
-    height: 42px;
-
-    min-width: 42px;
-
-    font-size: 18px;
-  }
 }

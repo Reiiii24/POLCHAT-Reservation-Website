@@ -80,6 +80,11 @@ function ReservationPage() {
   ] = useState(false);
 
   const [
+    showSubmitConfirm,
+    setShowSubmitConfirm,
+  ] = useState(false);
+
+  const [
     formError,
     setFormError,
   ] = useState("");
@@ -155,11 +160,20 @@ function ReservationPage() {
     groupName: "",
     address: "",
     contactNumber: "",
-    guests: location.state?.availabilitySearch?.guests || "",
+    guests:
+      location.state?.availabilitySearch?.guests ||
+      "",
     stayType: "",
     email: "",
     confirmEmail: "",
-    arrivalTime: location.state?.availabilitySearch?.checkIn ? new Date(location.state.availabilitySearch.checkIn).toISOString().slice(11, 16) : "",
+    arrivalTime:
+      location.state?.availabilitySearch?.checkIn
+        ? new Date(
+            location.state.availabilitySearch.checkIn
+          )
+            .toISOString()
+            .slice(11, 16)
+        : "",
     specialRequests: "",
   });
 
@@ -206,6 +220,43 @@ function ReservationPage() {
     availabilityError,
     setAvailabilityError,
   ] = useState("");
+
+
+  /* =========================
+     RESET RESERVATION FORM
+     ========================= */
+
+  const resetReservationForm = () => {
+    setFormData({
+      name: "",
+      bookingType: "",
+      groupName: "",
+      address: "",
+      contactNumber: "",
+      guests: "",
+      stayType: "",
+      email: "",
+      confirmEmail: "",
+      arrivalTime: "",
+      specialRequests: "",
+    });
+
+    setSelectedDate(null);
+
+    setStep(1);
+
+    setFormError("");
+
+    const resetDate = new Date();
+
+    setCurrentMonth(
+      resetDate.getMonth()
+    );
+
+    setCurrentYear(
+      resetDate.getFullYear()
+    );
+  };
 
 
   const monthNames = [
@@ -394,25 +445,25 @@ function ReservationPage() {
 
 
   const getAvailabilityForDate =
-  useCallback(
-    (date) => {
-      if (!date) {
-        return null;
-      }
+    useCallback(
+      (date) => {
+        if (!date) {
+          return null;
+        }
 
-      const dateKey =
-        formatDateObjectForDatabase(
-          date
+        const dateKey =
+          formatDateObjectForDatabase(
+            date
+          );
+
+        return (
+          availabilityByDate[
+            dateKey
+          ] || null
         );
-
-      return (
-        availabilityByDate[
-          dateKey
-        ] || null
-      );
-    },
-    [availabilityByDate]
-  );
+      },
+      [availabilityByDate]
+    );
 
 
   /* =========================
@@ -478,8 +529,8 @@ function ReservationPage() {
     }
   }, [
     selectedDate,
-  formData.stayType,
-  getAvailabilityForDate,
+    formData.stayType,
+    getAvailabilityForDate,
   ]);
 
 
@@ -729,120 +780,148 @@ function ReservationPage() {
      SUBMIT RESERVATION
      ========================= */
 
-  const handleSubmit =
+  const handleSubmit = () => {
+    if (
+      !formData.email ||
+      !formData.confirmEmail ||
+      !formData.arrivalTime
+    ) {
+      setFormError(
+        "Please complete all required fields before submitting."
+      );
+
+      return;
+    }
+
+
+    if (
+      !selectedDate
+    ) {
+      setFormError(
+        "Please select a reservation date."
+      );
+
+      setStep(1);
+
+      return;
+    }
+
+
+    /*
+      Check the currently loaded
+      confirmed availability again.
+    */
+
+    const dateAvailability =
+      getAvailabilityForDate(
+        selectedDate
+      );
+
+
+    if (
+      dateAvailability
+        ?.availability_status ===
+      "unavailable"
+    ) {
+      setFormError(
+        "This date is fully unavailable because a confirmed 22 Hours reservation occupies the resort."
+      );
+
+      setStep(1);
+
+      return;
+    }
+
+
+    if (
+      formData.stayType ===
+        "22 Hours" &&
+      dateAvailability
+        ?.availability_status ===
+        "partial"
+    ) {
+      setFormError(
+        "22 Hours requires an entirely free date. Please choose a date without a confirmed Day Tour or Overnight reservation."
+      );
+
+      setStep(1);
+
+      return;
+    }
+
+
+    /*
+      Email confirmation.
+    */
+
+    if (
+      formData.email
+        .trim()
+        .toLowerCase() !==
+      formData.confirmEmail
+        .trim()
+        .toLowerCase()
+    ) {
+      setFormError(
+        "The email addresses do not match."
+      );
+
+      return;
+    }
+
+
+    if (
+      exceedsCapacity
+    ) {
+      setFormError(
+        `${formData.stayType} allows a maximum of ${selectedCapacity} guests.`
+      );
+
+      return;
+    }
+
+
+    if (
+      isSubmitting
+    ) {
+      return;
+    }
+
+
+    setFormError("");
+
+    /*
+      Validation passed.
+
+      Do not submit yet.
+      Ask the customer to confirm first.
+    */
+
+    setShowSubmitConfirm(
+      true
+    );
+  };
+
+
+  /* =========================
+     CONFIRM FINAL SUBMISSION
+     ========================= */
+
+  const confirmReservationSubmission =
     async () => {
       if (
-        !formData.email ||
-        !formData.confirmEmail ||
-        !formData.arrivalTime
-      ) {
-        setFormError(
-          "Please complete all required fields before submitting."
-        );
-
-        return;
-      }
-
-
-      if (
+        isSubmitting ||
         !selectedDate
       ) {
-        setFormError(
-          "Please select a reservation date."
-        );
-
-        setStep(1);
-
         return;
       }
 
-
-      /*
-        Check the currently loaded
-        confirmed availability again.
-      */
-
-      const dateAvailability =
-        getAvailabilityForDate(
-          selectedDate
-        );
-
-
-      if (
-        dateAvailability
-          ?.availability_status ===
-        "unavailable"
-      ) {
-        setFormError(
-          "This date is fully unavailable because a confirmed 22 Hours reservation occupies the resort."
-        );
-
-        setStep(1);
-
-        return;
-      }
-
-
-      if (
-        formData.stayType ===
-          "22 Hours" &&
-        dateAvailability
-          ?.availability_status ===
-          "partial"
-      ) {
-        setFormError(
-          "22 Hours requires an entirely free date. Please choose a date without a confirmed Day Tour or Overnight reservation."
-        );
-
-        setStep(1);
-
-        return;
-      }
-
-
-      /*
-        Email confirmation.
-      */
-
-      if (
-        formData.email
-          .trim()
-          .toLowerCase() !==
-        formData.confirmEmail
-          .trim()
-          .toLowerCase()
-      ) {
-        setFormError(
-          "The email addresses do not match."
-        );
-
-        return;
-      }
-
-
-      if (
-        exceedsCapacity
-      ) {
-        setFormError(
-          `${formData.stayType} allows a maximum of ${selectedCapacity} guests.`
-        );
-
-        return;
-      }
-
-
-      if (
-        isSubmitting
-      ) {
-        return;
-      }
-
-
-      setFormError("");
 
       setIsSubmitting(
         true
       );
+
+      setFormError("");
 
 
       const reservationData = {
@@ -920,7 +999,7 @@ function ReservationPage() {
 
           /*
             These are the messages raised
-            by our database-level 22 Hours
+            by our database-level reservation
             conflict trigger.
           */
 
@@ -947,9 +1026,27 @@ function ReservationPage() {
           }
 
 
+          setShowSubmitConfirm(
+            false
+          );
+
           return;
         }
 
+
+        /*
+          Submission succeeded.
+
+          Clear every field and return the
+          reservation form to Step 1 before
+          displaying the success message.
+        */
+
+        setShowSubmitConfirm(
+          false
+        );
+
+        resetReservationForm();
 
         setShowSuccess(
           true
@@ -973,12 +1070,32 @@ function ReservationPage() {
           "An unexpected error occurred. Please try again."
         );
 
+        setShowSubmitConfirm(
+          false
+        );
+
       } finally {
         setIsSubmitting(
           false
         );
       }
     };
+
+
+  /* =========================
+     CLOSE SUCCESS POPUP
+     ========================= */
+
+  const closeSuccessPopup = () => {
+    setShowSuccess(
+      false
+    );
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
 
 
   /* =========================
@@ -2236,6 +2353,125 @@ function ReservationPage() {
 
 
         {/* =========================
+            SUBMISSION CONFIRMATION
+            ========================= */}
+
+        {showSubmitConfirm && (
+          <div className="confirmation-overlay">
+
+            <div
+              className="confirmation-popup"
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="confirmation-title"
+            >
+
+              <div className="confirmation-icon">
+                ?
+              </div>
+
+
+              <h2 id="confirmation-title">
+                Confirm Reservation
+              </h2>
+
+
+              <p>
+                Are you sure you want to submit this reservation request?
+              </p>
+
+
+              <div className="confirmation-summary">
+
+                <div>
+                  <span>
+                    Reservation Type
+                  </span>
+
+                  <strong>
+                    {formData.stayType}
+                  </strong>
+                </div>
+
+
+                <div>
+                  <span>
+                    Reservation Date
+                  </span>
+
+                  <strong>
+                    {selectedDate?.toLocaleDateString(
+                      "en-PH",
+                      {
+                        month: "long",
+                        day: "numeric",
+                        year: "numeric",
+                      }
+                    )}
+                  </strong>
+                </div>
+
+
+                <div>
+                  <span>
+                    Number of Guests
+                  </span>
+
+                  <strong>
+                    {guestCount}
+                  </strong>
+                </div>
+
+              </div>
+
+
+              <p className="confirmation-note">
+                Please review your details before continuing. Once submitted, the reservation request will be sent to PolChat Garden Resort for review.
+              </p>
+
+
+              <div className="confirmation-actions">
+
+                <button
+                  type="button"
+                  className="confirmation-back-btn"
+                  disabled={
+                    isSubmitting
+                  }
+                  onClick={() =>
+                    setShowSubmitConfirm(
+                      false
+                    )
+                  }
+                >
+                  Go Back
+                </button>
+
+
+                <button
+                  type="button"
+                  className="confirmation-submit-btn"
+                  disabled={
+                    isSubmitting
+                  }
+                  onClick={
+                    confirmReservationSubmission
+                  }
+                >
+                  {isSubmitting
+                    ? "Submitting..."
+                    : "Confirm Reservation"}
+                </button>
+
+              </div>
+
+            </div>
+
+          </div>
+        )}
+
+
+        {/* =========================
             SUCCESS POPUP
             ========================= */}
 
@@ -2265,21 +2501,17 @@ function ReservationPage() {
 
 
               <p className="success-note">
-
-                Please wait for confirmation from PolChat Garden Resort before considering your reservation final.
-
+                Your form has been cleared. Please wait for confirmation from PolChat Garden Resort before considering your reservation final.
               </p>
 
 
               <button
                 type="button"
-                onClick={() =>
-                  setShowSuccess(
-                    false
-                  )
+                onClick={
+                  closeSuccessPopup
                 }
               >
-                Close
+                Return to Reservation Form
               </button>
 
             </div>
