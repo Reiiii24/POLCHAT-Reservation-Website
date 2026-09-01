@@ -40,6 +40,20 @@ function formatPhotoTitle(fileName) {
     .trim();
 }
 
+function isImageFile(item) {
+  if (!item?.name) {
+    return false;
+  }
+
+  const mimeType = item.metadata?.mimetype || item.metadata?.contentType || "";
+
+  if (mimeType.startsWith("image/")) {
+    return true;
+  }
+
+  return /\.(avif|bmp|gif|jpe?g|png|svg|webp)$/i.test(item.name);
+}
+
 export default function Gallery() {
   const location = useLocation();
   const isAdminView = location.pathname.startsWith("/admin");
@@ -66,14 +80,7 @@ export default function Gallery() {
       return;
     }
 
-    const imageFiles = (data || []).filter((item) => {
-      if (!item?.name || !item.metadata) {
-        return false;
-      }
-
-      const mimeType = item.metadata.mimetype || item.metadata.contentType || "";
-      return mimeType.startsWith("image/");
-    });
+    const imageFiles = (data || []).filter(isImageFile);
 
     setPhotos(imageFiles);
     setLoading(false);
