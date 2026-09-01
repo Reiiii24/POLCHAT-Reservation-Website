@@ -1,3 +1,5 @@
+// This file handles the admin side of the support chat system.
+
 import {
   useCallback,
   useEffect,

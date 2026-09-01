@@ -1,3 +1,5 @@
+// This file shows the resort contact details and related info for guests.
+
 import Logo from './Logo';
 import './ContactInfo.css';
 

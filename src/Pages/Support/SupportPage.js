@@ -1,3 +1,5 @@
+// This file shows the support page where users can get help.
+
 import { useState } from "react";
 import "./SupportPage.css";
 

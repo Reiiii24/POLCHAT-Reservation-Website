@@ -1,3 +1,5 @@
+// This file shows past customer reservation records for admin review.
+
 import {
   useCallback,
   useEffect,

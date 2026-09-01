@@ -1,3 +1,5 @@
+// This file shows the admin calendar view for tracking reservation dates.
+
 import {
   useCallback,
   useEffect,

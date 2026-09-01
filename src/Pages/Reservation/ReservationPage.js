@@ -1,3 +1,5 @@
+// This file handles the reservation form, calendar, and booking flow.
+
 import {
   useCallback,
   useEffect,

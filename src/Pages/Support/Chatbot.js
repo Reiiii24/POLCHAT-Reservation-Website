@@ -1,3 +1,5 @@
+// This file runs the support chatbot conversation for guest questions.
+
 import { useState } from "react";
 
 const quickQuestions = [
@@ -68,8 +70,6 @@ function Chatbot({ switchToAdmin }) {
     },
   ]);
 
-  const [input, setInput] = useState("");
-
   const addQuestionAndAnswer = (question, answer) => {
     setMessages((previousMessages) => [
       ...previousMessages,
@@ -84,116 +84,6 @@ function Chatbot({ switchToAdmin }) {
         text: answer,
       },
     ]);
-  };
-
-  const findAutomaticResponse = (message) => {
-    // Match broad customer wording before falling back to canned help text.
-    const text = message.toLowerCase();
-
-    if (
-      text.includes("reserve") ||
-      text.includes("reservation") ||
-      text.includes("book")
-    ) {
-      return quickQuestions[0].answer;
-    }
-
-    if (
-      text.includes("day tour") ||
-      text.includes("overnight") ||
-      text.includes("22 hour") ||
-      text.includes("type")
-    ) {
-      return quickQuestions[1].answer;
-    }
-
-    if (
-      text.includes("guest") ||
-      text.includes("capacity") ||
-      text.includes("pax") ||
-      text.includes("people")
-    ) {
-      return quickQuestions[2].answer;
-    }
-
-    if (
-      text.includes("payment") ||
-      text.includes("pay") ||
-      text.includes("gcash") ||
-      text.includes("bank")
-    ) {
-      return quickQuestions[3].answer;
-    }
-
-    if (
-      text.includes("deposit") ||
-      text.includes("security")
-    ) {
-      return quickQuestions[4].answer;
-    }
-
-    if (
-      text.includes("downpayment") ||
-      text.includes("down payment") ||
-      text.includes("50%")
-    ) {
-      return quickQuestions[5].answer;
-    }
-
-    if (
-      text.includes("noise") ||
-      text.includes("loud") ||
-      text.includes("party") ||
-      text.includes("rule")
-    ) {
-      return quickQuestions[6].answer;
-    }
-
-    if (
-      text.includes("bring") ||
-      text.includes("items") ||
-      text.includes("essentials")
-    ) {
-      return quickQuestions[7].answer;
-    }
-
-    return (
-      "I'm sorry, I don't have an automatic answer for that question yet. " +
-      "You can try one of the suggested questions below or switch to Chat with Admin for further assistance."
-    );
-  };
-
-  const handleSend = () => {
-    const trimmedMessage = input.trim();
-
-    if (!trimmedMessage) {
-      return;
-    }
-
-    const response =
-      findAutomaticResponse(trimmedMessage);
-
-    setMessages((previousMessages) => [
-      ...previousMessages,
-
-      {
-        sender: "user",
-        text: trimmedMessage,
-      },
-
-      {
-        sender: "bot",
-        text: response,
-      },
-    ]);
-
-    setInput("");
-  };
-
-  const handleKeyDown = (event) => {
-    if (event.key === "Enter") {
-      handleSend();
-    }
   };
 
   return (
@@ -295,28 +185,7 @@ function Chatbot({ switchToAdmin }) {
 
       </div>
 
-      {/* MESSAGE INPUT */}
-      <div className="chat-input-container">
 
-        <input
-          type="text"
-          placeholder="Ask a question..."
-          value={input}
-          onChange={(event) =>
-            setInput(event.target.value)
-          }
-          onKeyDown={handleKeyDown}
-        />
-
-        <button
-          type="button"
-          onClick={handleSend}
-          className="chat-send-button"
-        >
-          Send
-        </button>
-
-      </div>
 
     </div>
   );

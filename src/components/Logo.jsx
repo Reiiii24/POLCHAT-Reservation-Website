@@ -1,3 +1,5 @@
+// This file shows the resort logo used in different parts of the app.
+
 import React from 'react';
 
 export default function Logo({ className = "navbar-logo", size = 40 }) {

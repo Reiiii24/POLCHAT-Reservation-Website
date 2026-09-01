@@ -1,3 +1,5 @@
+// This file wraps the admin pages with the shared layout and sidebar.
+
 import {
   Outlet,
   useLocation,

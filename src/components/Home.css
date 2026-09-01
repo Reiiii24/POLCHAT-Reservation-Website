@@ -1,3 +1,5 @@
+/* This file styles the Home section so the page looks clean and organized. */
+
 .home {
   color: #f6f0e3;
   background: #efe6d7;
@@ -851,6 +853,25 @@
 }
 
 @media (max-width: 1100px) {
+  .home-shell {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .why-grid,
+  .info-grid,
+  .services-brief-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .gallery-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .story-grid {
+    grid-template-columns: 1fr;
+  }
+
   .footer-top {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -865,6 +886,111 @@
 
   .footer-brand-text {
     max-width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .home-hero {
+    padding: 48px 0 180px;
+  }
+
+  .home-shell {
+    padding: 40px 20px 0;
+  }
+
+  .home-hero-copy {
+    max-width: 100%;
+    text-align: center;
+  }
+
+  .home-kicker {
+    font-size: 1.15rem;
+  }
+
+  .home-hero-copy h1 {
+    font-size: clamp(2rem, 9vw, 3rem);
+  }
+
+  .home-divider {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .home-subcopy {
+    max-width: 100%;
+    font-size: 0.98rem;
+  }
+
+  .home-actions {
+    justify-content: center;
+  }
+
+  .booking-strip-wrap {
+    bottom: -120px;
+    padding: 0 20px;
+  }
+
+  .booking-strip {
+    max-width: 100%;
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 16px;
+  }
+
+  .booking-action {
+    margin-bottom: 0;
+  }
+
+  .booking-button {
+    min-height: 52px;
+  }
+
+  .home-why,
+  .home-story,
+  .home-gallery,
+  .home-info,
+  .home-footnote {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .home-why {
+    padding-top: 156px;
+  }
+
+  .section-heading {
+    margin-bottom: 24px;
+  }
+
+  .section-heading h2,
+  .home-story .section-heading h2 {
+    white-space: normal;
+  }
+
+  .why-grid,
+  .gallery-grid,
+  .info-grid,
+  .services-brief-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .why-card {
+    padding: 18px;
+  }
+
+  .story-copy {
+    padding: 28px 22px;
+    font-size: 1.08rem;
+  }
+
+  .image-slot,
+  .image-slot-large {
+    min-height: 240px;
+  }
+
+  .info-panel,
+  .services-brief-panel {
+    padding: 22px 18px;
   }
 }
 
@@ -900,6 +1026,26 @@
 }
 
 @media (max-width: 380px) {
+  .home-shell,
+  .booking-strip-wrap,
+  .home-why,
+  .home-story,
+  .home-gallery,
+  .home-info,
+  .home-footnote {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .home-btn-primary,
+  .booking-button {
+    width: 100%;
+  }
+
+  .booking-field input {
+    padding: 11px 12px;
+  }
+
   .footer-top {
     padding-left: 14px;
     padding-right: 14px;

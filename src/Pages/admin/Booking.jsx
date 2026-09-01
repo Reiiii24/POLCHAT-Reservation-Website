@@ -1,3 +1,5 @@
+// This file shows the admin booking view for checking reservation details.
+
 import {
   useCallback,
   useEffect,

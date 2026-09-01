@@ -1,3 +1,5 @@
+// This file shows the admin chat page for customer conversations.
+
 import {
   useCallback,
   useEffect,

@@ -1,3 +1,5 @@
+// This file shows the contact page so guests can reach the resort.
+
 import ContactInfo from '../../components/ContactInfo';
 import './ContactPage.css';
 

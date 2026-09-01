@@ -1,6 +1,4 @@
-/* ==========================================
-   SUPPORT PAGE
-   ========================================== */
+/* This file styles the Support Page section so the page looks clean and organized. */
 
 .support-page,
 .support-page * {
@@ -214,7 +212,7 @@
   min-width: 0;
 
   min-height:
-    clamp(520px, 66vh, 620px);
+    clamp(500px, 66vh, 620px);
 }
 
 .support-page .chat-content {
@@ -226,7 +224,11 @@
   flex-direction: column;
 
   min-height:
-    clamp(520px, 66vh, 620px);
+    clamp(500px, 66vh, 620px);
+}
+
+.support-page .quick-help {
+  margin-top: auto;
 }
 
 
@@ -357,8 +359,8 @@
 
   gap: 13px;
 
-  min-height: 220px;
-  max-height: min(390px, 46vh);
+  min-height: 170px;
+  max-height: min(320px, 40vh);
 
   padding:
     clamp(14px, 2.5vw, 22px);

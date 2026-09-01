@@ -1,3 +1,5 @@
+// This file shows the list of resort services and guest options.
+
 import './ServiceList.css';
 
 // Keep the card content in one place so the section stays easy to reorder.

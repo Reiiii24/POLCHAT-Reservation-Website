@@ -1,3 +1,5 @@
+// This file shows the resort location and opens directions in Google Maps.
+
 import "./Direction.css";
 
 

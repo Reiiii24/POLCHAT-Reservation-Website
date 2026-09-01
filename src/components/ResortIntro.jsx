@@ -1,3 +1,5 @@
+// This file introduces the resort and gives a quick overview for visitors.
+
 import ServicesPageImage from '../Assets/servicesPage.png';
 import NatureSerenity from '../Assets/NatureSerenity.jpg';
 import Cottages from '../Assets/Cottages.jpg';

@@ -1,3 +1,5 @@
+// This file creates the Supabase client so the app can talk to the database.
+
 import { createClient } from "@supabase/supabase-js";
 
 const supabaseUrl =

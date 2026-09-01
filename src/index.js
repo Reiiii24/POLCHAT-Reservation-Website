@@ -1,3 +1,5 @@
+// This file starts the React app and mounts it to the page.
+
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';

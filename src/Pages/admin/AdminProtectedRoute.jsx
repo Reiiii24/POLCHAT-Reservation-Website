@@ -1,3 +1,5 @@
+// This file protects admin pages so only signed-in admins can open them.
+
 import { useEffect, useState } from "react";
 import {
   Navigate,

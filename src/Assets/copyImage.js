@@ -1,3 +1,5 @@
+// This file keeps image copy helpers that are used around the app.
+
 const fs = require('fs');
 const path = require('path');
 

@@ -1,3 +1,5 @@
+// This file shows admin notifications about booking activity and updates.
+
 import {
   useCallback,
   useEffect,

@@ -1,3 +1,5 @@
+// This file connects the main routes and page layouts for the whole app.
+
 import {
   BrowserRouter,
   Routes,

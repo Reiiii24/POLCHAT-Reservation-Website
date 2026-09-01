@@ -1,3 +1,5 @@
+// This file shows the about page with resort background and details.
+
 import ResortIntro from '../components/ResortIntro';
 import ServiceList from '../components/ServiceList';
 import ContactInfo from '../components/ContactInfo';

@@ -1,3 +1,5 @@
+// This file shows the main admin dashboard with booking stats and updates.
+
 import {
   useCallback,
   useEffect,

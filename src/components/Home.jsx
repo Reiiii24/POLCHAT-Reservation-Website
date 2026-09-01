@@ -1,3 +1,5 @@
+// This file shows the home page with the main resort highlights and actions.
+
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../lib/supabaseClient';

@@ -1,3 +1,5 @@
+// This file shows the resort gallery and lets admins manage photos.
+
 import { useEffect, useMemo, useState } from "react";
 import { useLocation } from "react-router-dom";
 
@@ -64,7 +66,16 @@ export default function Gallery() {
       return;
     }
 
-    setPhotos((data || []).filter((item) => item.name));
+    const imageFiles = (data || []).filter((item) => {
+      if (!item?.name || !item.metadata) {
+        return false;
+      }
+
+      const mimeType = item.metadata.mimetype || item.metadata.contentType || "";
+      return mimeType.startsWith("image/");
+    });
+
+    setPhotos(imageFiles);
     setLoading(false);
   };
 

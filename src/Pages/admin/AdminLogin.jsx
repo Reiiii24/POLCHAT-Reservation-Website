@@ -1,3 +1,5 @@
+// This file handles the admin login screen and sign-in flow.
+
 import {
   useEffect,
   useState,

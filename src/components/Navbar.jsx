@@ -1,3 +1,5 @@
+// This file shows the main navigation so users can move around the site.
+
 import {
   Link,
   NavLink,

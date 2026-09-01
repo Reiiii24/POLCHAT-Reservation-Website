@@ -1,3 +1,5 @@
+// This file shows the admin sidebar links for moving around the dashboard.
+
 import {
   NavLink,
   useNavigate,
