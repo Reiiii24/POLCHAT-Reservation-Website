@@ -155,10 +155,9 @@
   border: 0;
   color: #24301d;
   background: linear-gradient(135deg, #c49b45 0%, #e0bd73 100%);
-  padding: 11px 26px;
-  font-size: 15px;
+  padding: 8px 20px;
+  font-size: 13px;
   font-weight: 700;
-  letter-spacing: 0;
 }
 
 .home-btn-primary:hover,
