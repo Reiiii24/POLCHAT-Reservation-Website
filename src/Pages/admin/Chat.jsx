@@ -16,6 +16,75 @@ const ATTACHMENT_BUCKET =
   "chat-attachments";
 
 
+/* ========================================
+   CHAT MODERATION
+   ======================================== */
+
+/*
+  Basic list of inappropriate words/phrases.
+
+  This is intentionally kept on the frontend as a
+  first layer of protection. We will also apply
+  moderation on the customer side.
+
+  You can add or remove words from this list later.
+*/
+const INAPPROPRIATE_WORDS = [
+  "fuck",
+  "fucking",
+  "fucked",
+  "shit",
+  "shitty",
+  "bitch",
+  "bastard",
+  "asshole",
+  "dick",
+  "dumbass",
+  "bullshit",
+  "motherfucker",
+  "cunt",
+  "slut",
+  "whore",
+];
+
+
+/*
+  Checks whether a message contains inappropriate
+  language.
+
+  It also catches simple attempts to bypass the filter,
+  such as:
+
+  f.u.c.k
+  f-u-c-k
+  f u c k
+*/
+function containsInappropriateContent(text) {
+  if (!text) {
+    return false;
+  }
+
+  const normalized =
+    text
+      .toLowerCase()
+      .replace(
+        /[\s._\-*]+/g,
+        ""
+      );
+
+  return INAPPROPRIATE_WORDS.some(
+    (word) =>
+      normalized.includes(
+        word
+      )
+  );
+}
+
+
+/* ========================================
+   MESSAGE TIME
+   ======================================== */
+
 function formatMessageTime(dateString) {
   if (!dateString) {
     return "";
@@ -32,6 +101,10 @@ function formatMessageTime(dateString) {
   );
 }
 
+
+/* ========================================
+   CHAT PREVIEW TIME
+   ======================================== */
 
 function formatPreviewTime(dateString) {
   if (!dateString) {
@@ -68,6 +141,10 @@ function formatPreviewTime(dateString) {
 }
 
 
+/* ========================================
+   MONEY
+   ======================================== */
+
 function formatMoney(value) {
   return Number(
     value || 0
@@ -81,6 +158,10 @@ function formatMoney(value) {
 }
 
 
+/* ========================================
+   FILE EXTENSION
+   ======================================== */
+
 function getExtension(file) {
   const extension =
     file.name
@@ -91,6 +172,10 @@ function getExtension(file) {
   return extension || "file";
 }
 
+
+/* ========================================
+   ATTACHMENT VALIDATION
+   ======================================== */
 
 function validAttachment(file) {
   const allowed = [
@@ -110,7 +195,12 @@ function validAttachment(file) {
 }
 
 
+/* ========================================
+   MAIN COMPONENT
+   ======================================== */
+
 export default function Chat() {
+
   const [chats, setChats] =
     useState([]);
 
@@ -151,6 +241,11 @@ export default function Chat() {
     setReviewingId,
   ] = useState(null);
 
+  const [
+    deletingId,
+    setDeletingId,
+  ] = useState(null);
+
   const [error, setError] =
     useState("");
 
@@ -172,6 +267,7 @@ export default function Chat() {
 
   const fetchChats =
     useCallback(async () => {
+
       const {
         data,
         error: fetchError,
@@ -207,6 +303,7 @@ export default function Chat() {
 
 
       if (fetchError) {
+
         console.error(
           fetchError
         );
@@ -229,6 +326,7 @@ export default function Chat() {
 
       setSelectedChat(
         (current) => {
+
           if (!current) {
             return current;
           }
@@ -245,19 +343,22 @@ export default function Chat() {
 
 
       setLoading(false);
+
     }, []);
 
 
   /* ========================================
-     SIGN ATTACHMENTS
+     SIGN ATTACHMENT URLS
      ======================================== */
 
   const addSignedUrls =
     useCallback(
       async (rows) => {
+
         return Promise.all(
           rows.map(
             async (item) => {
+
               if (
                 !item.attachment_path
               ) {
@@ -282,6 +383,7 @@ export default function Chat() {
 
 
               if (urlError) {
+
                 console.error(
                   "Signed URL error:",
                   urlError
@@ -301,9 +403,11 @@ export default function Chat() {
                 attachment_url:
                   data.signedUrl,
               };
+
             }
           )
         );
+
       },
       []
     );
@@ -319,6 +423,7 @@ export default function Chat() {
         conversationId,
         showLoader = true
       ) => {
+
         if (!conversationId) {
           return;
         }
@@ -369,6 +474,7 @@ export default function Chat() {
 
 
         if (fetchError) {
+
           console.error(
             fetchError
           );
@@ -398,6 +504,7 @@ export default function Chat() {
         setMessagesLoading(
           false
         );
+
       },
       [
         addSignedUrls,
@@ -405,18 +512,25 @@ export default function Chat() {
     );
 
 
+  /* ========================================
+     INITIAL CHAT LOAD
+     ======================================== */
+
   useEffect(() => {
+
     fetchChats();
+
   }, [
     fetchChats,
   ]);
 
 
   /* ========================================
-     REALTIME
+     REALTIME CONVERSATIONS
      ======================================== */
 
   useEffect(() => {
+
     const channel =
       supabase
         .channel(
@@ -436,16 +550,24 @@ export default function Chat() {
 
 
     return () => {
+
       supabase.removeChannel(
         channel
       );
+
     };
+
   }, [
     fetchChats,
   ]);
 
 
+  /* ========================================
+     REALTIME MESSAGES
+     ======================================== */
+
   useEffect(() => {
+
     if (!selectedChat?.id) {
       return undefined;
     }
@@ -471,22 +593,27 @@ export default function Chat() {
               `conversation_id=eq.${conversationId}`,
           },
           () => {
+
             fetchMessages(
               conversationId,
               false
             );
 
             fetchChats();
+
           }
         )
         .subscribe();
 
 
     return () => {
+
       supabase.removeChannel(
         channel
       );
+
     };
+
   }, [
     selectedChat?.id,
     fetchMessages,
@@ -494,11 +621,17 @@ export default function Chat() {
   ]);
 
 
+  /* ========================================
+     AUTO SCROLL
+     ======================================== */
+
   useEffect(() => {
+
     messagesEndRef.current
       ?.scrollIntoView({
         behavior: "smooth",
       });
+
   }, [
     messages,
   ]);
@@ -510,11 +643,14 @@ export default function Chat() {
 
   const selectChat =
     async (chat) => {
+
       setSelectedChat(chat);
 
       setMobileConversationOpen(
         true
       );
+
+      setError("");
 
       await fetchMessages(
         chat.id
@@ -524,6 +660,7 @@ export default function Chat() {
       if (
         chat.unread_admin > 0
       ) {
+
         await supabase
           .from(
             "chat_conversations"
@@ -538,15 +675,17 @@ export default function Chat() {
 
         fetchChats();
       }
+
     };
 
 
   /* ========================================
-     SEND TEXT
+     SEND TEXT MESSAGE
      ======================================== */
 
   const sendMessage =
     async (event) => {
+
       event.preventDefault();
 
       const trimmed =
@@ -558,6 +697,41 @@ export default function Chat() {
         !selectedChat ||
         sending
       ) {
+        return;
+      }
+
+
+      /* ------------------------------------
+         CLOSED CONVERSATION CHECK
+         ------------------------------------ */
+
+      if (
+        selectedChat.status ===
+        "Closed"
+      ) {
+
+        setError(
+          "This conversation is closed."
+        );
+
+        return;
+      }
+
+
+      /* ------------------------------------
+         MODERATION CHECK
+         ------------------------------------ */
+
+      if (
+        containsInappropriateContent(
+          trimmed
+        )
+      ) {
+
+        setError(
+          "Your message contains inappropriate language. Please remove it before sending."
+        );
+
         return;
       }
 
@@ -576,6 +750,7 @@ export default function Chat() {
             "chat_messages"
           )
           .insert({
+
             conversation_id:
               selectedChat.id,
 
@@ -587,28 +762,39 @@ export default function Chat() {
 
             message_text:
               trimmed,
+
           });
 
 
       if (sendError) {
+
+        console.error(
+          sendError
+        );
+
         setError(
           "Unable to send message."
         );
+
       } else {
+
         setMessage("");
+
       }
 
 
       setSending(false);
+
     };
 
 
   /* ========================================
-     ADMIN ATTACHMENT / QR
+     SEND ATTACHMENT
      ======================================== */
 
   const sendAttachment =
     async (file) => {
+
       if (
         !file ||
         !selectedChat ||
@@ -618,7 +804,21 @@ export default function Chat() {
       }
 
 
+      if (
+        selectedChat.status ===
+        "Closed"
+      ) {
+
+        setError(
+          "This conversation is closed."
+        );
+
+        return;
+      }
+
+
       if (!validAttachment(file)) {
+
         setError(
           "Attachments must be JPG, PNG, WEBP, or PDF and 5 MB or smaller."
         );
@@ -662,6 +862,7 @@ export default function Chat() {
 
 
       if (uploadError) {
+
         console.error(
           uploadError
         );
@@ -685,6 +886,7 @@ export default function Chat() {
             "chat_messages"
           )
           .insert({
+
             conversation_id:
               selectedChat.id,
 
@@ -702,10 +904,12 @@ export default function Chat() {
 
             attachment_mime:
               file.type,
+
           });
 
 
       if (messageError) {
+
         await supabase
           .storage
           .from(
@@ -722,6 +926,7 @@ export default function Chat() {
 
 
       setUploading(false);
+
     };
 
 
@@ -734,6 +939,7 @@ export default function Chat() {
       messageId,
       decision
     ) => {
+
       if (reviewingId) {
         return;
       }
@@ -763,6 +969,7 @@ export default function Chat() {
 
 
       if (reviewError) {
+
         console.error(
           reviewError
         );
@@ -791,6 +998,131 @@ export default function Chat() {
       setReviewingId(
         null
       );
+
+    };
+
+
+  /* ========================================
+     DELETE MESSAGE
+     ======================================== */
+
+  const deleteMessage =
+    async (msg) => {
+
+      if (
+        deletingId ||
+        !msg?.id
+      ) {
+        return;
+      }
+
+
+      const confirmed =
+        window.confirm(
+          "Are you sure you want to delete this message?"
+        );
+
+
+      if (!confirmed) {
+        return;
+      }
+
+
+      setDeletingId(
+        msg.id
+      );
+
+      setError("");
+
+
+      /*
+        If this message has an attachment,
+        attempt to remove the actual file
+        from Supabase Storage first.
+      */
+      if (
+        msg.attachment_path
+      ) {
+
+        const {
+          error:
+            storageError,
+        } =
+          await supabase
+            .storage
+            .from(
+              ATTACHMENT_BUCKET
+            )
+            .remove([
+              msg.attachment_path,
+            ]);
+
+
+        if (storageError) {
+
+          console.error(
+            "Attachment deletion error:",
+            storageError
+          );
+
+        }
+
+      }
+
+
+      /*
+        Delete the message row.
+      */
+      const {
+        error:
+          deleteError,
+      } =
+        await supabase
+          .from(
+            "chat_messages"
+          )
+          .delete()
+          .eq(
+            "id",
+            msg.id
+          );
+
+
+      if (deleteError) {
+
+        console.error(
+          deleteError
+        );
+
+        setError(
+          deleteError.message ||
+            "Unable to delete message."
+        );
+
+        setDeletingId(
+          null
+        );
+
+        return;
+      }
+
+
+      /*
+        Refresh the conversation so the
+        deleted message disappears immediately.
+      */
+      await fetchMessages(
+        selectedChat.id,
+        false
+      );
+
+      await fetchChats();
+
+
+      setDeletingId(
+        null
+      );
+
     };
 
 
@@ -800,6 +1132,7 @@ export default function Chat() {
 
   const toggleConversation =
     async () => {
+
       if (!selectedChat) {
         return;
       }
@@ -831,6 +1164,7 @@ export default function Chat() {
 
 
       if (updateError) {
+
         setError(
           "Unable to update conversation."
         );
@@ -840,8 +1174,13 @@ export default function Chat() {
 
 
       fetchChats();
+
     };
 
+
+  /* ========================================
+     SEARCH
+     ======================================== */
 
   const searchText =
     search
@@ -866,15 +1205,23 @@ export default function Chat() {
     );
 
 
+  /* ========================================
+     RENDER
+     ======================================== */
+
   return (
     <div className="chat-page">
 
       <header className="chat-page-header">
-        <h1>Chat</h1>
+
+        <h1>
+          Chat
+        </h1>
 
         <p>
           Communicate with guests and verify payment submissions.
         </p>
+
       </header>
 
 
@@ -893,9 +1240,14 @@ export default function Chat() {
         }`}
       >
 
+        {/* ====================================
+            CHAT SIDEBAR
+            ==================================== */}
+
         <aside className="chat-sidebar">
 
           <div className="chat-search">
+
             <input
               type="text"
               placeholder="Search guests..."
@@ -906,24 +1258,29 @@ export default function Chat() {
                 )
               }
             />
+
           </div>
 
 
           <div className="chat-list">
 
             {loading ? (
+
               <div className="chat-no-results">
                 Loading conversations...
               </div>
 
             ) : filteredChats.length === 0 ? (
+
               <div className="chat-no-results">
                 No conversations found.
               </div>
 
             ) : (
+
               filteredChats.map(
                 (chat) => (
+
                   <button
                     type="button"
                     key={chat.id}
@@ -939,15 +1296,20 @@ export default function Chat() {
                       )
                     }
                   >
+
                     <div className="chat-avatar">
+
                       {chat.customer_name
                         ?.charAt(0)
                         ?.toUpperCase()}
+
                     </div>
+
 
                     <div className="chat-preview-content">
 
                       <div className="chat-preview-top">
+
                         <strong>
                           {chat.customer_name}
                         </strong>
@@ -958,10 +1320,12 @@ export default function Chat() {
                               chat.created_at
                           )}
                         </small>
+
                       </div>
 
 
                       <div className="chat-preview-bottom">
+
                         <span>
                           {chat.last_message_preview ||
                             "New conversation"}
@@ -969,16 +1333,22 @@ export default function Chat() {
 
                         {chat.unread_admin >
                           0 && (
+
                           <b className="chat-unread">
                             {chat.unread_admin}
                           </b>
+
                         )}
+
                       </div>
 
                     </div>
+
                   </button>
+
                 )
               )
+
             )}
 
           </div>
@@ -986,11 +1356,16 @@ export default function Chat() {
         </aside>
 
 
+        {/* ====================================
+            CONVERSATION
+            ==================================== */}
+
         <section className="chat-conversation">
 
           {!selectedChat ? (
 
             <div className="chat-empty-conversation">
+
               <h2>
                 Select a conversation
               </h2>
@@ -998,11 +1373,16 @@ export default function Chat() {
               <p>
                 Choose a guest to view their messages.
               </p>
+
             </div>
 
           ) : (
 
             <>
+
+              {/* ==================================
+                  CONVERSATION HEADER
+                  ================================== */}
 
               <div className="conversation-header">
 
@@ -1020,9 +1400,11 @@ export default function Chat() {
 
 
                 <div className="chat-avatar large">
+
                   {selectedChat.customer_name
                     ?.charAt(0)
                     ?.toUpperCase()}
+
                 </div>
 
 
@@ -1036,20 +1418,27 @@ export default function Chat() {
                     {selectedChat.customer_email}
                   </p>
 
+
                   {selectedChat.reservations && (
+
                     <small className="conversation-booking">
+
                       {
                         selectedChat
                           .reservations
                           .reservation_type
                       }
+
                       {" • "}
+
                       {
                         selectedChat
                           .reservations
                           .status
                       }
+
                     </small>
+
                   )}
 
                 </div>
@@ -1076,10 +1465,12 @@ export default function Chat() {
                       toggleConversation
                     }
                   >
+
                     {selectedChat.status ===
                     "Open"
                       ? "Close"
                       : "Reopen"}
+
                   </button>
 
                 </div>
@@ -1087,21 +1478,29 @@ export default function Chat() {
               </div>
 
 
+              {/* ==================================
+                  MESSAGES
+                  ================================== */}
+
               <div className="messages">
 
                 {messagesLoading ? (
+
                   <div className="chat-message-loading">
                     Loading messages...
                   </div>
 
                 ) : messages.length === 0 ? (
+
                   <div className="chat-message-loading">
                     No messages yet.
                   </div>
 
                 ) : (
+
                   messages.map(
                     (msg) => (
+
                       <div
                         key={msg.id}
                         className={`message-row ${
@@ -1111,6 +1510,10 @@ export default function Chat() {
                             : "guest-message"
                         }`}
                       >
+
+                        {/* =================================
+                            PAYMENT RECEIPT
+                            ================================= */}
 
                         {msg.message_type ===
                         "payment_receipt" ? (
@@ -1130,13 +1533,16 @@ export default function Chat() {
                                 target="_blank"
                                 rel="noreferrer"
                               >
+
                                 <img
                                   src={
                                     msg.attachment_url
                                   }
                                   alt="Payment receipt"
                                 />
+
                               </a>
+
                             )}
 
 
@@ -1146,12 +1552,16 @@ export default function Chat() {
                                 Payment Receipt
                               </span>
 
+
                               <strong className="payment-receipt-amount">
+
                                 ₱
                                 {formatMoney(
                                   msg.payment_amount
                                 )}
+
                               </strong>
+
 
                               <p>
                                 {
@@ -1159,13 +1569,17 @@ export default function Chat() {
                                 }
                               </p>
 
+
                               <p>
+
                                 Ref. No.{" "}
+
                                 <strong>
                                   {
                                     msg.payment_reference
                                   }
                                 </strong>
+
                               </p>
 
 
@@ -1188,9 +1602,11 @@ export default function Chat() {
 
                               {msg.payment_status ===
                                 "Verified" && (
+
                                 <small>
                                   Verified by Resort Admin
                                 </small>
+
                               )}
 
 
@@ -1235,6 +1651,7 @@ export default function Chat() {
                                   </button>
 
                                 </div>
+
                               )}
 
                             </div>
@@ -1243,6 +1660,10 @@ export default function Chat() {
 
                         ) : msg.message_type ===
                           "attachment" ? (
+
+                          /* =================================
+                             NORMAL ATTACHMENT
+                             ================================= */
 
                           <div className="chat-attachment-card">
 
@@ -1259,6 +1680,7 @@ export default function Chat() {
                                 target="_blank"
                                 rel="noreferrer"
                               >
+
                                 <img
                                   src={
                                     msg.attachment_url
@@ -1267,6 +1689,7 @@ export default function Chat() {
                                     msg.attachment_name
                                   }
                                 />
+
                               </a>
 
                             ) : (
@@ -1280,7 +1703,9 @@ export default function Chat() {
                               >
                                 Open attachment
                               </a>
+
                             )}
+
 
                             <small>
                               {
@@ -1292,23 +1717,71 @@ export default function Chat() {
 
                         ) : (
 
+                          /* =================================
+                             NORMAL TEXT MESSAGE
+                             ================================= */
+
                           <div className="message-bubble">
+
                             <p>
                               {msg.message_text}
                             </p>
 
-                            <small>
-                              {formatMessageTime(
-                                msg.created_at
-                              )}
-                            </small>
+
+                            {containsInappropriateContent(
+                              msg.message_text
+                            ) && (
+
+                              <div className="moderation-warning">
+                                ⚠ Inappropriate content detected
+                              </div>
+
+                            )}
+
+
+                            <div className="message-meta">
+
+                              <small>
+                                {formatMessageTime(
+                                  msg.created_at
+                                )}
+                              </small>
+
+
+                              <button
+                                type="button"
+                                className="delete-message-btn"
+                                disabled={
+                                  deletingId ===
+                                  msg.id
+                                }
+                                onClick={() =>
+                                  deleteMessage(
+                                    msg
+                                  )
+                                }
+                              >
+
+                                {deletingId ===
+                                msg.id
+                                  ? "Deleting..."
+                                  : "Delete"}
+
+                              </button>
+
+                            </div>
+
                           </div>
+
                         )}
 
                       </div>
+
                     )
                   )
+
                 )}
+
 
                 <div
                   ref={
@@ -1318,6 +1791,10 @@ export default function Chat() {
 
               </div>
 
+
+              {/* ==================================
+                  MESSAGE FORM
+                  ================================== */}
 
               <form
                 className="message-form"
@@ -1334,18 +1811,22 @@ export default function Chat() {
                   hidden
                   accept=".jpg,.jpeg,.png,.webp,.pdf"
                   onChange={(event) => {
+
                     const file =
                       event.target
                         .files?.[0];
 
                     if (file) {
+
                       sendAttachment(
                         file
                       );
+
                     }
 
                     event.target.value =
                       "";
+
                   }}
                 />
 
@@ -1364,9 +1845,11 @@ export default function Chat() {
                       ?.click()
                   }
                 >
+
                   {uploading
                     ? "..."
                     : "Attach"}
+
                 </button>
 
 
@@ -1401,14 +1884,17 @@ export default function Chat() {
                     !message.trim()
                   }
                 >
+
                   {sending
                     ? "Sending..."
                     : "Send"}
+
                 </button>
 
               </form>
 
             </>
+
           )}
 
         </section>

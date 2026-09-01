@@ -66,6 +66,28 @@ const formatDateObjectForDatabase = (
 
 
 /* =========================
+   INPUT VALIDATION
+   ========================= */
+
+const isValidGmailOrYahoo = (
+  email
+) => {
+  return /^[^\s@]+@(gmail|yahoo)\.com$/i.test(
+    email.trim()
+  );
+};
+
+
+const isValidPhoneCharacters = (
+  phone
+) => {
+  return /^[0-9+-]+$/.test(
+    phone.trim()
+  );
+};
+
+
+/* =========================
    COMPONENT
    ========================= */
 
@@ -152,7 +174,6 @@ function ReservationPage() {
      FORM DATA
      ========================= */
 
-  // Seed the form from availability search when the user arrives from that flow.
   const [
     formData,
     setFormData,
@@ -478,17 +499,11 @@ function ReservationPage() {
       return;
     }
 
-
     const availability =
       getAvailabilityForDate(
         selectedDate
       );
 
-
-    /*
-      A confirmed 22 Hours booking
-      makes the entire date unavailable.
-    */
 
     if (
       availability
@@ -506,13 +521,6 @@ function ReservationPage() {
       return;
     }
 
-
-    /*
-      If a Day Tour / Overnight becomes
-      confirmed while this customer is
-      trying to book 22 Hours, require
-      another date.
-    */
 
     if (
       availability
@@ -591,6 +599,27 @@ function ReservationPage() {
       name,
       value,
     } = event.target;
+
+
+    /*
+      Contact numbers may contain
+      only digits, plus signs,
+      and hyphens.
+    */
+
+    if (
+      name === "contactNumber" &&
+      value &&
+      !isValidPhoneCharacters(
+        value
+      )
+    ) {
+      setFormError(
+        "Phone number must contain numbers only."
+      );
+
+      return;
+    }
 
 
     /*
@@ -675,7 +704,6 @@ function ReservationPage() {
       })
     );
 
-
     setFormError("");
   };
 
@@ -697,6 +725,19 @@ function ReservationPage() {
     ) {
       setFormError(
         "Please complete all required reservation details and select a reservation date."
+      );
+
+      return;
+    }
+
+
+    if (
+      !isValidPhoneCharacters(
+        formData.contactNumber
+      )
+    ) {
+      setFormError(
+        "Phone number must contain numbers only."
       );
 
       return;
@@ -791,6 +832,43 @@ function ReservationPage() {
       setFormError(
         "Please complete all required fields before submitting."
       );
+
+      return;
+    }
+
+
+    /*
+      Strict Gmail / Yahoo validation.
+    */
+
+    if (
+      !isValidGmailOrYahoo(
+        formData.email
+      )
+    ) {
+      setFormError(
+        "Please use a valid Gmail or Yahoo email."
+      );
+
+      return;
+    }
+
+
+    /*
+      Validate phone again before
+      allowing final submission.
+    */
+
+    if (
+      !isValidPhoneCharacters(
+        formData.contactNumber
+      )
+    ) {
+      setFormError(
+        "Phone number must contain numbers only."
+      );
+
+      setStep(1);
 
       return;
     }
@@ -892,6 +970,7 @@ function ReservationPage() {
 
     setFormError("");
 
+
     /*
       Validation passed.
 
@@ -975,6 +1054,91 @@ function ReservationPage() {
 
 
       try {
+        /*
+          Duplicate email check.
+
+          Same email + same name:
+          allowed.
+
+          Same email + different name:
+          rejected.
+        */
+
+        const {
+          data:
+            existingReservations,
+          error:
+            duplicateCheckError,
+        } =
+          await supabase
+            .from(
+              "reservations"
+            )
+            .select(
+              "name"
+            )
+            .ilike(
+              "email",
+              reservationData.email
+            );
+
+
+        if (
+          duplicateCheckError
+        ) {
+          console.error(
+            "Duplicate email check error:",
+            duplicateCheckError
+          );
+
+          setFormError(
+            "We could not verify your email. Please try again."
+          );
+
+          setShowSubmitConfirm(
+            false
+          );
+
+          return;
+        }
+
+
+        const normalizedReservationName =
+          reservationData.name
+            .trim()
+            .toLowerCase();
+
+
+        const hasDifferentExistingName =
+          (
+            existingReservations ||
+            []
+          ).some(
+            (reservation) =>
+              reservation.name
+                ?.trim()
+                .toLowerCase() !==
+              normalizedReservationName
+          );
+
+
+        if (
+          hasDifferentExistingName
+        ) {
+          setFormError(
+            "An account with this email already exists. Please use the same Gmail you used in your previous reservation."
+          );
+
+          setShowSubmitConfirm(
+            false
+          );
+
+          setStep(1);
+
+          return;
+        }
+
+
         const {
           error,
         } =
@@ -1000,12 +1164,28 @@ function ReservationPage() {
 
 
           /*
-            These are the messages raised
-            by our database-level reservation
-            conflict trigger.
+            Handle duplicate-email
+            database trigger.
           */
 
           if (
+            databaseMessage.includes(
+              "An account with this email already exists"
+            )
+          ) {
+            setFormError(
+              "An account with this email already exists. Please use the same Gmail you used in your previous reservation."
+            );
+
+            setStep(1);
+          }
+
+          /*
+            Existing reservation
+            conflict trigger.
+          */
+
+          else if (
             databaseMessage.includes(
               "active 22 Hours reservation"
             ) ||
@@ -1021,7 +1201,9 @@ function ReservationPage() {
             );
 
             setStep(1);
-          } else {
+          }
+
+          else {
             setFormError(
               "We could not submit your reservation. Please try again."
             );
@@ -1039,9 +1221,9 @@ function ReservationPage() {
         /*
           Submission succeeded.
 
-          Clear every field and return the
-          reservation form to Step 1 before
-          displaying the success message.
+          Clear every field and return
+          the reservation form to Step 1
+          before displaying success.
         */
 
         setShowSubmitConfirm(
@@ -1056,8 +1238,7 @@ function ReservationPage() {
 
 
         /*
-          Refresh availability in case
-          anything changed during submit.
+          Refresh availability.
         */
 
         fetchConfirmedAvailability();
@@ -1180,8 +1361,7 @@ function ReservationPage() {
 
 
     /*
-      Past dates cannot
-      be selected.
+      Past dates cannot be selected.
     */
 
     if (
@@ -1219,9 +1399,6 @@ function ReservationPage() {
     /*
       YELLOW DATE:
       Day Tour / Overnight confirmed.
-
-      Still selectable for Day Tour or
-      Overnight, but not for 22 Hours.
     */
 
     if (
@@ -1325,22 +1502,16 @@ function ReservationPage() {
 
         <div className="reservation-wrapper">
 
-          {/* =========================
-              PAGE TITLE
-              ========================= */}
+          {/* PAGE TITLE */}
 
           <h1 className="reservation-title">
             Reservation
           </h1>
 
 
-          {/* =========================
-              RESORT SLIDESHOW
-              ========================= */}
+          {/* RESORT SLIDESHOW */}
 
           <div className="reservation-slideshow-shell">
-
-            {/* LEFT ARROW */}
 
             <button
               type="button"
@@ -1353,8 +1524,6 @@ function ReservationPage() {
               &#10094;
             </button>
 
-
-            {/* IMAGE */}
 
             <div className="reservation-slideshow">
 
@@ -1370,11 +1539,8 @@ function ReservationPage() {
                 className="reservation-slide-image"
               />
 
-
               <div className="reservation-slide-overlay" />
 
-
-              {/* DOTS */}
 
               <div className="reservation-slide-dots">
 
@@ -1411,8 +1577,6 @@ function ReservationPage() {
             </div>
 
 
-            {/* RIGHT ARROW */}
-
             <button
               type="button"
               className="reservation-slide-outside-control reservation-slide-outside-next"
@@ -1427,17 +1591,13 @@ function ReservationPage() {
           </div>
 
 
-          {/* =========================
-              RESERVATION CARD
-              ========================= */}
+          {/* RESERVATION CARD */}
 
           <div className="reservation-card">
 
             <div className="reservation-grid">
 
-              {/* =====================
-                  LEFT FORM
-                  ===================== */}
+              {/* LEFT FORM */}
 
               <div className="form-section">
 
@@ -1447,7 +1607,6 @@ function ReservationPage() {
                     {/* NAME */}
 
                     <label>
-
                       <span>
                         Name{" "}
                         <b>*</b>
@@ -1464,14 +1623,12 @@ function ReservationPage() {
                         }
                         placeholder="Enter your full name"
                       />
-
                     </label>
 
 
                     {/* FAMILY / COMPANY */}
 
                     <label>
-
                       <span>
                         Family or Company{" "}
                         <b>*</b>
@@ -1486,7 +1643,6 @@ function ReservationPage() {
                           handleChange
                         }
                       >
-
                         <option value="">
                           Select booking type
                         </option>
@@ -1498,9 +1654,7 @@ function ReservationPage() {
                         <option value="Company">
                           Company
                         </option>
-
                       </select>
-
                     </label>
 
 
@@ -1516,7 +1670,6 @@ function ReservationPage() {
                             : "Company Name"}{" "}
                           <b>*</b>
                         </span>
-
 
                         <input
                           type="text"
@@ -1542,7 +1695,6 @@ function ReservationPage() {
                     {/* ADDRESS */}
 
                     <label>
-
                       <span>
                         Address{" "}
                         <b>*</b>
@@ -1559,14 +1711,12 @@ function ReservationPage() {
                         }
                         placeholder="Enter your address"
                       />
-
                     </label>
 
 
                     {/* CONTACT NUMBER */}
 
                     <label>
-
                       <span>
                         Contact Number{" "}
                         <b>*</b>
@@ -1582,15 +1732,14 @@ function ReservationPage() {
                           handleChange
                         }
                         placeholder="09XXXXXXXXX"
+                        inputMode="tel"
                       />
-
                     </label>
 
 
                     {/* NUMBER OF GUESTS */}
 
                     <label>
-
                       <span>
                         Number of Guests{" "}
                         <b>*</b>
@@ -1608,14 +1757,12 @@ function ReservationPage() {
                         min="1"
                         placeholder="Number of guests"
                       />
-
                     </label>
 
 
                     {/* RESERVATION TYPE */}
 
                     <label>
-
                       <span>
                         Reservation Type{" "}
                         <b>*</b>
@@ -1648,7 +1795,6 @@ function ReservationPage() {
                         </option>
 
                       </select>
-
                     </label>
 
 
@@ -1670,7 +1816,6 @@ function ReservationPage() {
                           }{" "}
                           guests
                         </span>
-
 
                         {formData.stayType ===
                           "22 Hours" && (
@@ -1740,8 +1885,7 @@ function ReservationPage() {
                           guests for{" "}
                           {
                             formData.stayType
-                          }
-                          .
+                          }.
 
                         </div>
                       )}
@@ -1792,8 +1936,48 @@ function ReservationPage() {
                         onChange={
                           handleChange
                         }
-                        placeholder="example@email.com"
+                        placeholder="example@gmail.com"
                       />
+
+
+                      {/* RETURNING USER NOTE */}
+
+                      <div
+                        className="returning-user-note"
+                        style={{
+                          marginTop:
+                            "8px",
+                          padding:
+                            "10px 12px",
+                          borderRadius:
+                            "8px",
+                          background:
+                            "#f7f0df",
+                          color:
+                            "#6b5a47",
+                          fontSize:
+                            "0.82rem",
+                          lineHeight:
+                            "1.45",
+                        }}
+                      >
+
+                        <strong
+                          style={{
+                            display:
+                              "block",
+                            marginBottom:
+                              "2px",
+                          }}
+                        >
+                          Returning user?
+                        </strong>
+
+                        <span>
+                          Returning users must use the same Gmail address from your initial reservation.
+                        </span>
+
+                      </div>
 
                     </label>
 
@@ -1909,11 +2093,9 @@ function ReservationPage() {
                           handleSubmit
                         }
                       >
-
                         {isSubmitting
                           ? "Submitting..."
                           : "Submit"}
-
                       </button>
 
                     </div>
@@ -1924,9 +2106,7 @@ function ReservationPage() {
               </div>
 
 
-              {/* =====================
-                  RIGHT SIDE
-                  ===================== */}
+              {/* RIGHT SIDE CALENDAR */}
 
               <div className="reservation-calendar-section">
 
@@ -2136,9 +2316,7 @@ function ReservationPage() {
                   </div>
 
 
-                  {/* =========================
-                      AVAILABILITY LEGEND
-                      ========================= */}
+                  {/* AVAILABILITY LEGEND */}
 
                   <div className="reservation-calendar-availability">
 
@@ -2170,9 +2348,7 @@ function ReservationPage() {
 
                   {availabilityLoading && (
                     <p className="reservation-calendar-availability-message">
-
                       Checking confirmed reservations...
-
                     </p>
                   )}
 
@@ -2181,18 +2357,14 @@ function ReservationPage() {
 
                   {availabilityError && (
                     <p className="reservation-calendar-availability-error">
-
                       {
                         availabilityError
                       }
-
                     </p>
                   )}
 
 
-                  {/* =========================
-                      SELECTED DATE
-                      ========================= */}
+                  {/* SELECTED DATE */}
 
                   <div className="reservation-selected-date">
 
@@ -2203,17 +2375,14 @@ function ReservationPage() {
                           Selected Date
                         </span>
 
-
                         <strong>
                           {selectedDate.toLocaleDateString(
                             "en-US",
                             {
                               month:
                                 "long",
-
                               day:
                                 "numeric",
-
                               year:
                                 "numeric",
                             }
@@ -2245,9 +2414,7 @@ function ReservationPage() {
                 </div>
 
 
-                {/* =========================
-                    RESERVATION RULES
-                    ========================= */}
+                {/* RESERVATION RULES */}
 
                 <div className="reservation-policies">
 
@@ -2259,86 +2426,60 @@ function ReservationPage() {
                   <ul>
 
                     <li>
-
                       The base rate covers up to{" "}
-
                       <strong>
                         20 guests
                       </strong>
-
                       . Additional guests are charged{" "}
-
                       <strong>
                         ₱200 per person
                       </strong>
-
                       , subject to the applicable guest capacity.
-
                     </li>
 
 
                     <li>
-
                       A{" "}
-
                       <strong>
                         22 Hours reservation
                       </strong>{" "}
-
                       requires exclusive use of the resort for the selected date. A date with a confirmed 22 Hours reservation is fully unavailable, while a date with a confirmed Day Tour or Overnight reservation cannot be selected for 22 Hours.
-
                     </li>
 
 
                     <li>
-
                       A{" "}
-
                       <strong>
                         ₱2,000 security deposit
                       </strong>{" "}
-
                       is required to cover possible missing or damaged resort property. Any refundable amount will be returned within{" "}
-
                       <strong>
                         24 hours after checkout
                       </strong>
-
                       , following inspection.
-
                     </li>
 
 
                     <li>
-
                       To confirm a reservation, guests must pay{" "}
-
                       <strong>
                         50% of the required down payment
                       </strong>{" "}
-
                       together with the{" "}
-
                       <strong>
                         ₱2,000 security deposit
                       </strong>
-
                       .
-
                     </li>
 
 
                     <li>
-
                       Guests are encouraged to bring their own personal essentials and preferred items for their stay.
-
                     </li>
 
 
                     <li>
-
                       To maintain a comfortable and safe environment for everyone, loud, disruptive, or disorderly gatherings are not allowed.
-
                     </li>
 
                   </ul>
@@ -2354,9 +2495,7 @@ function ReservationPage() {
         </div>
 
 
-        {/* =========================
-            SUBMISSION CONFIRMATION
-            ========================= */}
+        {/* SUBMISSION CONFIRMATION */}
 
         {showSubmitConfirm && (
           <div className="confirmation-overlay">
@@ -2391,7 +2530,9 @@ function ReservationPage() {
                   </span>
 
                   <strong>
-                    {formData.stayType}
+                    {
+                      formData.stayType
+                    }
                   </strong>
                 </div>
 
@@ -2405,9 +2546,12 @@ function ReservationPage() {
                     {selectedDate?.toLocaleDateString(
                       "en-PH",
                       {
-                        month: "long",
-                        day: "numeric",
-                        year: "numeric",
+                        month:
+                          "long",
+                        day:
+                          "numeric",
+                        year:
+                          "numeric",
                       }
                     )}
                   </strong>
@@ -2420,7 +2564,9 @@ function ReservationPage() {
                   </span>
 
                   <strong>
-                    {guestCount}
+                    {
+                      guestCount
+                    }
                   </strong>
                 </div>
 
@@ -2473,9 +2619,7 @@ function ReservationPage() {
         )}
 
 
-        {/* =========================
-            SUCCESS POPUP
-            ========================= */}
+        {/* SUCCESS POPUP */}
 
         {showSuccess && (
           <div className="success-overlay">
@@ -2522,7 +2666,6 @@ function ReservationPage() {
         )}
 
       </div>
-
     </div>
   );
 }

@@ -1,4 +1,4 @@
-// This file handles the admin side of the support chat system.
+// This file handles the customer side of the support chat system.
 
 import {
   useCallback,
@@ -107,6 +107,82 @@ function getFileExtension(file) {
     "file"
   );
 }
+
+
+/* ==========================================
+   CHAT MODERATION
+   ========================================== */
+
+/*
+  Basic client-side moderation.
+
+  This checks customer text before it
+  is sent to the Supabase RPC.
+
+  IMPORTANT:
+  A database-level moderation rule is
+  still recommended for complete protection.
+*/
+
+const inappropriateWords = [
+  "fuck",
+  "fucker",
+  "fucking",
+  "shit",
+  "bitch",
+  "asshole",
+  "bastard",
+  "dick",
+  "pussy",
+  "cunt",
+  "motherfucker",
+  "putangina",
+  "puta",
+  "putang ina",
+  "gago",
+  "tanga",
+  "ulol",
+  "tarantado",
+  "leche",
+  "bwisit",
+  "hayop",
+];
+
+
+const containsInappropriateContent = (
+  message
+) => {
+  const normalized =
+    message
+      .toLowerCase()
+      .replace(
+        /[^a-z0-9\s]/g,
+        " "
+      )
+      .replace(
+        /\s+/g,
+        " "
+      )
+      .trim();
+
+
+  return inappropriateWords.some(
+    (word) => {
+      const escapedWord =
+        word.replace(
+          /[.*+?^${}()|[\]\\]/g,
+          "\\$&"
+        );
+
+      return new RegExp(
+        `\\b${escapedWord}\\b`,
+        "i"
+      ).test(
+        normalized
+      );
+    }
+  );
+};
 
 
 /* ==========================================
@@ -220,7 +296,6 @@ function AdminChat() {
   const addSignedUrls =
     useCallback(
       async (rows) => {
-
         return Promise.all(
           rows.map(
             async (item) => {
@@ -268,11 +343,9 @@ function AdminChat() {
                 attachment_url:
                   data.signedUrl,
               };
-
             }
           )
         );
-
       },
       []
     );
@@ -330,7 +403,6 @@ function AdminChat() {
         setMessages(
           signedMessages
         );
-
       },
       [
         addSignedUrls,
@@ -409,7 +481,6 @@ function AdminChat() {
 
 
         return true;
-
       },
       []
     );
@@ -443,15 +514,10 @@ function AdminChat() {
             );
 
 
-          /*
-            Invalid locally saved session.
-          */
-
           if (
             !parsed?.accessToken ||
             !parsed?.conversationId
           ) {
-
             localStorage.removeItem(
               CHAT_STORAGE_KEY
             );
@@ -461,18 +527,14 @@ function AdminChat() {
 
 
           /*
-            Existing sessions created before
-            the 30-day system may not have an
-            expiration date yet.
-
-            Give those sessions a fresh
-            30-day period.
+            Existing sessions created
+            before the 30-day system may
+            not have an expiration date.
           */
 
           if (
             !parsed.expiresAt
           ) {
-
             parsed.expiresAt =
               Date.now() +
               CHAT_SESSION_DURATION;
@@ -484,22 +546,17 @@ function AdminChat() {
                 parsed
               )
             );
-
           }
 
 
           /*
             Forget expired browser sessions.
-
-            This does NOT delete the
-            Supabase conversation.
           */
 
           if (
             Date.now() >
             parsed.expiresAt
           ) {
-
             localStorage.removeItem(
               CHAT_STORAGE_KEY
             );
@@ -515,7 +572,6 @@ function AdminChat() {
 
 
           if (!valid) {
-
             localStorage.removeItem(
               CHAT_STORAGE_KEY
             );
@@ -533,28 +589,25 @@ function AdminChat() {
             parsed.accessToken
           );
 
-
-        } catch (restoreError) {
+        } catch (
+          restoreError
+        ) {
 
           console.error(
             "Chat restore error:",
             restoreError
           );
 
-
           localStorage.removeItem(
             CHAT_STORAGE_KEY
           );
-
 
         } finally {
 
           setLoading(
             false
           );
-
         }
-
       };
 
 
@@ -603,7 +656,6 @@ function AdminChat() {
             fetchChatInfo(
               accessToken
             );
-
           }
         )
         .subscribe();
@@ -658,6 +710,7 @@ function AdminChat() {
       const name =
         customerName.trim();
 
+
       const email =
         customerEmail
           .trim()
@@ -706,9 +759,7 @@ function AdminChat() {
         true
       );
 
-      setError(
-        ""
-      );
+      setError("");
 
 
       const {
@@ -763,7 +814,6 @@ function AdminChat() {
       */
 
       const newSession = {
-
         conversationId:
           created.conversation_id,
 
@@ -773,7 +823,6 @@ function AdminChat() {
         expiresAt:
           Date.now() +
           CHAT_SESSION_DURATION,
-
       };
 
 
@@ -789,9 +838,11 @@ function AdminChat() {
         newSession
       );
 
+
       setConversationStatus(
         "Open"
       );
+
 
       setMessages(
         []
@@ -806,7 +857,6 @@ function AdminChat() {
       setStarting(
         false
       );
-
     };
 
 
@@ -833,6 +883,26 @@ function AdminChat() {
       }
 
 
+      /*
+        NEW:
+        Block inappropriate customer
+        text before sending it.
+      */
+
+      if (
+        containsInappropriateContent(
+          trimmedMessage
+        )
+      ) {
+
+        setError(
+          "Your message contains inappropriate language. Please revise your message and try again."
+        );
+
+        return;
+      }
+
+
       if (
         conversationStatus ===
         "Closed"
@@ -850,9 +920,7 @@ function AdminChat() {
         true
       );
 
-      setError(
-        ""
-      );
+      setError("");
 
 
       const {
@@ -893,9 +961,7 @@ function AdminChat() {
       }
 
 
-      setInput(
-        ""
-      );
+      setInput("");
 
 
       await fetchMessages(
@@ -906,7 +972,6 @@ function AdminChat() {
       setSending(
         false
       );
-
     };
 
 
@@ -920,11 +985,9 @@ function AdminChat() {
       if (
         !session?.accessToken
       ) {
-
         throw new Error(
           "No active conversation."
         );
-
       }
 
 
@@ -933,11 +996,9 @@ function AdminChat() {
           file
         )
       ) {
-
         throw new Error(
           "File must be JPG, PNG, WEBP, or PDF and 5 MB or smaller."
         );
-
       }
 
 
@@ -984,7 +1045,6 @@ function AdminChat() {
 
 
       return attachmentPath;
-
     };
 
 
@@ -1021,9 +1081,7 @@ function AdminChat() {
         true
       );
 
-      setError(
-        ""
-      );
+      setError("");
 
 
       let attachmentPath =
@@ -1072,8 +1130,9 @@ function AdminChat() {
           session.accessToken
         );
 
-
-      } catch (attachmentError) {
+      } catch (
+        attachmentError
+      ) {
 
         console.error(
           "Attachment error:",
@@ -1082,11 +1141,13 @@ function AdminChat() {
 
 
         /*
-          Remove orphaned file if the
+          Remove orphaned file if
           database message failed.
         */
 
-        if (attachmentPath) {
+        if (
+          attachmentPath
+        ) {
 
           await supabase
             .storage
@@ -1096,7 +1157,6 @@ function AdminChat() {
             .remove([
               attachmentPath,
             ]);
-
         }
 
 
@@ -1105,15 +1165,12 @@ function AdminChat() {
             "Unable to send attachment."
         );
 
-
       } finally {
 
         setUploading(
           false
         );
-
       }
-
     };
 
 
@@ -1202,9 +1259,7 @@ function AdminChat() {
         true
       );
 
-      setError(
-        ""
-      );
+      setError("");
 
 
       let attachmentPath =
@@ -1286,8 +1341,9 @@ function AdminChat() {
           session.accessToken
         );
 
-
-      } catch (paymentError) {
+      } catch (
+        paymentError
+      ) {
 
         console.error(
           "Payment receipt error:",
@@ -1295,7 +1351,9 @@ function AdminChat() {
         );
 
 
-        if (attachmentPath) {
+        if (
+          attachmentPath
+        ) {
 
           await supabase
             .storage
@@ -1305,7 +1363,6 @@ function AdminChat() {
             .remove([
               attachmentPath,
             ]);
-
         }
 
 
@@ -1314,15 +1371,12 @@ function AdminChat() {
             "Unable to submit your payment receipt."
         );
 
-
       } finally {
 
         setUploading(
           false
         );
-
       }
-
     };
 
 
@@ -1351,9 +1405,7 @@ function AdminChat() {
       }
 
 
-      setError(
-        ""
-      );
+      setError("");
 
 
       const {
@@ -1385,19 +1437,10 @@ function AdminChat() {
       }
 
 
-      /*
-        Forget secret chat token
-        from this browser.
-      */
-
       localStorage.removeItem(
         CHAT_STORAGE_KEY
       );
 
-
-      /*
-        Reset all customer chat state.
-      */
 
       setSession(
         null
@@ -1454,7 +1497,6 @@ function AdminChat() {
       setReceiptFile(
         null
       );
-
     };
 
 
@@ -1482,14 +1524,11 @@ function AdminChat() {
       <div className="chat-content">
 
         <div className="admin-chat-loading">
-
           Loading conversation...
-
         </div>
 
       </div>
     );
-
   }
 
 
@@ -1501,8 +1540,6 @@ function AdminChat() {
 
     return (
       <div className="chat-content">
-
-        {/* ADMIN HEADER */}
 
         <div className="chat-header">
 
@@ -1531,33 +1568,25 @@ function AdminChat() {
         </div>
 
 
-        {/* INTRO */}
-
         <div className="admin-chat-intro">
 
           <h3>
             Start a Conversation
           </h3>
 
-
           <p>
             Enter your information to speak directly with the resort administrator.
           </p>
 
-
           <p className="admin-chat-intro-note">
-
             If you already submitted a reservation,
             use the same name and email address from
             your reservation form so the administrator
             can more easily identify your booking.
-
           </p>
 
         </div>
 
-
-        {/* START FORM */}
 
         <form
           className="admin-chat-start-form"
@@ -1571,7 +1600,6 @@ function AdminChat() {
             <span>
               Name
             </span>
-
 
             <input
               type="text"
@@ -1598,7 +1626,6 @@ function AdminChat() {
               Email Address
             </span>
 
-
             <input
               type="email"
               value={
@@ -1619,14 +1646,12 @@ function AdminChat() {
 
 
           {error && (
-
             <div
               className="admin-chat-error"
               role="alert"
             >
               {error}
             </div>
-
           )}
 
 
@@ -1637,18 +1662,15 @@ function AdminChat() {
               starting
             }
           >
-
             {starting
               ? "Starting..."
               : "Start Chat"}
-
           </button>
 
         </form>
 
       </div>
     );
-
   }
 
 
@@ -1659,9 +1681,7 @@ function AdminChat() {
   return (
     <div className="chat-content">
 
-      {/* ===================================
-          ADMIN HEADER
-          =================================== */}
+      {/* ADMIN HEADER */}
 
       <div className="chat-header">
 
@@ -1676,16 +1696,13 @@ function AdminChat() {
             Resort Admin
           </h2>
 
-
           <p>
-
             {reservationType
               ? `${reservationType} • ${
                   reservationStatus ||
                   "Reservation"
                 }`
               : "PolChat Garden Resort Support"}
-
           </p>
 
         </div>
@@ -1699,20 +1716,16 @@ function AdminChat() {
               : ""
           }`}
         >
-
           {conversationStatus ===
           "Open"
             ? "Conversation Open"
             : "Conversation Closed"}
-
         </span>
 
       </div>
 
 
-      {/* ===================================
-          CUSTOMER SESSION BAR
-          =================================== */}
+      {/* CUSTOMER SESSION BAR */}
 
       <div className="admin-chat-customer-bar">
 
@@ -1722,11 +1735,9 @@ function AdminChat() {
             Chatting as
           </span>
 
-
           <strong>
             {customerName}
           </strong>
-
 
           <small>
             {customerEmail}
@@ -1748,9 +1759,7 @@ function AdminChat() {
       </div>
 
 
-      {/* ===================================
-          MESSAGES
-          =================================== */}
+      {/* MESSAGES */}
 
       <div className="chat-messages admin-messages">
 
@@ -1762,7 +1771,6 @@ function AdminChat() {
             <strong>
               Conversation started
             </strong>
-
 
             <p>
               Send a message below and the resort administrator will be able to respond from the Admin Dashboard.
@@ -1787,28 +1795,20 @@ function AdminChat() {
                 }`}
               >
 
-                {/* ADMIN AVATAR */}
-
                 {message.sender_type ===
                   "admin" && (
-
                   <div className="message-avatar admin-message-avatar">
                     A
                   </div>
-
                 )}
 
 
-                {/* ===========================
-                    PAYMENT RECEIPT
-                    =========================== */}
+                {/* PAYMENT RECEIPT */}
 
                 {message.message_type ===
                 "payment_receipt" ? (
 
                   <div className="customer-payment-card">
-
-                    {/* RECEIPT IMAGE */}
 
                     {message.attachment_url &&
                     message.attachment_mime
@@ -1848,14 +1848,11 @@ function AdminChat() {
                     ) : null}
 
 
-                    {/* PAYMENT INFORMATION */}
-
                     <div className="customer-payment-card-body">
 
                       <span>
                         Payment Receipt
                       </span>
-
 
                       <strong>
                         ₱
@@ -1864,13 +1861,11 @@ function AdminChat() {
                         )}
                       </strong>
 
-
                       <p>
                         {
                           message.payment_method
                         }
                       </p>
-
 
                       <p>
                         Ref. No.{" "}
@@ -1902,22 +1897,18 @@ function AdminChat() {
 
                       {message.payment_status ===
                         "Verified" && (
-
                         <small>
                           Verified by Resort Admin
                         </small>
-
                       )}
 
 
                       {message.payment_reviewed_at && (
-
                         <small>
                           {formatTime(
                             message.payment_reviewed_at
                           )}
                         </small>
-
                       )}
 
                     </div>
@@ -1925,9 +1916,7 @@ function AdminChat() {
                   </div>
 
 
-                /* ===========================
-                   NORMAL ATTACHMENT
-                   =========================== */
+                /* NORMAL ATTACHMENT */
 
                 ) : message.message_type ===
                   "attachment" ? (
@@ -1989,9 +1978,7 @@ function AdminChat() {
                   </div>
 
 
-                /* ===========================
-                   TEXT MESSAGE
-                   =========================== */
+                /* TEXT MESSAGE */
 
                 ) : (
 
@@ -2005,11 +1992,9 @@ function AdminChat() {
                           : "user"
                       }`}
                     >
-
                       {
                         message.message_text
                       }
-
                     </div>
 
 
@@ -2021,11 +2006,9 @@ function AdminChat() {
                           : ""
                       }`}
                     >
-
                       {formatTime(
                         message.created_at
                       )}
-
                     </small>
 
                   </div>
@@ -2049,9 +2032,7 @@ function AdminChat() {
       </div>
 
 
-      {/* ===================================
-          CLOSED CONVERSATION
-          =================================== */}
+      {/* CLOSED CONVERSATION */}
 
       {conversationStatus ===
         "Closed" && (
@@ -2067,9 +2048,7 @@ function AdminChat() {
       )}
 
 
-      {/* ===================================
-          PAYMENT BUTTON
-          =================================== */}
+      {/* PAYMENT BUTTON */}
 
       {conversationStatus ===
         "Open" &&
@@ -2083,9 +2062,7 @@ function AdminChat() {
             type="button"
             onClick={() => {
 
-              setError(
-                ""
-              );
+              setError("");
 
               setShowPaymentForm(
                 (current) =>
@@ -2102,9 +2079,7 @@ function AdminChat() {
       )}
 
 
-      {/* ===================================
-          PAYMENT RECEIPT FORM
-          =================================== */}
+      {/* PAYMENT RECEIPT FORM */}
 
       {showPaymentForm &&
         conversationStatus ===
@@ -2210,11 +2185,9 @@ function AdminChat() {
                 uploading
               }
             >
-
               {uploading
                 ? "Submitting..."
                 : "Submit Receipt"}
-
             </button>
 
 
@@ -2257,25 +2230,19 @@ function AdminChat() {
       )}
 
 
-      {/* ===================================
-          ERROR
-          =================================== */}
+      {/* ERROR */}
 
       {error && (
-
         <div
           className="admin-chat-error message-error"
           role="alert"
         >
           {error}
         </div>
-
       )}
 
 
-      {/* ===================================
-          MESSAGE INPUT
-          =================================== */}
+      {/* MESSAGE INPUT */}
 
       <form
         className="chat-input-container"
@@ -2301,11 +2268,9 @@ function AdminChat() {
 
 
             if (selectedFile) {
-
               sendAttachment(
                 selectedFile
               );
-
             }
 
 
@@ -2395,5 +2360,6 @@ function AdminChat() {
     </div>
   );
 }
+
 
 export default AdminChat;
