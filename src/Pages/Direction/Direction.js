@@ -440,9 +440,7 @@ export default function Direction() {
 
         <div className="direction-footer">
 
-          <p>
-            ❦ A peaceful escape is closer than you think. ❦
-          </p>
+
 
         </div>
 
