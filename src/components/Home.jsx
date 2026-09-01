@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { supabase } from '../lib/supabaseClient';
 import Logo from './Logo';
 import './Home.css';
@@ -25,6 +26,7 @@ const getDateKey = (dateString) => dateString.slice(0, 10);
 const formatGuestsLabel = (guests) => `${guests} ${Number(guests) === 1 ? 'Guest' : 'Guests'}`;
 
 export default function Home() {
+  const navigate = useNavigate();
   const initialCheckIn = new Date();
   initialCheckIn.setMinutes(0, 0, 0);
   initialCheckIn.setHours(initialCheckIn.getHours() + 1);
@@ -141,7 +143,11 @@ export default function Home() {
           
 
             <div className="home-actions">
-              <button type="button" className="home-btn home-btn-primary">
+              <button
+                type="button"
+                className="home-btn home-btn-primary"
+                onClick={() => navigate('/services')}
+              >
                 Explore Resort
               </button>
             </div>

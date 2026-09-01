@@ -31,11 +31,6 @@ const navLinks = [
   },
 
   {
-    path: "/reservation",
-    label: "Reservation",
-  },
-
-  {
     path: "/support",
     label: "Support",
   },
@@ -259,7 +254,6 @@ export default function Navbar() {
           }
         />
       )}
-
     </>
   );
 }
