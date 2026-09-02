@@ -585,6 +585,8 @@
 }
 
 .chat-page .message-row {
+  position: relative;
+
   display: flex;
 
   margin-bottom: 12px;
@@ -653,6 +655,110 @@
   font-size: 0.82rem;
 
   text-align: center;
+}
+
+
+/* ==========================================
+   MESSAGE META
+   ========================================== */
+
+.chat-page .message-meta {
+  margin-top: 6px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: flex-end;
+
+  gap: 10px;
+}
+
+.chat-page .message-meta small {
+  color: #8a7353;
+
+  font-size: 0.72rem;
+}
+
+
+/* ==========================================
+   DELETE MESSAGE
+   ========================================== */
+
+.chat-page .delete-message-btn {
+  position: absolute;
+
+  top: 50%;
+
+  transform: translateY(-50%);
+
+  padding:
+    5px
+    7px;
+
+  border: none;
+
+  border-radius: 6px;
+
+  background: transparent;
+
+  color: #a33a3a;
+
+  font-family: inherit;
+
+  font-size: 0.68rem;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  opacity: 0;
+
+  transition:
+    opacity 0.15s ease,
+    background 0.15s ease,
+    color 0.15s ease;
+}
+
+
+/*
+  Guest messages appear on the left,
+  so the Delete button appears beside them.
+*/
+
+.chat-page .guest-message .delete-message-btn {
+  left: calc(100% + 5px);
+}
+
+
+/*
+  Admin messages appear on the right,
+  so the Delete button appears beside them.
+*/
+
+.chat-page .admin-message .delete-message-btn {
+  right: calc(100% + 5px);
+}
+
+
+.chat-page .message-row:hover .delete-message-btn,
+.chat-page .delete-message-btn:focus-visible {
+  opacity: 1;
+}
+
+
+.chat-page .delete-message-btn:hover:not(:disabled) {
+  background:
+    rgba(176, 66, 66, 0.1);
+
+  color: #7d2222;
+}
+
+
+.chat-page .delete-message-btn:disabled {
+  opacity: 0.5;
+
+  cursor: not-allowed;
 }
 
 
@@ -895,6 +1001,30 @@
     margin-left: auto;
   }
 
+
+  /*
+    Mobile devices do not have hover in the
+    same way desktop browsers do, so keep
+    Delete visible.
+  */
+
+  .chat-page .delete-message-btn {
+    position: static;
+
+    transform: none;
+
+    opacity: 1;
+
+    margin-left: 5px;
+  }
+
+
+  .chat-page .guest-message .delete-message-btn,
+  .chat-page .admin-message .delete-message-btn {
+    left: auto;
+    right: auto;
+  }
+
 }
 
 
@@ -973,6 +1103,7 @@
   }
 
 }
+
 
 /* ==========================================
    CHAT ATTACHMENTS
@@ -1112,7 +1243,9 @@
 }
 
 
-/* PAYMENT STATUS */
+/* ==========================================
+   PAYMENT STATUS
+   ========================================== */
 
 .chat-page .payment-verification-status {
   margin-top: 12px;
@@ -1154,7 +1287,9 @@
 }
 
 
-/* PAYMENT ACTIONS */
+/* ==========================================
+   PAYMENT ACTIONS
+   ========================================== */
 
 .chat-page .payment-verification-actions {
   margin-top: 10px;
@@ -1206,7 +1341,9 @@
 }
 
 
-/* ATTACH BUTTON */
+/* ==========================================
+   ATTACH BUTTON
+   ========================================== */
 
 .chat-page .message-form .chat-attach-btn {
   padding:
@@ -1243,80 +1380,21 @@
    MESSAGE MODERATION
    ========================================== */
 
-.moderation-warning {
+.chat-page .moderation-warning {
   margin-top: 8px;
-  padding: 6px 8px;
+
+  padding:
+    6px
+    8px;
+
   border-radius: 6px;
-  background: rgba(176, 66, 66, 0.12);
+
+  background:
+    rgba(176, 66, 66, 0.12);
+
   color: #a33a3a;
+
   font-size: 0.75rem;
+
   line-height: 1.4;
-}
-
-
-/* ==========================================
-   MESSAGE META / DELETE
-   ========================================== */
-
-.message-meta {
-  margin-top: 6px;
-
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  gap: 10px;
-}
-
-.message-meta small {
-  color: #8a7353;
-  font-size: 0.72rem;
-}
-
-.delete-message-btn {
-  border: none;
-  background: transparent;
-
-  color: #a33a3a;
-
-  font-family: inherit;
-  font-size: 0.72rem;
-  font-weight: 600;
-
-  cursor: pointer;
-
-  padding: 2px 4px;
-
-  opacity: 0;
-
-  transition:
-    opacity 0.15s ease,
-    color 0.15s ease;
-}
-
-.message-bubble:hover .delete-message-btn {
-  opacity: 1;
-}
-
-.delete-message-btn:hover:not(:disabled) {
-  color: #7d2222;
-  text-decoration: underline;
-}
-
-.delete-message-btn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-
-/* ==========================================
-   MOBILE
-   ========================================== */
-
-@media (max-width: 768px) {
-
-  .delete-message-btn {
-    opacity: 1;
-  }
-
 }

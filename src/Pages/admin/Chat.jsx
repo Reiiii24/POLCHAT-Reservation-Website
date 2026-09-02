@@ -21,13 +21,7 @@ const ATTACHMENT_BUCKET =
    ======================================== */
 
 /*
-  Basic list of inappropriate words/phrases.
-
-  This is intentionally kept on the frontend as a
-  first layer of protection. We will also apply
-  moderation on the customer side.
-
-  You can add or remove words from this list later.
+  Basic list of inappropriate words/phrases. Can add or remove words from this list.
 */
 const INAPPROPRIATE_WORDS = [
   "fuck",
@@ -51,13 +45,6 @@ const INAPPROPRIATE_WORDS = [
 /*
   Checks whether a message contains inappropriate
   language.
-
-  It also catches simple attempts to bypass the filter,
-  such as:
-
-  f.u.c.k
-  f-u-c-k
-  f u c k
 */
 function containsInappropriateContent(text) {
   if (!text) {
@@ -1036,9 +1023,56 @@ export default function Chat() {
 
 
       /*
-        If this message has an attachment,
-        attempt to remove the actual file
-        from Supabase Storage first.
+        Delete the message row first.
+
+        This prevents a situation where the
+        attachment is deleted successfully but
+        the database message remains.
+      */
+      const {
+        error:
+          deleteError,
+      } =
+        await supabase
+          .from(
+            "chat_messages"
+          )
+          .delete()
+          .eq(
+            "id",
+            msg.id
+          );
+
+
+      if (deleteError) {
+
+        console.error(
+          "Message deletion error:",
+          deleteError
+        );
+
+        setError(
+          deleteError.message ||
+            "Unable to delete message."
+        );
+
+        setDeletingId(
+          null
+        );
+
+        return;
+      }
+
+
+      /*
+        The database message has successfully
+        been deleted.
+
+        If the message had an attachment,
+        clean up the corresponding Storage file.
+
+        A Storage cleanup failure does not restore
+        the already-deleted message.
       */
       if (
         msg.attachment_path
@@ -1061,7 +1095,7 @@ export default function Chat() {
         if (storageError) {
 
           console.error(
-            "Attachment deletion error:",
+            "Attachment cleanup error:",
             storageError
           );
 
@@ -1071,45 +1105,7 @@ export default function Chat() {
 
 
       /*
-        Delete the message row.
-      */
-      const {
-        error:
-          deleteError,
-      } =
-        await supabase
-          .from(
-            "chat_messages"
-          )
-          .delete()
-          .eq(
-            "id",
-            msg.id
-          );
-
-
-      if (deleteError) {
-
-        console.error(
-          deleteError
-        );
-
-        setError(
-          deleteError.message ||
-            "Unable to delete message."
-        );
-
-        setDeletingId(
-          null
-        );
-
-        return;
-      }
-
-
-      /*
-        Refresh the conversation so the
-        deleted message disappears immediately.
+        Refresh the conversation and chat list.
       */
       await fetchMessages(
         selectedChat.id,
@@ -1512,6 +1508,34 @@ export default function Chat() {
                       >
 
                         {/* =================================
+                            DELETE MESSAGE
+                            ================================= */}
+
+                        <button
+                          type="button"
+                          className="delete-message-btn"
+                          disabled={
+                            deletingId ===
+                            msg.id
+                          }
+                          onClick={() =>
+                            deleteMessage(
+                              msg
+                            )
+                          }
+                          aria-label="Delete message"
+                          title="Delete message"
+                        >
+
+                          {deletingId ===
+                          msg.id
+                            ? "Deleting..."
+                            : "Delete"}
+
+                        </button>
+
+
+                        {/* =================================
                             PAYMENT RECEIPT
                             ================================= */}
 
@@ -1746,28 +1770,6 @@ export default function Chat() {
                                   msg.created_at
                                 )}
                               </small>
-
-
-                              <button
-                                type="button"
-                                className="delete-message-btn"
-                                disabled={
-                                  deletingId ===
-                                  msg.id
-                                }
-                                onClick={() =>
-                                  deleteMessage(
-                                    msg
-                                  )
-                                }
-                              >
-
-                                {deletingId ===
-                                msg.id
-                                  ? "Deleting..."
-                                  : "Delete"}
-
-                              </button>
 
                             </div>
 
