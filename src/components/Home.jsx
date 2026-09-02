@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router-dom';
 import { supabase } from '../lib/supabaseClient';
 import Logo from './Logo';
 import './Home.css';
-import PolchatEntrance from '../Assets/polchatEntrance.png';
 import highlightOne from '../Assets/highlightOne.png';
 import highlightTwo from '../Assets/highlightTwo.png';
 import highlightThree from '../Assets/higlightThree.png';
@@ -134,8 +133,8 @@ export default function Home() {
               PolChat Garden Resort!
             </h1>
             <p className="home-subcopy">
-              
-            </p><p>A brief escape to reconnect, refresh, and recharge your energy. </p>
+              A brief escape to reconnect, refresh, and recharge your energy.
+            </p>
           
 
             <div className="home-actions">
@@ -273,32 +272,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="home-story">
-        <div className="section-heading section-heading-left">
-         {/* <p>About the Resort</p>*/} 
-          <h2> A Place To Relax, Recharge, & Reconnect!</h2>
-        </div>
-
-        <div className="story-grid">
-          <div className="story-copy">
-            <p>
-              <b>PolChat Garden Resort</b> is designed to feel warm and
-              refreshing from the moment guests arrive. Whether you're planning a family outing, barkada bonding, birthday celebration, or simply a well-deserved break, 
-              PolChat Garden offers a relaxing atmosphere where unforgettable memories are made.
-            </p>
-        
-            <ul className="story-list">
-              <li>Ideal for family weekends and private celebrations</li>
-              <li>Convenient booking, cozy rooms, and relaxing surroundings</li>
-              <li>Space for featured promos, policies, or house reminders</li>
-            </ul>
-          </div>
-
-          <div className="image-slot image-slot-large"> {/*for photos*/}
-            <img src={PolchatEntrance} alt="PolChat Garden Resort surrounded by nature" />
-          </div>
-        </div>
-      </section>
+      <section className="home-story" />
 
       <section className="home-gallery">
         <div className="section-heading">  {/*for photos*/}
