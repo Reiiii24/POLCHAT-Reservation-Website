@@ -108,12 +108,15 @@ export default function Gallery() {
     [photos]
   );
 
-  const navigatePhoto = (direction) => {
-    setActivePhoto((currentPhoto) => {
-      const currentIndex = photoItems.findIndex((photo) => photo.name === currentPhoto?.name);
-      return photoItems[(currentIndex + direction + photoItems.length) % photoItems.length];
-    });
-  };
+  const navigatePhoto = useCallback(
+    (direction) => {
+      setActivePhoto((currentPhoto) => {
+        const currentIndex = photoItems.findIndex((photo) => photo.name === currentPhoto?.name);
+        return photoItems[(currentIndex + direction + photoItems.length) % photoItems.length];
+      });
+    },
+    [photoItems]
+  );
 
   useEffect(() => {
     if (!activePhoto || !photoItems.length) {
@@ -134,7 +137,7 @@ export default function Gallery() {
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [activePhoto, photoItems]);
+  }, [activePhoto, navigatePhoto, photoItems]);
 
   // Admins can upload several photos in one go from this form.
   const handleUpload = async (event) => {
