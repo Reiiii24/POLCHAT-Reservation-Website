@@ -1,6 +1,6 @@
 // This file shows the resort gallery and lets admins manage photos.
 
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useLocation } from "react-router-dom";
 
 import { supabase } from "../../lib/supabaseClient";
@@ -66,13 +66,21 @@ export default function Gallery() {
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [activePhoto, setActivePhoto] = useState(null);
 
-  const fetchPhotos = async () => {
+  const fetchPhotos = useCallback(async () => {
     setLoading(true);
     setError("");
+
+    // #region debug-point A:fetch-start
+    fetch("http://127.0.0.1:7777/event", { method: "POST", body: JSON.stringify({ sessionId: "gallery-load", runId: "pre-fix", hypothesisId: "A", location: "Gallery.jsx:fetchPhotos", msg: "[DEBUG] Gallery fetch started", data: { path: window.location.pathname } }) }).catch(() => {});
+    // #endregion
 
     const { data, error: listError } = await supabase.storage.from(GALLERY_BUCKET).list("", {
       sortBy: { column: "created_at", order: "desc" },
     });
+
+    // #region debug-point A:list-result
+    fetch("http://127.0.0.1:7777/event", { method: "POST", body: JSON.stringify({ sessionId: "gallery-load", runId: "pre-fix", hypothesisId: "A", location: "Gallery.jsx:fetchPhotos", msg: "[DEBUG] Gallery storage list completed", data: { count: data?.length || 0, error: listError?.message || null } }) }).catch(() => {});
+    // #endregion
 
     if (listError) {
       setError("Unable to load gallery photos.");
@@ -84,11 +92,11 @@ export default function Gallery() {
 
     setPhotos(imageFiles);
     setLoading(false);
-  };
+  }, []);
 
   useEffect(() => {
     fetchPhotos();
-  }, []);
+  }, [fetchPhotos]);
 
   const photoItems = useMemo(
     () =>
@@ -99,6 +107,34 @@ export default function Gallery() {
       })),
     [photos]
   );
+
+  const navigatePhoto = (direction) => {
+    setActivePhoto((currentPhoto) => {
+      const currentIndex = photoItems.findIndex((photo) => photo.name === currentPhoto?.name);
+      return photoItems[(currentIndex + direction + photoItems.length) % photoItems.length];
+    });
+  };
+
+  useEffect(() => {
+    if (!activePhoto || !photoItems.length) {
+      return undefined;
+    }
+
+    const handleKeyDown = (event) => {
+      if (event.key === "ArrowRight" || event.key.toLowerCase() === "d") {
+        event.preventDefault();
+        navigatePhoto(1);
+      } else if (event.key === "ArrowLeft" || event.key.toLowerCase() === "a") {
+        event.preventDefault();
+        navigatePhoto(-1);
+      } else if (event.key === "Escape") {
+        setActivePhoto(null);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [activePhoto, photoItems]);
 
   // Admins can upload several photos in one go from this form.
   const handleUpload = async (event) => {
@@ -216,7 +252,11 @@ export default function Gallery() {
                   onClick={() => setActivePhoto(photo)}
                   aria-label={`View ${photo.title || photo.name}`}
                 >
-                  <img src={photo.url} alt={photo.title || photo.name} />
+                  <img
+                src={photo.url}
+                alt={photo.title || photo.name}
+                draggable="false"
+              />
                 </button>
 
                 <figcaption className="gallery-item-bar">
@@ -261,11 +301,30 @@ export default function Gallery() {
               ×
             </button>
 
+            <button
+              type="button"
+              className="gallery-lightbox-arrow gallery-lightbox-arrow-previous"
+              aria-label="Previous photo"
+              onClick={() => navigatePhoto(-1)}
+            >
+              ‹
+            </button>
+
             <img
               className="gallery-lightbox-image"
               src={activePhoto.url}
               alt={activePhoto.title || activePhoto.name}
+              draggable="false"
             />
+
+            <button
+              type="button"
+              className="gallery-lightbox-arrow gallery-lightbox-arrow-next"
+              aria-label="Next photo"
+              onClick={() => navigatePhoto(1)}
+            >
+              ›
+            </button>
 
             <div className="gallery-lightbox-caption">
               <strong>{activePhoto.title || activePhoto.name}</strong>

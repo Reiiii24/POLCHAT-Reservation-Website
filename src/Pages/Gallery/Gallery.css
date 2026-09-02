@@ -210,6 +210,32 @@
   object-fit: contain;
   border-radius: 16px;
   background: #0d150f;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.gallery-lightbox-arrow {
+  position: absolute;
+  top: 50%;
+  z-index: 2;
+  width: 48px;
+  height: 48px;
+  border: 0;
+  border-radius: 999px;
+  transform: translateY(-50%);
+  background: rgba(216, 178, 90, 0.92);
+  color: #172417;
+  font-size: 2.2rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.gallery-lightbox-arrow-previous {
+  left: -24px;
+}
+
+.gallery-lightbox-arrow-next {
+  right: -24px;
 }
 
 .gallery-lightbox-caption {

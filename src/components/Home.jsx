@@ -1,14 +1,16 @@
 // This file shows the home page with the main resort highlights and actions.
 
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../lib/supabaseClient';
 import Logo from './Logo';
 import './Home.css';
-import highlightOne from '../Assets/highlightOne.png';
-import highlightTwo from '../Assets/highlightTwo.png';
-import highlightThree from '../Assets/higlightThree.png';
-import highlightFour from '../Assets/highlightFour.png';
+import highlightOne from '../Assets/highlights/464e8f4b-a857-4bd6-8544-eeffc3aafb7d.jpg';
+import highlightTwo from '../Assets/highlights/94d6c56f-eb43-444d-94c7-ead680ef5746.jpg';
+import highlightThree from '../Assets/highlights/70ad26fd-b3a9-49d1-acca-13c9374158bf.jpg';
+import highlightFour from '../Assets/highlights/ef2e169b-48b4-488c-a79d-a15db3259fe8.jpg';
+import highlightFive from '../Assets/highlights/898bc056-1ddd-4405-a871-9b82077f2a7c.jpg';
+import highlightSix from '../Assets/highlights/e11826fa-e741-4226-abfd-fb90f1a3fbba.jpg';
 
 const formatDateTimeForInput = (date) => {
   const year = date.getFullYear();
@@ -43,6 +45,57 @@ export default function Home() {
   const [availabilityError, setAvailabilityError] = useState('');
   const [availabilityStatus, setAvailabilityStatus] = useState('');
   const [isCheckingAvailability, setIsCheckingAvailability] = useState(false);
+  const [galleryIndex, setGalleryIndex] = useState(0);
+  const [galleryDragOffset, setGalleryDragOffset] = useState(0);
+  const [isDraggingGallery, setIsDraggingGallery] = useState(false);
+  const galleryDragStart = useRef(null);
+
+  const galleryImages = [
+    highlightOne,
+    highlightTwo,
+    highlightThree,
+    highlightFour,
+    highlightFive,
+    highlightSix,
+  ];
+
+  const moveGallery = (direction) => {
+    setGalleryIndex((currentIndex) => {
+      const nextIndex = currentIndex + direction;
+      return Math.min(Math.max(nextIndex, 0), galleryImages.length - 4);
+    });
+  };
+
+  const handleGalleryPointerDown = (event) => {
+    galleryDragStart.current = {
+      x: event.clientX,
+      index: galleryIndex,
+    };
+    setGalleryDragOffset(0);
+    setIsDraggingGallery(true);
+    event.currentTarget.setPointerCapture(event.pointerId);
+  };
+
+  const handleGalleryPointerMove = (event) => {
+    if (galleryDragStart.current === null) return;
+    setGalleryDragOffset(event.clientX - galleryDragStart.current.x);
+  };
+
+  const handleGalleryPointerUp = (event) => {
+    if (galleryDragStart.current !== null) {
+      const dragDistance = event.clientX - galleryDragStart.current.x;
+      if (Math.abs(dragDistance) > 60) {
+        moveGallery(dragDistance < 0 ? 1 : -1);
+      }
+    }
+
+    galleryDragStart.current = null;
+    setGalleryDragOffset(0);
+    setIsDraggingGallery(false);
+    if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+      event.currentTarget.releasePointerCapture(event.pointerId);
+    }
+  };
 
   const handleAvailabilityChange = ({ target }) => {
     const { name, value } = target;
@@ -272,7 +325,15 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="home-story" />
+      <section className="home-story">
+        <div className="story-content">
+          <h2>PolChat Garden Resort</h2>
+          <p>
+            is designed to give you a warm, refreshing experience — perfect for family outings,
+            barkada bonding, birthday celebrations, and simply taking a break.
+          </p>
+        </div>
+      </section>
 
       <section className="home-gallery">
         <div className="section-heading">  {/*for photos*/}
@@ -280,19 +341,51 @@ export default function Home() {
           <h2>Photo Highlights from PolChat Garden Resort</h2>
         </div>
 
-        <div className="gallery-grid"> {/*for photos in the home page*/}
-          <div className="image-slot">
-            <img src={highlightOne} alt="Guest room or suite at PolChat Garden Resort" />
+        <div className="gallery-slider">
+          <button
+            className="gallery-arrow gallery-arrow-prev"
+            type="button"
+            onClick={() => moveGallery(-1)}
+            disabled={galleryIndex === 0}
+            aria-label="Show previous photos"
+          >
+            &#8592;
+          </button>
+
+          <div
+            className={`gallery-viewport${isDraggingGallery ? ' is-dragging' : ''}`}
+            onPointerDown={handleGalleryPointerDown}
+            onPointerMove={handleGalleryPointerMove}
+            onPointerUp={handleGalleryPointerUp}
+            onPointerCancel={handleGalleryPointerUp}
+          >
+            <div
+              className="home-gallery-track"
+              style={{
+                transform: `translateX(calc(-${galleryIndex} * (25% + 4.5px) + ${galleryDragOffset}px))`,
+              }}
+            >
+              {galleryImages.map((image, index) => (
+                <div className="image-slot" key={image}>
+                  <img
+                    src={image}
+                    alt={`PolChat Garden Resort highlight ${index + 1}`}
+                    draggable="false"
+                  />
+                </div>
+              ))}
+            </div>
           </div>
-          <div className="image-slot">
-            <img src={highlightThree} alt="Dining area at PolChat Garden Resort" />
-          </div>
-           <div className="image-slot">
-            <img src={highlightTwo} alt="Pool and garden view at PolChat Garden Resort" />
-          </div>
-          <div className="image-slot">
-            <img src={highlightFour} alt="Event space at PolChat Garden Resort" />
-          </div>
+
+          <button
+            className="gallery-arrow gallery-arrow-next"
+            type="button"
+            onClick={() => moveGallery(1)}
+            disabled={galleryIndex === galleryImages.length - 4}
+            aria-label="Show next photos"
+          >
+            &#8594;
+          </button>
         </div>
       </section>
 

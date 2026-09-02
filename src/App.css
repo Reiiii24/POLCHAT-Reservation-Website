@@ -41,6 +41,18 @@ body {
   padding-top: 72px;
 }
 
+.services-page-intro {
+  position: relative;
+  z-index: 1;
+  padding-bottom: 108px;
+  background: #456334;
+}
+
+.services-page-list {
+  position: relative;
+  z-index: 3;
+}
+
 
 /* ==========================================
    HOME / RESORT

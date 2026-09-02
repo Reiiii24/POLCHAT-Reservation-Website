@@ -2,6 +2,7 @@
 
 .service-list {
   position: relative;
+  z-index: 2;
   isolation: isolate;
 
   width: 100%;
@@ -12,7 +13,7 @@
     clamp(18px, 4vw, 40px)
     clamp(44px, 6vw, 64px);
 
-  overflow-x: hidden;
+  overflow: visible;
 
   background: linear-gradient(180deg, #36552a 0%, #284615 100%); /*Our Services / Service Overview Background*/
 
@@ -25,11 +26,16 @@
 }
 
 .service-list .section-heading {
+  position: relative;
+  z-index: 20;
+
   width: min(100%, 720px);
 
   margin: 0 auto 30px;
 
   text-align: center;
+  font-size: 20px;
+  transform: translateY(-52px);
 }
 
 .service-list .section-heading p {
@@ -38,7 +44,7 @@
   color: #dfc481;
 
   font-size:
-    clamp(0.8rem, 1.4vw, 1rem);
+    clamp(0.8rem, 1.4vw, 2rem);
 
   letter-spacing: 0.18em;
 
@@ -56,7 +62,7 @@
     serif;
 
   font-size:
-    clamp(2rem, 4.5vw, 3.4rem);
+    clamp(3.5rem, 5vw, 5.5rem);
 
   line-height: 1.1;
 }

@@ -13,10 +13,9 @@ import {
 
 import Navbar from "./components/Navbar";
 import Home from "./components/Home";
-import ResortIntro from "./components/ResortIntro";
-import ServiceList from "./components/ServiceList";
 import ContactInfo from "./components/ContactInfo";
 
+import About from "./Pages/About";
 import ReservationPage from "./Pages/Reservation/ReservationPage";
 import SupportPage from "./Pages/Support/SupportPage";
 import Direction from "./Pages/Direction/Direction";
@@ -80,13 +79,7 @@ function App() {
 
           <Route
             path="/services"
-            element={
-              <>
-                <ResortIntro />
-                <ServiceList />
-                <ContactInfo />
-              </>
-            }
+            element={<About />}
           />
 
           <Route
