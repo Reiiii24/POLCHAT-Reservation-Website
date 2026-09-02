@@ -9,7 +9,8 @@
   position: relative;
   overflow: visible;
   margin-top: 0;
-  padding: 72px 0 120px;
+  min-height: 820px;
+  padding: 72px 0 360px;
   background: #141810;
 }
 
@@ -27,7 +28,7 @@
   inset: 0;
   background: /*Section Overlay Background in homepage*/
     linear-gradient(180deg, rgba(35, 72, 35, 0.38) 0%, rgba(10, 39, 18, 0.58) 100%),
-    url("../Assets/Background.png") center/cover no-repeat;
+    url("../Assets/finalHomepageBackground.png") center/cover no-repeat;
   filter: contrast(1.1) brightness(1.05);
 }
 
@@ -36,7 +37,7 @@
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(circle at 10% 24%, rgba(111, 142, 59, 0.15), transparent 25%),
+    linear-gradient(90deg, rgba(8, 39, 19, 0.38) 0%, rgba(8, 39, 19, 0.12) 42%, rgba(8, 39, 19, 0) 70%),
     linear-gradient(180deg, rgba(0, 0, 0, 0) 60%, rgba(0, 0, 0, 0.35) 100%);
 }
 
@@ -69,60 +70,45 @@
   z-index: 1;
   max-width: 1280px;
   margin: 0 auto;
-  padding: 56px 32px 0;
+  min-height: 520px;
+  padding: 170px 32px 0;
   display: grid;
   grid-template-columns: minmax(0, 1fr) 340px;
   gap: 28px;
-  align-items: center;
+  align-items: end;
 }
 
 .home-hero-copy {
   max-width: 640px;
+  padding-bottom: 36px;
 }
 
 .home-kicker {
   margin: 0 0 14px;
-  color: #e5cb8e;
-  font-size: 1.45rem;
+  color: #d7a642;
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.65);
   font-family: "Brush Script MT", "Segoe Script", cursive;
 }
 
 .home-hero-copy h1 {
   margin: 0;
-  color: #ece0cb;
+  color: #fff3d4;
   font-family: Georgia, serif;
   font-size: clamp(2.4rem, 4.5vw, 3.7rem);
+  font-weight: 500;
   line-height: 1.12;
   text-shadow: 0 4px 24px rgba(0, 0, 0, 0.75), 0 2px 8px rgba(0, 0, 0, 0.9);
 }
 
-.home-divider {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  width: min(300px, 100%);
-  margin: 20px 0 20px;
-}
-
-.home-divider span {
-  flex: 1;
-  height: 1px;
-  background: rgba(228, 206, 137, 0.85);
-}
-
-.home-divider i {
-  width: 17px;
-  height: 17px;
-  border: 1px solid rgba(228, 206, 137, 0.85);
-  border-radius: 50%;
-}
-
 .home-subcopy {
   max-width: 460px;
-  margin: 0 0 24px;
-  color: #dbccae;
-  font-size: 1.04rem;
-  line-height: 1.6;
+  margin: 20px 0 24px;
+  color: #fff4df;
+  font-size: 1.07rem;
+  line-height: 1.65;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.72);
 }
 
 .home-actions {
@@ -276,13 +262,13 @@
   margin: 0 auto;
   padding: 14px 16px;
   border-radius: 22px;
-  background: #425531;
+  background: #274125;
   box-shadow: 0 24px 40px rgba(0, 0, 0, 0.28);
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr)) 195px;
   gap: 9px;
   align-items: end;
-  border: 1px solid #466326;
+  border: 1px solid #27360b;
 }
 
 .booking-field {
@@ -856,6 +842,8 @@
   .home-shell {
     grid-template-columns: 1fr;
     gap: 20px;
+    min-height: 0;
+    padding-top: 210px;
   }
 
   .why-grid,
@@ -891,16 +879,18 @@
 
 @media (max-width: 768px) {
   .home-hero {
-    padding: 48px 0 180px;
+    min-height: 0;
+    padding: 88px 0 36px;
   }
 
   .home-shell {
-    padding: 40px 20px 0;
+    padding: 170px 20px 0;
   }
 
   .home-hero-copy {
     max-width: 100%;
     text-align: center;
+    padding-bottom: 0;
   }
 
   .home-kicker {
@@ -926,8 +916,10 @@
   }
 
   .booking-strip-wrap {
-    bottom: -120px;
+    position: relative;
+    bottom: auto;
     padding: 0 20px;
+    margin-top: 34px;
   }
 
   .booking-strip {
@@ -955,7 +947,7 @@
   }
 
   .home-why {
-    padding-top: 156px;
+    padding-top: 56px;
   }
 
   .section-heading {

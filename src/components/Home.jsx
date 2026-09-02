@@ -128,20 +128,14 @@ export default function Home() {
 
         <div className="home-shell">
           <div className="home-hero-copy">
-            <p className="home-kicker">Nature. Peace. Unwind.</p>
             <h1>
               Welcome to
               <br />
               PolChat Garden Resort!
             </h1>
-            <div className="home-divider" aria-hidden="true">
-              <span />
-              <i />
-              <span />
-            </div>
             <p className="home-subcopy">
               
-            </p>Perfect for those who seek comfort, <p>Refocusing on the good vibes & Regenerating energy from within. </p>
+            </p><p>A brief escape to reconnect, refresh, and recharge your energy. </p>
           
 
             <div className="home-actions">
