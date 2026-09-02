@@ -66,7 +66,7 @@ export default function Gallery() {
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [activePhoto, setActivePhoto] = useState(null);
 
-  const fetchPhotos = async () => {
+  const fetchPhotos = async (attempt = 0) => {
     setLoading(true);
     setError("");
 
@@ -81,6 +81,13 @@ export default function Gallery() {
     }
 
     const imageFiles = (data || []).filter(isImageFile);
+
+    if (!isAdminView && !imageFiles.length && attempt < 2) {
+      window.setTimeout(() => {
+        fetchPhotos(attempt + 1);
+      }, 800);
+      return;
+    }
 
     setPhotos(imageFiles);
     setLoading(false);
