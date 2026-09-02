@@ -25,10 +25,10 @@
   content: "";
   position: absolute;
   inset: 0;
-  background:
-    linear-gradient(180deg, rgba(8, 11, 6, 0.55) 0%, rgba(8, 11, 6, 0.75) 100%),
+  background: /*Section Overlay Background in homepage*/
+    linear-gradient(180deg, rgba(35, 72, 35, 0.38) 0%, rgba(10, 39, 18, 0.58) 100%),
     url("../Assets/Background.png") center/cover no-repeat;
-  filter: contrast(1.1) brightness(0.92);
+  filter: contrast(1.1) brightness(1.05);
 }
 
 .home-hero-overlay::after {
@@ -271,18 +271,18 @@
   padding: 0 32px;
 }
 
-.booking-strip {
+.booking-strip { /*Booking Bar in homepage*/
   max-width: 980px;
   margin: 0 auto;
   padding: 14px 16px;
   border-radius: 22px;
-  background: #212616;
+  background: #425531;
   box-shadow: 0 24px 40px rgba(0, 0, 0, 0.28);
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr)) 195px;
   gap: 9px;
   align-items: end;
-  border: 1px solid #12160d;
+  border: 1px solid #466326;
 }
 
 .booking-field {

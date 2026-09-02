@@ -30,7 +30,6 @@ function ServiceList() {
   return (
     <section className="service-list">
       <div className="section-heading">
-        <p>Services Overview</p>
         <h2>Our Services</h2>
       </div>
 

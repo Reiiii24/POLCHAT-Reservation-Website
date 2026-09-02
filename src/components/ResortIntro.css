@@ -1,5 +1,6 @@
 /* This file styles the Resort Intro section so the page looks clean and organized. */
 
+
 .resort-intro {
   position: relative;
   isolation: isolate;
@@ -14,7 +15,7 @@
 
   overflow-x: hidden;
 
-  background: #142417;
+  background: #456334; /*Services Intro Background*/
 
   font-family:
     "Inter",
@@ -147,6 +148,24 @@
   object-fit: cover;
 }
 
+.why-section {
+  position: relative;
+  isolation: isolate;
+}
+
+.why-section::before {
+  content: "";
+
+  position: absolute;
+  z-index: -1;
+  top: clamp(130px, 12vw, 170px);
+  right: clamp(-40px, -4vw, -18px);
+  bottom: 0;
+  left: clamp(-40px, -4vw, -18px);
+
+  background: #192e13; /*So Why Choose PolChat? Background*/
+}
+
 .resort-intro .section-heading {
   width: min(100%, 720px);
 
@@ -161,7 +180,7 @@
 .resort-intro .section-heading p {
   margin: 0 0 10px;
 
-  color: #8a7353;
+  color: #d6af55;
 
   font-size:
     clamp(0.8rem, 1.4vw, 1rem);

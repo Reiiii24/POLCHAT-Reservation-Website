@@ -57,25 +57,27 @@ function ResortIntro() {
         </div>
       </div>
 
-      <div className="section-heading">
-        <p>So Why Choose PolChat?</p>
-        <h2>Reasons Why You Should Choose PolChat Garden Resort</h2>
-      </div>
+      <div className="why-section">
+        <div className="section-heading">
+          <p>So Why Choose PolChat?</p>
+          <h2>Reasons Why You Should Choose PolChat Garden Resort</h2>
+        </div>
 
-      <div className="why-grid">
-        {reasons.map((reason) => (
-          <article className="why-card" key={reason.id}>
-            <div className="why-card-copy">
-              <div>
-                <h3>{reason.title}</h3>
-                <p>{reason.description}</p>
+        <div className="why-grid">
+          {reasons.map((reason) => (
+            <article className="why-card" key={reason.id}>
+              <div className="why-card-copy">
+                <div>
+                  <h3>{reason.title}</h3>
+                  <p>{reason.description}</p>
+                </div>
               </div>
-            </div>
-            <div className="why-image-slot">
-              <img src={reason.image} alt={reason.title} className="why-image" />
-            </div>
-          </article>
-        ))}
+              <div className="why-image-slot">
+                <img src={reason.image} alt={reason.title} className="why-image" />
+              </div>
+            </article>
+          ))}
+        </div>
       </div>
     </section>
   );

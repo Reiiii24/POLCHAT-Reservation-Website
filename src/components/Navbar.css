@@ -47,12 +47,12 @@
 
   pointer-events: none;
 
-  background:
+  background: /*Navbar Overlay Background*/
     linear-gradient(
       180deg,
-      rgba(6, 8, 6, 0.96) 0%,
-      rgba(6, 8, 6, 0.85) 35%,
-      rgba(8, 12, 8, 0.5) 65%,
+      rgba(19, 32, 9, 0.96) 0%,
+      rgba(3, 5, 2, 0.699) 35%,
+      rgba(0, 0, 0, 0.5) 65%,
       rgba(0, 0, 0, 0) 100%
     );
 }
