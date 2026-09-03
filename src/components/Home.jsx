@@ -387,6 +387,12 @@ export default function Home() {
             &#8594;
           </button>
         </div>
+
+        <div className="gallery-button-wrap">
+          <a className="gallery-explore-button" href="/gallery">
+            Explore Gallery
+          </a>
+        </div>
       </section>
 
       <section className="home-services-brief">
