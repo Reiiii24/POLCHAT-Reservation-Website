@@ -109,23 +109,23 @@
   font-family: "Brush Script MT", "Segoe Script", cursive;
 }
 
-.home-hero-copy h1 {
+.home-hero-copy h1 { /* Title of Hero Page = Welcome to Polchat Garden Resort*/
   margin: 0;
-  color: #fff3d4;
+  color: #fff3d4f8;
   font-family: Georgia, serif;
-  font-size: clamp(3rem, 5.5vw, 4.6rem);
+  font-size: clamp(2.5rem, 5.5vw, 3.8rem);
   font-weight: 500;
   line-height: 1.12;
-  text-shadow: 0 4px 24px rgba(0, 0, 0, 0.75), 0 2px 8px rgba(0, 0, 0, 0.9);
+  text-shadow: 0 4px 24px rgba(0, 0, 0, 0.555), 0 2px 8px rgba(0, 0, 0, 0.952);
 }
 
 .home-subcopy {
   max-width: 460px;
   margin: 20px 0 24px;
   color: #fff4df;
-  font-size: 0.95rem;
+  font-size: 1.0rem;
   line-height: 1.65;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.72);
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.952);
 }
 
 .home-actions {
@@ -156,19 +156,19 @@
   transform: translateY(-1px);
 }
 
-.home-btn-primary {
+.home-btn-primary { /* Primary Button in Hero Page = Book Now */
   border: 0;
-  color: #24301d;
+  color: #000000;
   background: linear-gradient(135deg, #c49b45 0%, #e0bd73 100%);
-  padding: 12px 28px;
+  padding: 20px 28px;
   font-size: 16px;
   font-weight: 700;
 }
 
-.home-btn-primary:hover,
+.home-btn-primary:hover, 
 .booking-button:hover {
   background: linear-gradient(135deg, #d0aa55 0%, #e8c985 100%);
-  color: #24301d;
+  color: #000000;
   box-shadow: 0 0 18px rgba(231, 200, 115, 0.65);
 }
 
@@ -275,12 +275,12 @@
 }
 
 .booking-strip { /*Booking Bar in homepage*/
-  max-width: 980px;
+  max-width: 970px;
   margin: 0 auto;
-  padding: 14px 16px;
-  border-radius: 22px;
-  background: #274125;
-  box-shadow: 0 24px 40px rgba(0, 0, 0, 0.28);
+  padding: 8px 25px;
+  border-radius: 29px;
+  background: #1e331d;
+  box-shadow: 0 24px 40px rgba(0, 0, 0, 0.534);
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr)) 195px;
   gap: 9px;
@@ -293,15 +293,15 @@
   min-width: 0;
 }
 
-.booking-field small {
+.booking-field small {  /* Booking Field Label */
   display: block;
   margin-bottom: 4px;
   color: #c2b589;
-  font-size: 0.85rem;
+  font-size: 1.0rem;
 }
 
-.booking-field input {
-  width: 100%;
+.booking-field input { /* Booking Field Input */
+  width: 110%;
   min-width: 0;
   padding: 12px 14px;
   border: 1px solid rgba(255, 244, 211, 0.12);
@@ -349,17 +349,19 @@
   margin-bottom: 4px;
 }
 
-.booking-button {
-  width: 100%;
-  min-height: 54px;
-  padding: 10px 18px;
+.booking-button { /* Booking Bar Button */
+  width: 85%;
+  margin: 0 0 5px 9%; /* Center the button */
+  min-height: 45px;
+  padding: 15px 20px;
   border: 0;
   border-radius: 999px;
   cursor: pointer;
   color: #24301d;
   font-size: 14px;
   font-weight: 700;
-  line-height: 1.2;
+  line-height: 1.0;
+
   background: linear-gradient(135deg, #c49b45 0%, #e0bd73 100%);
 }
 
@@ -372,21 +374,19 @@
   padding-right: 32px;
 }
 
-.home-why {
+.home-why { /* For 2nd Section (image) in home page */
   position: relative;
   z-index: 1;
   padding-top: 220px;
   padding-bottom: 170px;
-  background:
-    linear-gradient(rgba(31, 50, 28, 0.12), rgba(31, 50, 28, 0.12)),
-    url("../Assets/shadowleaf.png") center/cover no-repeat;
+  background: linear-gradient(180deg, #ffffff9f 0%, #eceee9 100%); /* Home Background */
 }
 
-.section-heading {
-  max-width: 720px;
-  margin: 0 auto 48px;
+.section-heading { /* For 2nd Section (your perfect getaway)in home page */
+  max-width: 800px;
+  margin: 0 auto 70px;
   text-align: center;
-  color: #3e3428;
+  color: #000000;
 }
 
 .section-heading-left {
@@ -405,9 +405,17 @@
 .section-heading h2 {
   margin: 0;
   font-family: Georgia, serif;
-  font-size: clamp(2rem, 4vw, 3.25rem);
+  font-size: clamp(3.65rem, 4vw, 3.5rem);
   line-height: 1.1;
-  color: #2c2217;
+  color: #252002; /* Text color for your perfect getaway awaits */
+}
+
+.section-heading p {
+  margin: 0 0 10px;
+  color: #8a7353;
+  font-size: 0.95rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
 }
 
 .why-grid {
@@ -418,15 +426,15 @@
   gap: 22px;
 }
 
-.why-card {
+.why-card {   /* the 6 containers in your perfect getaway awaits*/
   display: flex;
   gap: 16px;
   align-items: flex-start;
-  padding: 22px 20px 20px;
+  padding: 30px 20px 20px;
   border-radius: 22px;
-  background: linear-gradient(180deg, rgba(255, 251, 245, 0.96) 0%, rgba(249, 241, 227, 0.98) 100%);
-  border: 1px solid rgba(214, 184, 117, 0.28);
-  box-shadow: 0 16px 34px rgba(90, 67, 34, 0.12);
+  background: linear-gradient(180deg, rgb(248, 252, 240) 0%, rgba(249, 241, 227, 0.98) 100%);
+  border: 3px solid rgba(8, 48, 4, 0.514); /* Border Color / thickness of 6 containers*/
+  box-shadow: 0 16px 34px rgba(45, 54, 21, 0.288);
 }
 
 .why-icon {
@@ -434,16 +442,17 @@
   height: 58px;
   display: grid;
   place-items: center;
-  border-radius: 18px;
+  border-radius: 5px; /* Icon Border Radius */
   flex-shrink: 0;
-  background: linear-gradient(180deg, #27452f 0%, #1b2f20 100%);
+  background: linear-gradient(180deg, #162503 0%, #45742a 100%); /* Icon Background Color*/
   box-shadow: 0 10px 20px rgba(39, 69, 47, 0.18);
+  border: 4px solid rgba(0, 0, 0, 0.28);
 }
 
 .why-icon svg {
   width: 28px;
   height: 28px;
-  fill: #d8b25a;
+  fill: #f3d62f;
   display: block;
 }
 
@@ -473,22 +482,20 @@
 .home-gallery {
   padding-top: 110px;
   padding-bottom: 110px;
-  background:
-    radial-gradient(circle at 20% 18%, rgba(255, 255, 255, 0.72) 0%, transparent 24%),
-    radial-gradient(circle at 82% 78%, rgba(160, 160, 160, 0.08) 0%, transparent 30%),
-    linear-gradient(145deg, rgba(255, 255, 255, 0.28) 0%, rgba(255, 255, 255, 0) 28%, rgba(210, 210, 210, 0.1) 100%),
-    linear-gradient(180deg, #ffffff 0%, #f3f3f3 100%);
-  box-shadow: inset 0 18px 28px rgba(255, 255, 255, 0.28), inset 0 -28px 42px rgba(180, 180, 180, 0.1);
+  background: /*Gallery Background*/
+    linear-gradient(rgba(255, 255, 255, 0.582), rgba(255, 255, 255, 0.082)),
+    url("../Assets/shadowleaf.png") center/cover no-repeat;
+  box-shadow: inset 0 18px 28px rgba(255, 255, 255, 0), inset 0 -28px 42px rgba(180, 180, 180, 0.1);
 }
 
-.home-story {
+.home-story { /* For 3rd Section in home page */
   position: relative;
   min-height: clamp(580px, 50vw, 880px);
   display: grid;
   align-items: end;
   justify-items: start;
   background:
-    linear-gradient(180deg, rgba(8, 14, 8, 0.58) 0%, rgba(5, 10, 6, 0.72) 100%),
+    linear-gradient(180deg, rgba(184, 204, 184, 0.178) 0%, rgba(2, 19, 2, 0.774) 100%),
     url("../Assets/polchatEntrance.png") center 40%/cover no-repeat;
   box-shadow: inset 0 6px 20px rgba(0, 0, 0, 0.3), inset 0 -6px 20px rgba(0, 0, 0, 0.3);
 }
@@ -504,19 +511,19 @@
   text-shadow: 0 4px 18px rgba(0, 0, 0, 0.8);
 }
 
-.story-content h2 {
-  margin: 0 0 24px;
-  color: #fff3d4;
+.story-content h2 { /* Story Content Heading "Polchat Garden Resort in third section"*/
+  margin: 0 0 3px;
+  color: #ffffff;
   font-family: Georgia, serif;
-  font-size: clamp(2.6rem, 5vw, 3rem);
+  font-size: clamp(1.0rem, 5vw, 3rem);
   font-weight: 500;
   line-height: 1.1;
 }
 
-.story-content p {
-  margin: 0;
-  color: #fff4df;
-  font-size: clamp(0.1rem, 2vw, 1.2rem);
+.story-content p { /* Story Content Paragraph "It is designed to give you a warm...." */
+  margin: 0 0 -160px;
+  color: #fff4dfc0;
+  font-size: clamp(1rem, 2vw, 0rem);
   line-height: 1.7;
 }
 
@@ -583,7 +590,7 @@
   min-width: 0;
   min-height: 220px;
   border-radius: 24px;
-  border: 5px dashed #000000;
+  border: 2px dashed #000000;
   background: transparent;
   box-shadow: 0 22px 42px rgba(0, 0, 0, 0.24);
   display: flex;
@@ -605,8 +612,9 @@
   margin-bottom: 38px;
 }
 
-.home-gallery .section-heading h2 {
-  font-size: clamp(1.65rem, 3.2vw, 2.5rem);
+.home-gallery .section-heading h2 { /* Gallery Heading = Photo Highlights from PolChat Garden Resort */
+  color: #000000;
+  font-size: clamp(3.8rem, 3.2vw, 2.5rem);
 }
 
 .gallery-slider {
@@ -614,7 +622,7 @@
   margin: 0 auto;
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 45px;
 }
 
 .gallery-viewport {
@@ -639,7 +647,7 @@
 
 .gallery-viewport::before {
   left: 0;
-  background: linear-gradient(90deg, rgba(247, 241, 229, 0.9), transparent);
+  background: linear-gradient(90deg, rgba(247, 241, 229, 0.45), transparent 70%); /*edge of the gallery next to the arrow button left adn right*/
 }
 
 .gallery-viewport::after {
@@ -685,7 +693,7 @@
 }
 
 .gallery-arrow:hover:not(:disabled) {
-  background: #1b2f20;
+  background: #506633;
 }
 
 .gallery-arrow:disabled {
@@ -699,18 +707,18 @@
   margin-top: 32px;
 }
 
-.gallery-explore-button {
+.gallery-explore-button { /* Explore Button */
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 220px;
-  padding: 14px 28px;
+  min-width: 150px;
+  padding: 25px 28px;
   border-radius: 999px;
-  background: #1b3a24;
+  background: #3b4423;
   color: #fff7eb;
   font-weight: 600;
   text-decoration: none;
-  box-shadow: 0 10px 24px rgba(27, 58, 36, 0.22);
+  box-shadow: 0 10px 24px rgba(2, 3, 2, 0.582);
   transition: background 180ms ease;
 }
 
@@ -769,20 +777,20 @@
   color: #dbcdb0;
 }
 
-.home-services-brief {
+.home-services-brief { 
   padding: 150px 32px;
   background:
-    linear-gradient(rgba(12, 20, 13, 0.62), rgba(12, 20, 13, 0.62)),
+    linear-gradient(rgba(12, 20, 13, 0.11), rgba(12, 20, 13, 0.555)),
     url("../Assets/greentiles.png") center/cover no-repeat;
 }
 
-.services-brief-panel {
+.services-brief-panel { /* Services Brief Panel or Container */
   width: min(100%, 1280px);
   margin: 0 auto;
   padding: 68px 56px 72px;
   border-radius: 30px;
   background: #fff9ef;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.514);
 }
 
 .services-brief-grid {

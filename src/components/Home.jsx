@@ -246,7 +246,7 @@ export default function Home() {
 
       <section className="home-why">
         <div className="section-heading">
-          <h2>Your Perfect Getaway Awaits...</h2>
+          <h2><b>Your Perfect Getaway Awaits</b></h2>
         </div>
 
         <div className="why-grid">
@@ -329,14 +329,14 @@ export default function Home() {
         <div className="story-content">
           <h2>PolChat Garden Resort</h2>
           <p>
-            is designed to give you a warm, refreshing experience — perfect for family outings,
+           It is designed to give you a refreshing experience — This is for family outings,
             barkada bonding, birthday celebrations, and simply taking a break.
           </p>
         </div>
       </section>
 
       <section className="home-gallery">
-        <div className="section-heading">  {/*for photos*/}
+        <div className="section-heading">  
          {/*<p>Photo Highlights</p>*/}
           <h2>Photo Highlights from PolChat Garden Resort</h2>
         </div>
