@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { supabase } from '../lib/supabaseClient';
 import Logo from './Logo';
 import './Home.css';
+import perfectGetawayBg from '../Assets/yourperfectgetawayawaits.png';
 import highlightOne from '../Assets/highlights/464e8f4b-a857-4bd6-8544-eeffc3aafb7d.jpg';
 import highlightTwo from '../Assets/highlights/94d6c56f-eb43-444d-94c7-ead680ef5746.jpg';
 import highlightThree from '../Assets/highlights/70ad26fd-b3a9-49d1-acca-13c9374158bf.jpg';
@@ -244,7 +245,10 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="home-why">
+      <section
+        className="home-why"
+        style={{ backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.09), rgba(191, 250, 151, 0)), url(${perfectGetawayBg})` }}
+      >
         <div className="section-heading">
           <h2><b>Your Perfect Getaway Awaits</b></h2>
         </div>
@@ -329,7 +333,8 @@ export default function Home() {
         <div className="story-content">
           <h2>PolChat Garden Resort</h2>
           <p>
-           It is designed to give you a refreshing experience — This is for family outings,
+            It is designed to give you a refreshing experience.
+            <br /> This is for family outings,
             barkada bonding, birthday celebrations, and simply taking a break.
           </p>
         </div>

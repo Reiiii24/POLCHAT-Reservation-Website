@@ -3,6 +3,7 @@
 import { useState } from "react";
 import "./SupportPage.css";
 
+import servicePageBg from "../../Assets/servicepagebg.png";
 import Chatbot from "./Chatbot";
 import AdminChat from "./AdminChat";
 
@@ -10,7 +11,10 @@ function SupportPage() {
   const [activeTab, setActiveTab] = useState("chatbot");
 
   return (
-    <div className="support-page">
+    <div
+      className="support-page" /* Support page container for the background image with plants*/
+           style={{ backgroundImage: `linear-gradient(rgba(13, 28, 17, 0), rgba(18, 38, 23, 0.76)), url(${servicePageBg})` }}
+    >
 
       {/* PAGE HEADER */}
       <div className="support-header">

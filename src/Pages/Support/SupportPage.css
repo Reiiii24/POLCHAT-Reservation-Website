@@ -17,11 +17,10 @@
 
   overflow-x: hidden;
 
-  background:
-    linear-gradient(
-      rgba(13, 28, 17, 0.88),
-      rgba(18, 38, 23, 0.9)
-    );
+  background-color: #102014;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 
   color: #252b25;
 
@@ -47,13 +46,13 @@
   text-align: center;
 }
 
-.support-page .support-small-title {
+.support-page .support-small-title { /* This is the small heading for the support page. */
   margin:
     0
     0
     8px;
 
-  color: #d4a85c;
+  color: #251b09;
 
   font-size:
     clamp(9px, 1.2vw, 11px);
@@ -64,10 +63,10 @@
     clamp(2px, 0.45vw, 3px);
 }
 
-.support-page .support-header h1 {
+.support-page .support-header h1 { /* This is the main heading for the support page. */
   margin: 0;
 
-  color: #f3e4b4;
+  color: #1e3009;
 
   font-family:
     Georgia,
@@ -75,14 +74,14 @@
     serif;
 
   font-size:
-    clamp(2.1rem, 5vw, 2.9rem);
+    clamp(3.0rem, 5vw, 3.5rem);
 
   letter-spacing: 1px;
 
   line-height: 1.1;
 }
 
-.support-page .support-subtitle {
+.support-page .support-subtitle { /* This is the small infromation for the support page. */
   width: min(100%, 620px);
 
   margin:
@@ -90,7 +89,7 @@
     auto
     0;
 
-  color: #e0ded4;
+  color: #000000;
 
   font-size:
     clamp(0.84rem, 1.4vw, 0.95rem);
@@ -122,7 +121,7 @@
 
 
 /* ==========================================
-   TABS
+   This for the tabs 
    ========================================== */
 
 .support-page .support-tabs {

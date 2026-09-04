@@ -379,7 +379,10 @@
   z-index: 1;
   padding-top: 220px;
   padding-bottom: 170px;
-  background: linear-gradient(180deg, #ffffff9f 0%, #eceee9 100%); /* Home Background */
+  background-color: #eceee9a8;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .section-heading { /* For 2nd Section (your perfect getaway)in home page */
@@ -430,11 +433,11 @@
   display: flex;
   gap: 16px;
   align-items: flex-start;
-  padding: 30px 20px 20px;
+  padding: 35px 20px 20px;
   border-radius: 22px;
-  background: linear-gradient(180deg, rgb(248, 252, 240) 0%, rgba(249, 241, 227, 0.98) 100%);
+  background: linear-gradient(180deg, rgb(248, 252, 240) 0%, rgba(249, 241, 227, 0) 100%);
   border: 3px solid rgba(8, 48, 4, 0.514); /* Border Color / thickness of 6 containers*/
-  box-shadow: 0 16px 34px rgba(45, 54, 21, 0.288);
+  box-shadow: 1 16px 34px rgba(45, 54, 21, 0.897);
 }
 
 .why-icon {
@@ -444,24 +447,24 @@
   place-items: center;
   border-radius: 5px; /* Icon Border Radius */
   flex-shrink: 0;
-  background: linear-gradient(180deg, #162503 0%, #45742a 100%); /* Icon Background Color*/
-  box-shadow: 0 10px 20px rgba(39, 69, 47, 0.18);
-  border: 4px solid rgba(0, 0, 0, 0.28);
+  background: linear-gradient(180deg, #426b1c 0%, #152402 100%); /* Icon Background Color*/
+  box-shadow: 0 10px 20px rgba(64, 68, 61, 0.493);
+  border: 2px solid rgba(31, 59, 5, 0.993);
 }
 
-.why-icon svg {
-  width: 28px;
-  height: 28px;
-  fill: #f3d62f;
+.why-icon svg {   /* Icon Images of the 2 containers */
+  width: 45px;
+  height: 45px;
+  fill: #e9e9e9;
   display: block;
 }
 
 .why-card h3,
 .info-card h3 {
   margin: 0 0 8px;
-  color: #2f2418;
+  color: #221703;
   font-family: Georgia, serif;
-  font-size: 1.15rem;
+  font-size: 1.60rem;
 }
 
 .why-card p,
@@ -470,13 +473,14 @@
 .info-card p,
 .footnote-box p {
   margin: 0;
-  color: #6b5a47;
+  color: #122016;
   line-height: 1.65;
+  text-shadow: 0 4px 18px rgb(105, 105, 105);
 }
 
 .home-info,
 .home-footnote {
-  background: #f6efe2;
+  background: #f6efe2ab;
 }
 
 .home-gallery {
@@ -495,9 +499,9 @@
   align-items: end;
   justify-items: start;
   background:
-    linear-gradient(180deg, rgba(184, 204, 184, 0.178) 0%, rgba(2, 19, 2, 0.774) 100%),
-    url("../Assets/polchatEntrance.png") center 40%/cover no-repeat;
-  box-shadow: inset 0 6px 20px rgba(0, 0, 0, 0.3), inset 0 -6px 20px rgba(0, 0, 0, 0.3);
+    linear-gradient(180deg, rgba(10, 27, 10, 0.144) 0%, rgba(2, 19, 2, 0.89) 100%),
+    url("C:\Users\Kisses\OneDrive\Desktop\polchat\src\Assets\polchatgreengarden.png") center 40%/cover no-repeat;
+  box-shadow: inset 0 6px 20px rgba(0, 0, 0, 0.692), inset 0 -6px 20px rgba(0, 0, 0, 0.849);
 }
 
 .story-content {
