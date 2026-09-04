@@ -2467,9 +2467,9 @@ function ReservationPage() {
                       </strong>{" "}
                       together with the{" "}
                       <strong>
-                        ₱2,000 security deposit within 24 hours,
+                        ₱2,000 security deposit within 24 hours,{" "}
                       </strong>
-                       or else the reservation will be 
+                       or else the reservation will be{" "}
                       <strong>
                        automatically cancelled
                       </strong>
