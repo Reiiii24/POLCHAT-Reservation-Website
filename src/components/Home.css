@@ -27,7 +27,7 @@
   position: absolute;
   inset: 0;
   background: /*Section Overlay Background in homepage*/
-    linear-gradient(180deg, rgba(35, 72, 35, 0.38) 0%, rgba(10, 39, 18, 0.58) 100%),
+    linear-gradient(180deg, rgba(35, 72, 35, 0.38) 0%, rgba(3, 39, 13, 0.493) 100%),
     url("../Assets/finalHomepageBackground.png") center/cover no-repeat;
   filter: contrast(1.1) brightness(1.05);
 }
@@ -95,7 +95,7 @@
   change the hero position vertically
 */
 .home-hero-copy {
-  max-width: 640px;
+  max-width: 670px;
   padding-bottom: 36px;
   transform: translateY(140px);
 }
@@ -110,13 +110,13 @@
 }
 
 .home-hero-copy h1 { /* Title of Hero Page = Welcome to Polchat Garden Resort*/
-  margin: 0;
-  color: #fff3d4f8;
+  margin: 6;
+  color: #faf4e2f8;
   font-family: Georgia, serif;
-  font-size: clamp(2.5rem, 5.5vw, 3.8rem);
-  font-weight: 500;
+  font-size: clamp(3.5rem, 5.5vw, 3.8rem);
+  font-weight: 550;
   line-height: 1.12;
-  text-shadow: 0 4px 24px rgba(0, 0, 0, 0.555), 0 2px 8px rgba(0, 0, 0, 0.952);
+  text-shadow: 0 4px 24px rgba(6, 24, 2, 0.925), 0 2px 8px rgba(0, 0, 0, 0.952);
 }
 
 .home-subcopy {
@@ -784,7 +784,7 @@
 .home-services-brief { 
   padding: 150px 32px;
   background:
-    linear-gradient(rgba(12, 20, 13, 0.11), rgba(12, 20, 13, 0.555)),
+    linear-gradient(rgba(12, 20, 13, 0), rgba(12, 20, 13, 0.103)),  /* Tiles background overlay*/
     url("../Assets/greentiles.png") center/cover no-repeat;
 }
 
@@ -793,7 +793,7 @@
   margin: 0 auto;
   padding: 68px 56px 72px;
   border-radius: 30px;
-  background: #fff9ef;
+  background: #fff9eff6;
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.514);
 }
 
@@ -807,7 +807,7 @@
 .services-brief-card {
   padding: 30px 28px;
   border-radius: 22px;
-  background: linear-gradient(135deg, rgba(239, 230, 215, 0.85) 0%, rgba(255, 249, 239, 1) 100%);
+  background: linear-gradient(135deg, rgba(239, 230, 215, 0.555) 0%, rgba(255, 249, 239, 1) 100%);
   border: 1px solid rgba(138, 115, 83, 0.18);
   box-shadow: 0 4px 14px rgba(71, 52, 28, 0.05);
 }
