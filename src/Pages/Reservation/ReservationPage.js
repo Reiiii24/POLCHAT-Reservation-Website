@@ -2469,9 +2469,9 @@ function ReservationPage() {
                       <strong>
                         ₱2,000 security deposit within 24 hours,
                       </strong>
-                      or else the reservation will be 
+                       or else the reservation will be 
                       <strong>
-                      automatically cancelled
+                       automatically cancelled
                       </strong>
                       .
                     </li>
