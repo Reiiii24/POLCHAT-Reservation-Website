@@ -1064,42 +1064,41 @@ function ReservationPage() {
           rejected.
         */
 
+        /*
+          Improved duplicate email check.
+          Only compares the name against their MOST RECENT reservation 
+          to prevent old typos from permanently locking them out.
+        */
         const {
-          data:
-            existingReservations,
-          error:
-            duplicateCheckError,
-        } =
-          await supabase
-            .from(
-              "reservations"
-            )
-            .select(
-              "name"
-            )
-            .ilike(
-              "email",
-              reservationData.email
-            );
+          data: existingReservations,
+          error: duplicateCheckError,
+        } = await supabase
+          .from("reservations")
+          .select("name")
+          .ilike("email", reservationData.email)
+          .order("created_at", { ascending: false })
+          .limit(1);
 
-
-        if (
-          duplicateCheckError
-        ) {
-          console.error(
-            "Duplicate email check error:",
-            duplicateCheckError
-          );
-
-          setFormError(
-            "We could not verify your email. Please try again."
-          );
-
-          setShowSubmitConfirm(
-            false
-          );
-
+        if (duplicateCheckError) {
+          console.error("Duplicate email check error:", duplicateCheckError);
+          setFormError("We could not verify your email. Please try again.");
+          setShowSubmitConfirm(false);
           return;
+        }
+
+        if (existingReservations && existingReservations.length > 0) {
+          const mostRecentName = existingReservations[0].name?.trim().toLowerCase();
+          const currentName = reservationData.name.trim().toLowerCase();
+
+          // Check if the current name doesn't match their last used name
+          if (mostRecentName !== currentName) {
+            setFormError(
+              `This email is registered to "${existingReservations[0].name}". Please use the same name, or a different email.`
+            );
+            setShowSubmitConfirm(false);
+            setStep(1);
+            return;
+          }
         }
 
 
