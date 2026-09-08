@@ -257,7 +257,7 @@ export default function Booking() {
 
 
   /* ========================================
-     UPDATE STATUS
+     UPDATE STATUS (REVISED)
      ======================================== */
 
   const updateStatus = async (
@@ -268,19 +268,26 @@ export default function Booking() {
       return;
     }
 
-
     setUpdatingId(id);
-
     setError("");
 
+    // Create the payload for the Supabase update
+    const updatePayload = {
+      status: newStatus,
+    };
+
+    // If accepting a booking, set the 24-hour expiration timer
+    if (newStatus === "Awaiting Payment") {
+      const expirationDate = new Date();
+      expirationDate.setHours(expirationDate.getHours() + 24);
+      updatePayload.hold_expires_at = expirationDate.toISOString();
+    }
 
     const {
       error: updateError,
     } = await supabase
       .from("reservations")
-      .update({
-        status: newStatus,
-      })
+      .update(updatePayload)
       .eq(
         "id",
         id
@@ -317,7 +324,7 @@ export default function Booking() {
             booking.id === id
               ? {
                   ...booking,
-                  status: newStatus,
+                  ...updatePayload, // spreads both status and hold_expires_at if it exists
                 }
               : booking
         )
