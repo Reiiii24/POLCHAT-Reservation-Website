@@ -1065,32 +1065,52 @@ function ReservationPage() {
         */
 
         /*
-          Improved duplicate email check.
-          Only compares the name against their MOST RECENT reservation 
-          to prevent old typos from permanently locking them out.
+          Fetch all existing reservations for this email to check for:
+          1. Active "pending" reservations.
+          2. Matching names for returning users.
         */
         const {
           data: existingReservations,
           error: duplicateCheckError,
         } = await supabase
           .from("reservations")
-          .select("name")
+          .select("name, status")
           .ilike("email", reservationData.email)
-          .order("created_at", { ascending: false })
-          .limit(1);
+          .order("created_at", { ascending: false });
 
         if (duplicateCheckError) {
-          console.error("Duplicate email check error:", duplicateCheckError);
+          console.error(
+            "Duplicate email check error:",
+            duplicateCheckError
+          );
           setFormError("We could not verify your email. Please try again.");
           setShowSubmitConfirm(false);
           return;
         }
 
         if (existingReservations && existingReservations.length > 0) {
-          const mostRecentName = existingReservations[0].name?.trim().toLowerCase();
+          // 1. Pending Reservation Lock
+          // Ensure "pending" matches the exact word your DB uses for new submissions
+          const hasPending = existingReservations.some(
+            (reservation) =>
+              reservation.status?.trim().toLowerCase() === "pending"
+          );
+
+          if (hasPending) {
+            setFormError(
+              "You currently have a pending reservation request. Please wait for our team to review it before submitting another."
+            );
+            setShowSubmitConfirm(false);
+            setStep(1);
+            return;
+          }
+
+          // 2. Returning User Name Validation
+          const mostRecentName = existingReservations[0].name
+            ?.trim()
+            .toLowerCase();
           const currentName = reservationData.name.trim().toLowerCase();
 
-          // Check if the current name doesn't match their last used name
           if (mostRecentName !== currentName) {
             setFormError(
               `This email is registered to "${existingReservations[0].name}". Please use the same name, or a different email.`
