@@ -1181,6 +1181,22 @@ function ReservationPage() {
           }
 
           /*
+            Handle 3-strike ban trigger.
+          */
+
+          else if (
+            databaseMessage.includes(
+              "banned due to 3 unpaid reservations"
+            )
+          ) {
+            setFormError(
+              "Your email has been restricted from making new bookings due to 3 unpaid past reservations. Please contact support."
+            );
+
+            setStep(1);
+          }
+
+          /*
             Existing reservation
             conflict trigger.
           */
@@ -2471,7 +2487,7 @@ function ReservationPage() {
                       </strong>
                        or else the reservation will be{" "}
                       <strong>
-                       automatically cancelled
+                        automatically cancelled
                       </strong>
                       .
                     </li>
