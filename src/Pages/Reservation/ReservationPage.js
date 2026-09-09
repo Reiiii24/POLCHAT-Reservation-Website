@@ -1071,8 +1071,9 @@ function ReservationPage() {
      ========================= */
 
   const handleVerifyOtp = async () => {
-    if (!otpCode.trim() || otpCode.trim().length !== 6) {
-      setOtpError("Please enter the 6-digit verification code.");
+    // Dynamic length check for 6 to 8 digits
+    if (!otpCode.trim() || otpCode.trim().length < 6) {
+      setOtpError("Please enter the verification code.");
       return;
     }
 
@@ -1118,7 +1119,7 @@ function ReservationPage() {
     if (resendError) {
       setOtpError("Failed to resend code. Please wait a moment before trying again.");
     } else {
-      setOtpError("A new 6-digit code has been sent to your email.");
+      setOtpError("A new verification code has been sent to your email.");
     }
   };
 
@@ -2586,22 +2587,22 @@ function ReservationPage() {
               <h2 id="otp-title">Email Verification</h2>
 
               <p>
-                We sent a 6-digit verification code to{" "}
+                We sent a verification code to{" "}
                 <strong>{formData.email}</strong>. Please enter it below to confirm your identity.
               </p>
 
               <div style={{ margin: "20px 0", textAlign: "center" }}>
                 <input
                   type="text"
-                  maxLength="6"
+                  maxLength="8"
                   value={otpCode}
                   onChange={(e) => setOtpCode(e.target.value.replace(/\D/g, ""))}
-                  placeholder="000000"
+                  placeholder="00000000"
                   style={{
                     fontSize: "1.8rem",
                     letterSpacing: "8px",
                     textAlign: "center",
-                    width: "200px",
+                    width: "240px",
                     padding: "8px",
                     border: "2px solid #ccc",
                     borderRadius: "8px",
@@ -2636,7 +2637,7 @@ function ReservationPage() {
                   type="button"
                   className="confirmation-submit-btn"
                   onClick={handleVerifyOtp}
-                  disabled={isVerifyingOtp || otpCode.length !== 6}
+                  disabled={isVerifyingOtp || otpCode.length < 6}
                 >
                   {isVerifyingOtp ? "Verifying..." : "Verify Code"}
                 </button>
