@@ -108,6 +108,15 @@ function ReservationPage() {
     setShowSubmitConfirm,
   ] = useState(false);
 
+  /* =========================
+     OTP STATES
+     ========================= */
+  const [showOtpModal, setShowOtpModal] = useState(false);
+  const [otpCode, setOtpCode] = useState("");
+  const [isVerifyingOtp, setIsVerifyingOtp] = useState(false);
+  const [otpError, setOtpError] = useState("");
+  const [isSendingOtp, setIsSendingOtp] = useState(false);
+
   const [
     formError,
     setFormError,
@@ -265,10 +274,13 @@ function ReservationPage() {
     });
 
     setSelectedDate(null);
-
     setStep(1);
-
     setFormError("");
+    
+    // Reset OTP states
+    setShowOtpModal(false);
+    setOtpCode("");
+    setOtpError("");
 
     const resetDate = new Date();
 
@@ -820,10 +832,10 @@ function ReservationPage() {
 
 
   /* =========================
-     SUBMIT RESERVATION
+     SUBMIT AND SEND OTP
      ========================= */
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (
       !formData.email ||
       !formData.confirmEmail ||
@@ -962,25 +974,152 @@ function ReservationPage() {
 
 
     if (
-      isSubmitting
+      isSubmitting || isSendingOtp
     ) {
       return;
     }
 
-
     setFormError("");
+    setIsSendingOtp(true);
+
+    const normalizedEmail = formData.email.trim().toLowerCase();
+
+    /* ====================================================
+       PRE-FLIGHT CHECKS:
+       Ensure the user is eligible before sending the OTP
+       ==================================================== */
+    const {
+      data: existingReservations,
+      error: duplicateCheckError,
+    } = await supabase
+      .from("reservations")
+      .select("name, status")
+      .ilike("email", normalizedEmail)
+      .order("created_at", { ascending: false });
+
+    if (duplicateCheckError) {
+      console.error(
+        "Duplicate email check error:",
+        duplicateCheckError
+      );
+      setFormError("We could not verify your email history. Please try again.");
+      setIsSendingOtp(false);
+      return;
+    }
+
+    if (existingReservations && existingReservations.length > 0) {
+      // 1. Pending Reservation Lock
+      const hasPending = existingReservations.some(
+        (reservation) =>
+          reservation.status?.trim().toLowerCase() === "pending"
+      );
+
+      if (hasPending) {
+        setFormError(
+          "You currently have a pending reservation request. Please wait for our team to review it before submitting another."
+        );
+        setIsSendingOtp(false);
+        setStep(1);
+        return;
+      }
+
+      // 2. Returning User Name Validation
+      const mostRecentName = existingReservations[0].name
+        ?.trim()
+        .toLowerCase();
+      const currentName = formData.name.trim().toLowerCase();
+
+      if (mostRecentName !== currentName) {
+        setFormError(
+          `This email is registered to "${existingReservations[0].name}". Please use the same name, or a different email.`
+        );
+        setIsSendingOtp(false);
+        setStep(1);
+        return;
+      }
+    }
+
+    /* ====================================================
+       SEND THE OTP EMAIL
+       ==================================================== */
+    const { error: otpSendError } = await supabase.auth.signInWithOtp({
+      email: normalizedEmail,
+      options: {
+        shouldCreateUser: false,
+      },
+    });
+
+    setIsSendingOtp(false);
+
+    if (otpSendError) {
+      console.error("Error sending verification code:", otpSendError);
+      setFormError(
+        otpSendError.message || "Failed to send verification code to your email. Please try again."
+      );
+      return;
+    }
+
+    // Success: Open the OTP Modal
+    setOtpCode("");
+    setOtpError("");
+    setShowOtpModal(true);
+  };
 
 
-    /*
-      Validation passed.
+  /* =========================
+     VERIFY OTP CODE
+     ========================= */
 
-      Do not submit yet.
-      Ask the customer to confirm first.
-    */
+  const handleVerifyOtp = async () => {
+    if (!otpCode.trim() || otpCode.trim().length !== 6) {
+      setOtpError("Please enter the 6-digit verification code.");
+      return;
+    }
 
-    setShowSubmitConfirm(
-      true
-    );
+    setIsVerifyingOtp(true);
+    setOtpError("");
+
+    const normalizedEmail = formData.email.trim().toLowerCase();
+
+    const { error: verifyError } = await supabase.auth.verifyOtp({
+      email: normalizedEmail,
+      token: otpCode.trim(),
+      type: "email",
+    });
+
+    setIsVerifyingOtp(false);
+
+    if (verifyError) {
+      console.error("Verification failed:", verifyError);
+      setOtpError("Invalid or expired verification code. Please try again.");
+      return;
+    }
+
+    // OTP was valid! Close OTP modal and show the confirmation summary
+    setShowOtpModal(false);
+    setShowSubmitConfirm(true);
+  };
+
+
+  /* =========================
+     RESEND OTP CODE
+     ========================= */
+
+  const handleResendOtp = async () => {
+    setOtpError("");
+    setIsSendingOtp(true);
+
+    const { error: resendError } = await supabase.auth.signInWithOtp({
+      email: formData.email.trim().toLowerCase(),
+    });
+
+    setIsSendingOtp(false);
+
+    if (resendError) {
+      setOtpError("Failed to resend code. Please wait a moment before trying again.");
+    } else {
+      setOtpError("A new 6-digit code has been sent to your email.");
+    }
   };
 
 
@@ -1054,110 +1193,6 @@ function ReservationPage() {
 
 
       try {
-        /*
-          Duplicate email check.
-
-          Same email + same name:
-          allowed.
-
-          Same email + different name:
-          rejected.
-        */
-
-        /*
-          Fetch all existing reservations for this email to check for:
-          1. Active "pending" reservations.
-          2. Matching names for returning users.
-        */
-        const {
-          data: existingReservations,
-          error: duplicateCheckError,
-        } = await supabase
-          .from("reservations")
-          .select("name, status")
-          .ilike("email", reservationData.email)
-          .order("created_at", { ascending: false });
-
-        if (duplicateCheckError) {
-          console.error(
-            "Duplicate email check error:",
-            duplicateCheckError
-          );
-          setFormError("We could not verify your email. Please try again.");
-          setShowSubmitConfirm(false);
-          return;
-        }
-
-        if (existingReservations && existingReservations.length > 0) {
-          // 1. Pending Reservation Lock
-          // Ensure "pending" matches the exact word your DB uses for new submissions
-          const hasPending = existingReservations.some(
-            (reservation) =>
-              reservation.status?.trim().toLowerCase() === "pending"
-          );
-
-          if (hasPending) {
-            setFormError(
-              "You currently have a pending reservation request. Please wait for our team to review it before submitting another."
-            );
-            setShowSubmitConfirm(false);
-            setStep(1);
-            return;
-          }
-
-          // 2. Returning User Name Validation
-          const mostRecentName = existingReservations[0].name
-            ?.trim()
-            .toLowerCase();
-          const currentName = reservationData.name.trim().toLowerCase();
-
-          if (mostRecentName !== currentName) {
-            setFormError(
-              `This email is registered to "${existingReservations[0].name}". Please use the same name, or a different email.`
-            );
-            setShowSubmitConfirm(false);
-            setStep(1);
-            return;
-          }
-        }
-
-
-        const normalizedReservationName =
-          reservationData.name
-            .trim()
-            .toLowerCase();
-
-
-        const hasDifferentExistingName =
-          (
-            existingReservations ||
-            []
-          ).some(
-            (reservation) =>
-              reservation.name
-                ?.trim()
-                .toLowerCase() !==
-              normalizedReservationName
-          );
-
-
-        if (
-          hasDifferentExistingName
-        ) {
-          setFormError(
-            "An account with this email already exists. Please use the same Gmail you used in your previous reservation."
-          );
-
-          setShowSubmitConfirm(
-            false
-          );
-
-          setStep(1);
-
-          return;
-        }
-
-
         const {
           error,
         } =
@@ -2102,7 +2137,7 @@ function ReservationPage() {
                         className="back-btn"
                         type="button"
                         disabled={
-                          isSubmitting
+                          isSubmitting || isSendingOtp
                         }
                         onClick={() => {
                           setStep(
@@ -2122,13 +2157,15 @@ function ReservationPage() {
                         className="submit-btn"
                         type="button"
                         disabled={
-                          isSubmitting
+                          isSubmitting || isSendingOtp
                         }
                         onClick={
                           handleSubmit
                         }
                       >
-                        {isSubmitting
+                        {isSendingOtp
+                          ? "Sending code..."
+                          : isSubmitting
                           ? "Submitting..."
                           : "Submit"}
                       </button>
@@ -2532,6 +2569,100 @@ function ReservationPage() {
           </div>
 
         </div>
+
+
+        {/* OTP VERIFICATION MODAL */}
+
+        {showOtpModal && (
+          <div className="confirmation-overlay">
+            <div
+              className="confirmation-popup"
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="otp-title"
+            >
+              <div className="confirmation-icon">✉</div>
+
+              <h2 id="otp-title">Email Verification</h2>
+
+              <p>
+                We sent a 6-digit verification code to{" "}
+                <strong>{formData.email}</strong>. Please enter it below to confirm your identity.
+              </p>
+
+              <div style={{ margin: "20px 0", textAlign: "center" }}>
+                <input
+                  type="text"
+                  maxLength="6"
+                  value={otpCode}
+                  onChange={(e) => setOtpCode(e.target.value.replace(/\D/g, ""))}
+                  placeholder="000000"
+                  style={{
+                    fontSize: "1.8rem",
+                    letterSpacing: "8px",
+                    textAlign: "center",
+                    width: "200px",
+                    padding: "8px",
+                    border: "2px solid #ccc",
+                    borderRadius: "8px",
+                    outline: "none",
+                  }}
+                />
+              </div>
+
+              {otpError && (
+                <p
+                  className="form-error"
+                  style={{
+                    color: otpError.includes("sent") ? "#2e7d32" : "#d32f2f",
+                    marginBottom: "16px",
+                  }}
+                >
+                  {otpError}
+                </p>
+              )}
+
+              <div className="confirmation-actions">
+                <button
+                  type="button"
+                  className="confirmation-back-btn"
+                  onClick={() => setShowOtpModal(false)}
+                  disabled={isVerifyingOtp}
+                >
+                  Cancel
+                </button>
+
+                <button
+                  type="button"
+                  className="confirmation-submit-btn"
+                  onClick={handleVerifyOtp}
+                  disabled={isVerifyingOtp || otpCode.length !== 6}
+                >
+                  {isVerifyingOtp ? "Verifying..." : "Verify Code"}
+                </button>
+              </div>
+
+              <p style={{ marginTop: "16px", fontSize: "0.85rem", color: "#666", textAlign: "center" }}>
+                Didn't receive the code?{" "}
+                <button
+                  type="button"
+                  onClick={handleResendOtp}
+                  disabled={isSendingOtp}
+                  style={{
+                    background: "none",
+                    border: "none",
+                    color: "#0066cc",
+                    cursor: "pointer",
+                    textDecoration: "underline",
+                    padding: 0,
+                  }}
+                >
+                  Resend Code
+                </button>
+              </p>
+            </div>
+          </div>
+        )}
 
 
         {/* SUBMISSION CONFIRMATION */}
