@@ -1045,7 +1045,7 @@ function ReservationPage() {
     const { error: otpSendError } = await supabase.auth.signInWithOtp({
       email: normalizedEmail,
       options: {
-        shouldCreateUser: false,
+        shouldCreateUser: true,
       },
     });
 
