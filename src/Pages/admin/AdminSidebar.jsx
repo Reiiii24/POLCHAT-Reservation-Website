@@ -57,6 +57,11 @@ const adminLinks = [
     icon: "◧",
   },
 
+  {
+    path: "/admin/reviews",
+    label: "Reviews",
+    icon: "★",
+  }
 ];
 
 

@@ -20,6 +20,7 @@ import ReservationPage from "./Pages/Reservation/ReservationPage";
 import SupportPage from "./Pages/Support/SupportPage";
 import Direction from "./Pages/Direction/Direction";
 import Gallery from "./Pages/Gallery/Gallery";
+import ReviewForm from "./Pages/Reviews/ReviewForm";
 
 
 /* =========================
@@ -36,6 +37,7 @@ import Calendar from "./Pages/admin/Calendar";
 import Chat from "./Pages/admin/Chat";
 import CustomerHistory from "./Pages/admin/CustomerHistory";
 import Notifications from "./Pages/admin/Notifications";
+import ReviewAnalytics from "./Pages/admin/ReviewAnalytics";
 
 
 import "./App.css";
@@ -107,6 +109,11 @@ function App() {
             element={<ContactInfo />}
           />
 
+          <Route
+            path="/review"
+            element={<ReviewForm />}
+          />
+
         </Route>
 
 
@@ -164,6 +171,10 @@ function App() {
             element={<Gallery />}
           />
 
+          <Route
+            path="reviews"
+            element={<ReviewAnalytics />}
+          />
 
         </Route>
 
