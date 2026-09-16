@@ -245,6 +245,30 @@ export default function Home() {
         </div>
       </section>
 
+      <section className="home-nature-collage" aria-label="Nature around PolChat Garden Resort">
+        <div className="nature-collage-heading">
+          <p>Nature at PolChat</p>
+          <h2>Garden Views to Explore</h2>
+        </div>
+        <div className="nature-collage-grid">
+          <figure className="nature-collage-photo nature-collage-photo-tall">
+            <img src="https://coresg-normal.trae.ai/api/ide/v1/text_to_image?prompt=realistic%20lush%20tropical%20garden%20path%20in%20Antipolo%20Rizal%20Philippines%2C%20mature%20palms%2C%20ferns%2C%20stone%20steps%2C%20natural%20daylight%2C%20resort%20garden%20photography%2C%20no%20people%2C%20no%20text&image_size=portrait_4_3" alt="Tropical garden path at PolChat Garden Resort" />
+          </figure>
+          <figure className="nature-collage-photo nature-collage-photo-wide">
+            <img src="https://coresg-normal.trae.ai/api/ide/v1/text_to_image?prompt=realistic%20overlooking%20garden%20view%20from%20a%20private%20resort%20in%20Antipolo%20Rizal%20Philippines%2C%20tropical%20trees%2C%20distant%20hills%2C%20soft%20morning%20light%2C%20resort%20photography%2C%20no%20people%2C%20no%20text&image_size=landscape_4_3" alt="Overlooking garden view near PolChat Garden Resort" />
+          </figure>
+          <figure className="nature-collage-photo nature-collage-photo-square">
+            <img src="https://coresg-normal.trae.ai/api/ide/v1/text_to_image?prompt=realistic%20close-up%20of%20tropical%20garden%20foliage%2C%20large%20green%20leaves%2C%20ferns%2C%20soft%20natural%20light%2C%20private%20resort%20garden%20in%20the%20Philippines%2C%20no%20people%2C%20no%20text&image_size=square_hd" alt="Tropical foliage around the resort" />
+          </figure>
+          <figure className="nature-collage-photo nature-collage-photo-square">
+            <img src="https://coresg-normal.trae.ai/api/ide/v1/text_to_image?prompt=realistic%20garden%20pond%20with%20smooth%20stones%20and%20tropical%20plants%20at%20a%20private%20garden%20resort%20in%20Antipolo%20Rizal%20Philippines%2C%20natural%20afternoon%20light%2C%20no%20people%2C%20no%20text&image_size=square_hd" alt="Garden pond and plants at the resort" />
+          </figure>
+          <figure className="nature-collage-photo nature-collage-photo-wide nature-collage-photo-bottom">
+            <img src="https://coresg-normal.trae.ai/api/ide/v1/text_to_image?prompt=realistic%20open%20garden%20lawn%20with%20tropical%20plants%20and%20trees%20at%20a%20private%20resort%20in%20Antipolo%20Rizal%20Philippines%2C%20warm%20late%20afternoon%20light%2C%20no%20people%2C%20no%20text&image_size=landscape_4_3" alt="Open garden area at PolChat Garden Resort" />
+          </figure>
+        </div>
+      </section>
+
       <section
         className="home-why"
         style={{ backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.09), rgba(191, 250, 151, 0)), url(${perfectGetawayBg})` }}

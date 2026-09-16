@@ -374,6 +374,73 @@
   padding-right: 32px;
 }
 
+.home-nature-collage {
+  padding: 96px 32px;
+  background: #294832;
+}
+
+.nature-collage-heading {
+  max-width: 1280px;
+  margin: 0 auto 30px;
+  color: #ffffff;
+}
+
+.nature-collage-heading p {
+  margin: 0 0 8px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.nature-collage-heading h2 {
+  margin: 0;
+  font-family: Georgia, serif;
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  line-height: 1.1;
+}
+
+.nature-collage-grid {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 1fr;
+  grid-template-rows: repeat(2, 210px);
+  gap: 16px;
+}
+
+.nature-collage-photo {
+  margin: 0;
+  min-width: 0;
+  overflow: hidden;
+  border: 6px solid #ffffff;
+  background: #ffffff;
+}
+
+.nature-collage-photo img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  transition: transform 220ms ease;
+}
+
+.nature-collage-photo:hover img {
+  transform: scale(1.04);
+}
+
+.nature-collage-photo-tall {
+  grid-row: span 2;
+}
+
+.nature-collage-photo-wide {
+  grid-column: span 2;
+}
+
+.nature-collage-photo-bottom {
+  grid-column: span 2;
+}
+
 .home-why { /* For 2nd Section (image) in home page */
   position: relative;
   z-index: 1;
@@ -1109,6 +1176,25 @@
   .home-footnote {
     padding-left: 20px;
     padding-right: 20px;
+  }
+
+  .home-nature-collage {
+    padding: 64px 20px;
+  }
+
+  .nature-collage-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: repeat(3, 170px);
+    gap: 10px;
+  }
+
+  .nature-collage-photo-tall {
+    grid-row: span 2;
+  }
+
+  .nature-collage-photo-wide,
+  .nature-collage-photo-bottom {
+    grid-column: span 1;
   }
 
   .home-why {
